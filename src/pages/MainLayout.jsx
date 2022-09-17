@@ -4,10 +4,11 @@ import Header from "../components/Header";
 
 const MainLayout = (props) => {
   console.log("hii");
+  console.log("viren");
   return (
     <>
-      <Header />
       <Sidebar />
+      <Header />
     </>
   );
 };
