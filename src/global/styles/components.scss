@@ -1,0 +1,11 @@
+.sidebar {
+  width: 20vw;
+  height: 100vh;
+  background-color: $dark-accent;
+  border-right: 1.5px solid $border-color;
+
+  &:hover {
+    cursor: pointer;
+    background-color: $dark-accent-hover;
+  }
+}

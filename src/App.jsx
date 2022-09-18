@@ -1,6 +1,5 @@
 import React from "react";
 import { Routes, BrowserRouter, Route } from "react-router-dom";
-import "./App.css";
 import MainLayout from "./pages/MainLayout";
 
 function App() {
