@@ -26,9 +26,82 @@
       background-color: $dark-accent-hover;
     }
   }
+
+  .channels-container {
+    height: 7vh;
+    border-bottom: $border;
+  }
 }
 
 .tooltip-chip {
   background-color: $tooltip-chips-bg;
   padding: 4px 8px;
+}
+
+.icon-button {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10%;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $dark-accent-hover;
+  }
+}
+
+.rotate-icon {
+  transition: all 0.1s ease-in-out;
+
+  &.rotate {
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+  }
+}
+
+.list-item-container {
+  cursor: pointer;
+  padding: 6px 12px;
+
+  .list-item-content {
+    height: 20px;
+
+    .prefix {
+      max-height: 20px;
+    }
+    .content {
+      margin-left: 8px;
+    }
+    .postfix {
+      font-size: small;
+      opacity: 0.6;
+      margin-left: 4px;
+    }
+  }
+
+  &.selected {
+    color: $opposite-color-hover;
+    background-color: $cta-color;
+  }
+
+  &.with-border {
+    border-bottom: $border;
+  }
+
+  &:hover:not(.selected) {
+    background-color: $dark-accent-hover;
+  }
+}
+
+.icon-with-hover {
+  cursor: pointer;
+
+  &:hover {
+    filter: brightness(135%);
+  }
 }

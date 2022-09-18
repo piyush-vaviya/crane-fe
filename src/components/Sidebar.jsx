@@ -1,10 +1,11 @@
 import React from "react";
 import { HiChevronDown, HiPencilAlt } from "react-icons/hi";
+import Channels from "./Channels";
 import CraneTooltip from "./CraneTooltip";
 
 const Sidebar = (props) => {
   return (
-    <div className="sidebar">
+    <div className="sidebar noSelect">
       {/* Workspace Title */}
       <div className="workspace-title-container d-flex justify-content-between align-items-center px-3">
         <div className="flex-center">
@@ -28,6 +29,8 @@ const Sidebar = (props) => {
           }
         />
       </div>
+      {/* Channels List */}
+      <Channels />
     </div>
   );
 };
