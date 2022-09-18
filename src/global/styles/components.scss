@@ -2,10 +2,33 @@
   width: 20vw;
   height: 100vh;
   background-color: $dark-accent;
-  border-right: 1.5px solid $border-color;
+  border-right: $border;
 
-  &:hover {
-    cursor: pointer;
-    background-color: $dark-accent-hover;
+  .workspace-title-container {
+    height: 7vh;
+    border-bottom: $border;
+
+    .title {
+      font-weight: 800;
+      font-size: large;
+    }
+
+    .title-edit {
+      width: 32px;
+      height: 32px;
+      color: $dark-accent;
+      border-radius: 50%;
+      background-color: $opposite-color;
+    }
+
+    &:hover {
+      cursor: pointer;
+      background-color: $dark-accent-hover;
+    }
   }
+}
+
+.tooltip-chip {
+  background-color: $tooltip-chips-bg;
+  padding: 4px 8px;
 }
