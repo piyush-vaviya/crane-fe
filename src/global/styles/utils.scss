@@ -302,6 +302,10 @@
   margin-left: 3rem;
 }
 
+.mt-auto {
+  margin-top: auto;
+}
+
 .pt-0 {
   padding-top: 0;
 }
@@ -1128,6 +1132,10 @@
   font-size: 0.5rem;
 }
 
+.fs-6-7 {
+  font-size: 0.88rem;
+}
+
 .clearfix:after {
   content: "";
   display: table;
@@ -1155,4 +1163,8 @@
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
+}
+
+.object-fit-cover {
+  object-fit: cover;
 }

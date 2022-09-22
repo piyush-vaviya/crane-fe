@@ -23,6 +23,10 @@ body {
   font-size: 18px;
   color: $border-color !important;
 }
+.css-kudwh-MuiTooltip-arrow::before {
+  color: $tooltip-bg;
+  border: $border-thick;
+}
 
 @import "./pages.scss";
 @import "./components.scss";

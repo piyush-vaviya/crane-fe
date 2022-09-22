@@ -1,6 +1,7 @@
 import React from "react";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
+import MessageSender from "../components/MessageSender";
 
 const MainLayout = ({ Component, ...rest }) => {
   return (
@@ -8,6 +9,7 @@ const MainLayout = ({ Component, ...rest }) => {
       <Sidebar />
       <div className="layout-container">
         <Header />
+        <MessageSender />
         {Component ? <Component /> : null}
       </div>
     </div>

@@ -2,6 +2,7 @@ import React from "react";
 import { HiChevronDown, HiPencilAlt } from "react-icons/hi";
 import Channels from "./Channels";
 import CraneTooltip from "./CraneTooltip";
+import DirectMessages from "./DirectMessages";
 
 const Sidebar = (props) => {
   return (
@@ -31,6 +32,8 @@ const Sidebar = (props) => {
       </div>
       {/* Channels List */}
       <Channels />
+      {/* Direct Messages List */}
+      <DirectMessages />
     </div>
   );
 };

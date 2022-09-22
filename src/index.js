@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import { store } from "./app/store";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "./global/styles/main.scss";
 const container = document.getElementById("root");
 const root = createRoot(container);

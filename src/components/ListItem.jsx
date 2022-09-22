@@ -9,6 +9,7 @@ const ListItem = ({
   className,
   selected,
   selectable = true,
+  arrow,
 }) => {
   return (
     <div
@@ -17,9 +18,12 @@ const ListItem = ({
       } ${className || ""}`}
     >
       <div className="list-item-content flex-center">
-        <div className="prefix flex-center">{prefix}</div>
+        <div className={`prefix flex-center ${!postfix ? "status-icon" : ""}`}>
+          {prefix}
+        </div>
         <div className="content flex-center">{content}</div>
         <div className="postfix">{postfix}</div>
+        <div className="flex-center">{arrow}</div>
       </div>
       {removable ? (
         <div className="list-item-remove icon-with-hover flex-center">

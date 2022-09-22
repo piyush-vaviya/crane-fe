@@ -4,6 +4,7 @@ import { IoPlay } from "react-icons/io5";
 import { FiMoreVertical } from "react-icons/fi";
 import { useState } from "react";
 import ListItem from "./ListItem";
+import { TiPlus } from "react-icons/ti";
 
 const Channels = (props) => {
   const [expanded, setExpanded] = useState(true);
@@ -25,7 +26,7 @@ const Channels = (props) => {
           </div>
           <span className="m-auto">Channels</span>
         </div>
-        <div className="d-flex">
+        <div className="d-flex show-icon-button">
           <div className="icon-button" onClick={(e) => e.stopPropagation()}>
             <FiMoreVertical />
           </div>
@@ -37,24 +38,22 @@ const Channels = (props) => {
           </div>
         </div>
       </div>
-      {expanded ? (
-        <div className="channels-list">
-          <ListItem prefix={<HiOutlineHashtag />} content="general" />
-          <ListItem prefix={<HiOutlineLockClosed />} content="general" />
-          <ListItem
-            prefix={<HiOutlineLockClosed />}
-            selected
-            content="general"
-          />
-          <ListItem
-            className="with-border"
-            prefix={<HiOutlineHashtag />}
-            content="piyush.vaviya 27"
-            postfix="you"
-            removable
-          />
-        </div>
-      ) : null}
+
+      <div className={`channels-list ${expanded ? "expanded" : ""}`}>
+        <ListItem prefix={<HiOutlineHashtag />} content="general" />
+        <ListItem prefix={<HiOutlineLockClosed />} content="private" />
+        <ListItem prefix={<HiOutlineHashtag />} selected content="random" />
+        <ListItem prefix={<HiOutlineHashtag />} content="slack-clone" />
+        <ListItem
+          className="with-border"
+          prefix={
+            <div className="list-item-icon">
+              <TiPlus size={14} />
+            </div>
+          }
+          content="Add channels"
+        />
+      </div>
     </div>
   );
 };
