@@ -8,6 +8,10 @@
     height: 7vh;
     border-bottom: $border;
 
+    img {
+      display: none;
+    }
+
     .title {
       font-weight: 800;
       font-size: large;
@@ -24,6 +28,10 @@
     &:hover {
       cursor: pointer;
       background-color: $dark-accent-hover;
+
+      img {
+        display: flex;
+      }
     }
   }
 
@@ -204,6 +212,7 @@
 }
 
 .layout-container {
+  position: relative;
   .header {
     margin: auto;
     .profile-details {
@@ -228,15 +237,16 @@
           height: 26px;
         }
         .user-status {
-          height: 8px;
+          height: 7px;
           width: 8px;
           border-radius: 50%;
           top: 15px;
-          left: 17px;
+          left: 16px;
+          display: flex;
 
           .user-offline-status {
-            height: 5px;
-            width: 5px;
+            height: 0.37rem;
+            width: 0.35rem;
           }
         }
       }
@@ -249,7 +259,7 @@
     .add-bookmark {
       border-bottom: $border;
       height: 3.5vh;
-      padding: 4px 20px 4px 10px;
+      padding: 4px 20px 4px 16px;
       width: auto;
 
       .list-item-container {
@@ -278,11 +288,8 @@
   }
 
   .messenger {
-    height: 70%;
-    position: relative;
+    height: 69%;
     // border: 1px solid red;
-    align-items: flex-end;
-
     ::-webkit-scrollbar {
       width: 1vh;
       z-index: 1;
@@ -307,7 +314,7 @@
         height: auto;
         display: flex;
         flex-direction: column;
-        padding: 0px 22px 12px;
+        padding: 0px 22px 30px;
 
         color: $message-color;
 
@@ -323,7 +330,9 @@
               width: 60px;
               height: 60px;
               border-radius: 15%;
+              background-color: $base-color;
             }
+
             .user-status {
               width: 8px;
               height: 8px;
@@ -392,11 +401,14 @@
             border-radius: 15%;
             margin-right: 10px;
             background-color: $light-accent;
+            color: $opposite-color-dull;
             img {
               width: 40px;
               height: 40px;
               object-fit: cover;
               border-radius: 15%;
+              position: relative;
+              transition: all 0.4s ease-in;
             }
           }
           .sender {
@@ -419,46 +431,6 @@
                 }
               }
             }
-            // .message-format {
-            //   p,
-            //   ul,
-            //   ol {
-            //     margin: 0 !important;
-            //     .italic {
-            //       font-style: italic;
-            //     }
-            //     .bold {
-            //       font-style: oblique;
-            //     }
-            //     .underline {
-            //       text-decoration: underline;
-            //     }
-            //     .strikeThrough {
-            //       text-decoration: line-through;
-            //     }
-            //     .monoSpace {
-            //       font-family: monospace;
-            //       overflow-wrap: break-word;
-            //       background: rgb(34, 37, 41);
-            //       border-radius: 3px;
-            //       border: 1px solid rgb(60, 62, 66);
-            //       padding: 1px 3px;
-            //       color: $monospace-color;
-            //     }
-            //     .superScript {
-            //       vertical-align: super;
-            //       font-size: 0.7rem;
-            //     }
-            //     .subScript {
-            //       vertical-align: sub;
-            //       font-size: 0.7rem;
-            //     }
-            //   }
-            //   ul,
-            //   ol {
-            //     padding-left: 1rem;
-            //   }
-            // }
           }
           &:hover {
             background-color: $light-accent;
@@ -468,11 +440,12 @@
           padding: 6px 14px 6px 22px;
           .sender-message-time {
             color: $time-color;
-            width: fit-content !important;
+            width: 40px;
             height: fit-content;
             font-size: 12px;
-            padding-right: 4px;
+            padding-right: 10px;
             min-width: fit-content;
+            text-align: end;
             opacity: 0;
           }
 
@@ -488,7 +461,7 @@
           background: $base-color;
           border-radius: 12px;
           overflow: hidden;
-          z-index: 1;
+          z-index: 2;
           border: 1px solid $sender-message-header;
           cursor: auto;
           bottom: 54px;
@@ -572,8 +545,8 @@
       background: $light-accent;
       border: 1px solid $message-sender-bg;
       height: auto;
-      position: fixed;
-      width: 80%;
+      position: absolute;
+      width: 96%;
       bottom: 24px;
 
       border-radius: 10px;
@@ -592,10 +565,14 @@
 
       .message-sender-textarea {
         &.rdw-editor-main {
-          padding: 0 10px 3px;
+          padding: 5px 10px 7px;
           height: auto;
           max-height: 25vh;
           overflow: auto !important;
+
+          .public-DraftEditorPlaceholder-root {
+            color: $message-sender-placeholder !important;
+          }
 
           .public-DraftStyleDefault-ul {
             margin: 0;
@@ -614,26 +591,41 @@
         background-color: $light-accent;
         border: none;
         border-radius: 10px;
-        padding: 7px 5px 0px 0px;
+        padding: 5px 5px 5px 0px;
+        align-items: center;
         margin: 0;
+        display: flex;
+
+        &.hide {
+          display: none;
+        }
 
         .message-sender-inline-wrapper {
-          border-right: 2px solid $message-sender-bg;
+          border-right: 2px solid $sender-message-option-wrapper;
+
+          &.rdw-inline-wrapper,
+          &.rdw-list-wrapper,
+          &.rdw-link-wrapper,
+          &.rdw-history-wrapper,
+          &.rdw-remove-wrapper {
+            height: 26px !important;
+            margin: 0px !important;
+          }
 
           &.icon,
           .sender-toolbar-icon,
           .rdw-option-wrapper,
           &.rdw-editor-toolbar {
             border: none;
-            background: $light-accent;
-            height: 20px;
-            width: 20px;
+            background: rgb(34, 37, 41);
+            height: 26px;
+            width: 26px;
             border-radius: 15%;
             display: flex;
             color: white;
             box-shadow: none;
-            margin: 0px !important;
-            padding: 8px 5px 6px 5px;
+            // margin: 2px !important;
+            padding: 0px 0px 0px 0px;
 
             &:hover {
               background-color: $profile-bg;
@@ -647,6 +639,7 @@
             }
           }
         }
+
         .rdw-link-wrapper {
           .rdw-dropdown-wrapper {
             height: 30px;
@@ -666,10 +659,20 @@
         justify-content: flex-end;
         height: 4vh;
         align-items: flex-end;
+        transition: all 0.1s ease-in-out;
+
+        .hide-format {
+          border-radius: 3px;
+          padding: 2px 3px;
+
+          &:hover {
+            background-color: $profile-bg;
+          }
+        }
 
         .send-message-icon {
           width: fit-content;
-          padding: 6px;
+          padding: 2px;
           background-color: $light-accent;
           border-radius: 6px;
           color: $message-sender-bg;
@@ -677,13 +680,17 @@
           button {
             display: flex;
             border: none;
-            border-right: 2px solid $message-sender-bg;
             background-color: $light-accent;
             color: $message-sender-bg;
-          }
+            position: relative;
+            height: 28px;
 
-          .message-sender-inline-wrapper {
-            border-right: 2px solid $message-sender-bg;
+            svg {
+              position: absolute;
+              transition: 0.1s;
+              left: 40%;
+              margin: auto;
+            }
           }
 
           &.send-message-icon-active {
@@ -693,12 +700,14 @@
             button {
               background-color: $active-color;
               color: $offline-selected;
-              border-right: 2px solid $active-message-sender;
               cursor: pointer;
-            }
 
-            .message-sender-inline-wrapper {
-              border-right: 2px solid $message-sender-icon-active;
+              &:hover {
+                svg {
+                  transition: 0.2s;
+                  left: 45%;
+                }
+              }
             }
           }
         }
@@ -728,6 +737,41 @@
   }
 }
 
+.profile-setup {
+  min-width: 20.5vw;
+  border-left: $border;
+
+  .profile-header {
+    height: 7vh;
+    border-bottom: $border;
+  }
+  .profile-workSpace {
+    .profile-information {
+      overflow: hidden;
+      width: 32vh;
+      border: 1px solid red;
+      border-radius: 12px;
+      margin-top: 1rem;
+
+      img {
+        width: 32vh;
+        height: 30vh;
+        object-fit: cover;
+        border-radius: 12px;
+      }
+      .workspace-owner {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        opacity: 0.9;
+        background-color: $base-color;
+        padding: 7px;
+        text-indent: 12px;
+        color: $profile-workspace-owner;
+      }
+    }
+  }
+}
 .icon-with-hover {
   cursor: pointer;
 

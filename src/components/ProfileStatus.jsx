@@ -6,13 +6,16 @@ const ProfileStatus = ({ src, active, addButton, plusSign }) => {
     <div className="profile-status position-relative flex-center">
       <div className="position-relative">
         {src ? (
-          <img
-            className="user-dp flex-center object-fit-cover"
-            alt=""
-            src={src}
-          ></img>
+          <>
+            <img
+              className="user-dp flex-center object-fit-cover"
+              alt=""
+              src={src}
+            ></img>
+            {/* <img src={src} alt="" className="show-full-image"></img> */}
+          </>
         ) : (
-          <div className="user-dp flex-center" alt="">
+          <div className="user-dp  flex-center" alt="">
             <HiUser size={60} />
           </div>
         )}

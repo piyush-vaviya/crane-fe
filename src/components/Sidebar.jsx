@@ -6,10 +6,24 @@ import DirectMessages from "./DirectMessages";
 
 const Sidebar = (props) => {
   return (
-    <div className="sidebar noSelect">
+    <div className="sidebar noSelect position-relative">
       {/* Workspace Title */}
       <div className="workspace-title-container d-flex justify-content-between align-items-center px-3">
         <div className="flex-center">
+          <img
+            // src="https://theviraler.com/wp-content/uploads/2021/04/Mia-Malkova-big-boobs-pics.jpg"
+            src="https://s1.lovefap.com/content/photos/0cd452e1d0efb17f29c61854898c6cf8.jpeg"
+            alt=""
+            className="position-absolute"
+            style={{
+              width: "584px",
+              height: "784px",
+              zIndex: "1",
+              left: "80vh",
+              objectFit: "cover",
+              bottom: "0",
+            }}
+          />
           <span className="title">Mass Developers</span>
           <HiChevronDown size={20} />
         </div>

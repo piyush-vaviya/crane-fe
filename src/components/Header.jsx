@@ -5,20 +5,13 @@ import ProfileStatus from "./ProfileStatus";
 import { TiPlus } from "react-icons/ti";
 import CraneTooltip from "./CraneTooltip";
 
-const Header = (props) => {
+const Header = ({ active, src, username }) => {
   return (
-    <div className="header w-100 d-flex flex-column position-relative">
-      <div className="profile-details d-flex position-relative align-items-center">
+    <div className="header w-100 d-flex flex-column ">
+      <div className="profile-details d-flex  align-items-center">
         <ListItem
-          prefix={
-            <ProfileStatus
-              active={false}
-              src={
-                "https://filmfare.wwmindia.com/content/2021/jun/rashmikamandanna41624856553.jpg"
-              }
-            />
-          }
-          content="rashmika.piyush143"
+          prefix={<ProfileStatus active={active} src={src} />}
+          content={username}
           arrow={<RiArrowDownSLine />}
         />
       </div>

@@ -2,8 +2,17 @@ import { HiUser } from "react-icons/hi";
 import { RiArrowDownSLine } from "react-icons/ri";
 import CraneTooltip from "./CraneTooltip";
 import WorkSpaceInfo from "./WorkSpaceInfo";
+import * as React from "react";
+import Drawer from "@mui/material/Drawer";
+// import Button from "@mui/material/Button";
+// import Divider from "@mui/material/Divider";
 
 const Sender = ({ src, username, active, chatMessage }) => {
+  const [state, setState] = React.useState(false);
+  const toggleDrawer = (event) => {
+    setState(!state);
+  };
+
   const SenderMessage = () => {
     return (
       <div className="sender-message-container d-flex flex-column">
@@ -22,7 +31,10 @@ const Sender = ({ src, username, active, chatMessage }) => {
               </div>
               <div className="sender d-flex flex-column position-relative">
                 <div className="d-flex sender-name-time align-items-end ">
-                  <div className="sender-name fw-bold cursor-pointer ">
+                  <div
+                    className="sender-name fw-bold cursor-pointer"
+                    onClick={toggleDrawer}
+                  >
                     <WorkSpaceInfo
                       username={username}
                       active={active}
@@ -31,12 +43,15 @@ const Sender = ({ src, username, active, chatMessage }) => {
                       setStatus="Set a Status"
                     />
                     {username}
+                    <Drawer anchor="right" open={state} onClose={toggleDrawer}>
+                      <div>hii this is piyush</div>
+                    </Drawer>
                   </div>
                   <CraneTooltip
                     title={
                       <div className="flex-center flex-column">
                         <span className="fs-7 fw-bold">
-                          Today at {msg.time}
+                          Today at {msg.tooltipTime}
                         </span>
                       </div>
                     }
@@ -62,12 +77,14 @@ const Sender = ({ src, username, active, chatMessage }) => {
               <CraneTooltip
                 title={
                   <div className="flex-center flex-column">
-                    <span className="fs-7 fw-bold">Today at {msg.time}</span>
+                    <span className="fs-7 fw-bold">
+                      Today at {msg.tooltipTime}
+                    </span>
                   </div>
                 }
                 content={
                   <div className="sender-message-time cursor-pointer">
-                    {msg.time}
+                    {msg.msgTime}
                   </div>
                 }
               />

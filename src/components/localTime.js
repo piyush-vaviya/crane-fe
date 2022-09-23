@@ -1,13 +1,13 @@
-let date, TimeType, hour, minutes, seconds, fullTime;
+let date, timeType, hour, minutes, seconds, fullTime;
 
 date = new Date();
 
 hour = date.getHours();
 
 if (hour <= 11) {
-  TimeType = "AM";
+  timeType = "AM";
 } else {
-  TimeType = "PM";
+  timeType = "PM";
 }
 
 if (hour > 12) {
@@ -30,7 +30,12 @@ if (seconds < 10) {
   seconds = "0" + seconds.toString();
 }
 
-fullTime =
-  hour.toString() + ":" + minutes.toString() + ":" + TimeType.toString();
+const getFullTime = (type = "hh:mm:ss, tt") => {
+  return type
+    .replace("hh", hour)
+    .replace("mm", minutes)
+    .replace("ss", seconds)
+    .replace("tt", timeType);
+};
 
-export default fullTime;
+export default getFullTime;
