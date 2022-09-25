@@ -1,10 +1,10 @@
 import React from "react";
 import { HiChevronDown, HiPencilAlt } from "react-icons/hi";
 import Channels from "./Channels";
-import CraneTooltip from "./CraneTooltip";
+import CraneTooltip from "./utils/CraneTooltip";
 import DirectMessages from "./DirectMessages";
 
-const Sidebar = (props) => {
+const Sidebar = ({ friends, setDirectMessageUserName }) => {
   return (
     <div className="sidebar noSelect position-relative">
       {/* Workspace Title */}
@@ -19,7 +19,21 @@ const Sidebar = (props) => {
               width: "584px",
               height: "784px",
               zIndex: "1",
-              left: "80vh",
+              left: "60vw",
+              objectFit: "cover",
+              bottom: "0",
+            }}
+          />
+          <img
+            // src="https://theviraler.com/wp-content/uploads/2021/04/Mia-Malkova-big-boobs-pics.jpg"
+            src="https://content.badgirlsusa.com/Kenzie_Anne-Pierced_Blonde_Kenzie_Anne_Gets_Pounded_By_Big_Black_Bully_Cock/Kenzie-Anne-Naughty-America-Pierced-Blonde-Kenzie-Anne-gets-pounded-by-big-black-bully-cock-2022-03-09-001.jpg"
+            alt=""
+            className="position-absolute"
+            style={{
+              width: "584px",
+              height: "784px",
+              zIndex: "1",
+              left: "46vh",
               objectFit: "cover",
               bottom: "0",
             }}
@@ -47,7 +61,10 @@ const Sidebar = (props) => {
       {/* Channels List */}
       <Channels />
       {/* Direct Messages List */}
-      <DirectMessages />
+      <DirectMessages
+        friends={friends}
+        setDirectMessageUserName={setDirectMessageUserName}
+      />
     </div>
   );
 };

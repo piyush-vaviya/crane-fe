@@ -1,9 +1,9 @@
 import React from "react";
 import ListItem from "./ListItem";
 import { RiArrowDownSLine } from "react-icons/ri";
-import ProfileStatus from "./ProfileStatus";
+import ProfileStatus from "./utils/ProfileStatus";
 import { TiPlus } from "react-icons/ti";
-import CraneTooltip from "./CraneTooltip";
+import CraneTooltip from "./utils/CraneTooltip";
 
 const Header = ({ active, src, username }) => {
   return (

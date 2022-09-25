@@ -1,17 +1,17 @@
 import { HiUser } from "react-icons/hi";
 import { RiArrowDownSLine } from "react-icons/ri";
-import CraneTooltip from "./CraneTooltip";
+import CraneTooltip from "./utils/CraneTooltip";
 import WorkSpaceInfo from "./WorkSpaceInfo";
 import * as React from "react";
-import Drawer from "@mui/material/Drawer";
+// import Drawer from "@mui/material/Drawer";
 // import Button from "@mui/material/Button";
 // import Divider from "@mui/material/Divider";
 
-const Sender = ({ src, username, active, chatMessage }) => {
-  const [state, setState] = React.useState(false);
-  const toggleDrawer = (event) => {
-    setState(!state);
-  };
+const Sender = ({ src, username, active, chatMessage, showProfileEditor }) => {
+  // const [state, setState] = React.useState(false);
+  // const toggleDrawer = (event) => {
+  //   setState(!state);
+  // };
 
   const SenderMessage = () => {
     return (
@@ -31,22 +31,30 @@ const Sender = ({ src, username, active, chatMessage }) => {
               </div>
               <div className="sender d-flex flex-column position-relative">
                 <div className="d-flex sender-name-time align-items-end ">
-                  <div
-                    className="sender-name fw-bold cursor-pointer"
-                    onClick={toggleDrawer}
-                  >
-                    <WorkSpaceInfo
-                      username={username}
-                      active={active}
-                      src={src}
-                      workspaceOwner="Workspace Owner"
-                      setStatus="Set a Status"
-                    />
-                    {username}
-                    <Drawer anchor="right" open={state} onClose={toggleDrawer}>
+                  <CraneTooltip
+                    arrow={false}
+                    title={
+                      <WorkSpaceInfo
+                        username={username}
+                        active={active}
+                        src={src}
+                        workspaceOwner="Workspace Owner"
+                        setStatus="Set a Status"
+                      />
+                    }
+                    content={
+                      <div
+                        className="sender-name fw-bold cursor-pointer"
+                        onClick={showProfileEditor}
+                      >
+                        {username}
+                      </div>
+                    }
+                  />
+
+                  {/* <Drawer anchor="right" open={state} onClose={toggleDrawer}>
                       <div>hii this is piyush</div>
-                    </Drawer>
-                  </div>
+                    </Drawer> */}
                   <CraneTooltip
                     title={
                       <div className="flex-center flex-column">

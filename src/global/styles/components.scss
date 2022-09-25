@@ -29,9 +29,9 @@
       cursor: pointer;
       background-color: $dark-accent-hover;
 
-      img {
-        display: flex;
-      }
+      // img {
+      //   display: flex;
+      // }
     }
   }
 
@@ -137,6 +137,7 @@
       max-height: 20px;
 
       .profile-status {
+        position: relative;
         background: $profile-bg;
         height: 20px;
         width: 20px;
@@ -219,40 +220,56 @@
       border-bottom: $border;
       height: 6vh;
       padding: 4px 20px 4px 16px;
-    }
-    .list-item-container {
-      color: $opposite-color;
-      height: 26px;
-      padding: 3px 4px 3px 8px;
 
-      .list-item-content {
-        .content {
-          font-size: 18px;
-          font-weight: 700 !important;
-          margin-left: 12px;
-        }
+      .list-item-container {
+        color: $opposite-color;
+        height: 26px;
+        padding: 3px 4px 3px 8px;
 
-        .user-dp {
-          width: 26px;
-          height: 26px;
-        }
-        .user-status {
-          height: 7px;
-          width: 8px;
-          border-radius: 50%;
-          top: 15px;
-          left: 16px;
-          display: flex;
+        .list-item-content {
+          .prefix {
+            .profile-status {
+              .dp-status {
+                display: flex;
+                justify-content: flex-end;
+                align-items: flex-end;
+                margin: 0;
+                .user-dp {
+                  width: 26px;
+                  height: 26px;
 
-          .user-offline-status {
-            height: 0.37rem;
-            width: 0.35rem;
+                  .hi-user-icon {
+                    width: 26px;
+                    height: 26px;
+                  }
+                }
+                .user-status {
+                  height: 7px;
+                  width: 8px;
+                  border-radius: 50%;
+                  top: 15px;
+                  bottom: 0;
+                  left: 16px;
+
+                  .user-offline-status {
+                    height: 5.76px;
+                    width: 5.76px;
+                  }
+                }
+              }
+            }
+          }
+
+          .content {
+            font-size: 18px;
+            font-weight: 700 !important;
+            margin-left: 12px;
           }
         }
-      }
 
-      &:hover:not(.selected) {
-        border-radius: 6px;
+        &:hover:not(.selected) {
+          border-radius: 6px;
+        }
       }
     }
 
@@ -315,56 +332,31 @@
         display: flex;
         flex-direction: column;
         padding: 0px 22px 30px;
-
         color: $message-color;
+        position: relative;
 
-        .list-item-container {
-          height: 9vh;
-          padding: 0;
-          margin-left: 20px;
-          display: flex;
-          width: fit-content;
+        .direct-message-profile-info {
+          color: $opposite-color;
 
-          .list-item-content {
-            .user-dp {
-              width: 60px;
-              height: 60px;
-              border-radius: 15%;
-              background-color: $base-color;
-            }
-
-            .user-status {
-              width: 8px;
-              height: 8px;
-              left: 16.4rem;
-              top: 40%;
-
-              .user-offline-status {
-                height: 6px;
-                width: 6px;
-              }
-            }
-            .status-icon {
-              .user-status {
-                left: 14rem;
-                top: 39%;
-              }
-            }
-
-            .content {
-              margin-left: 2rem;
-              color: $opposite-color;
-              font-weight: $fw-bold;
-            }
-            .postfix {
-              opacity: 1;
-              color: $opposite-color;
-              font-size: 14px;
-              font-weight: $fw-bold;
-            }
+          .user-dp {
+            height: 60px;
+            width: 60px;
           }
-          &:hover {
-            background-color: $base-color;
+          .userName {
+            margin-left: 0.8rem;
+            color: $opposite-color;
+            font-weight: $fw-bold;
+            word-break: break;
+          }
+          .user-postfix {
+            color: $opposite-color;
+            font-size: 13px;
+            padding-left: 5px;
+          }
+          .user-status {
+            margin-left: 3px;
+            height: 8px;
+            width: 8px;
           }
         }
       }
@@ -423,11 +415,6 @@
 
                 &:hover {
                   text-decoration: underline;
-
-                  .workspace-info {
-                    display: flex;
-                    transition: all;
-                  }
                 }
               }
             }
@@ -457,46 +444,7 @@
             }
           }
         }
-        .workspace-info {
-          background: $base-color;
-          border-radius: 12px;
-          overflow: hidden;
-          z-index: 2;
-          border: 1px solid $sender-message-header;
-          cursor: auto;
-          bottom: 54px;
-          display: none;
-          transition-delay: 10s;
 
-          // display: none;
-
-          .workspace-owner {
-            width: auto;
-            padding: 10px 16px;
-            background-color: $time-color;
-            color: $base-color;
-          }
-
-          .owner-profile {
-            .direct-message-profile {
-              padding: 12px 64px 6px 16px;
-              border-bottom: 1px solid $sender-message-header;
-              cursor: auto;
-              margin-bottom: 10px;
-            }
-          }
-          .local-time {
-            .status-update-setting {
-              width: 100%;
-              padding: 3px 0;
-              border: 1.4px solid $sender-message-header;
-
-              &:hover {
-                background-color: $light-accent;
-              }
-            }
-          }
-        }
         .message-format {
           p,
           ul,
@@ -584,6 +532,29 @@
           .public-DraftStyleDefault-ltr {
             line-height: 26px;
             margin: 0;
+
+            .rdw-mention-link {
+              background-color: $mention-bg;
+              color: $mention-text-color;
+            }
+
+            .rdw-suggestion-wrapper {
+              .rdw-suggestion-dropdown {
+                border-radius: 8px;
+                min-width: 400px;
+                // max-height: 270px;
+                // min-height: 700px;
+                background-color: $light-accent;
+                border: $mention-wrapper-border;
+                .rdw-suggestion-option {
+                  border: none;
+                  .with-border {
+                    border-bottom: none;
+                    background-color: $light-accent;
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -738,18 +709,27 @@
 }
 
 .profile-setup {
-  min-width: 20.5vw;
+  min-width: 310px;
   border-left: $border;
 
   .profile-header {
     height: 7vh;
     border-bottom: $border;
+
+    .profile-show-hide {
+      border-radius: 5px;
+
+      &:hover {
+        background-color: $light-accent;
+      }
+    }
   }
   .profile-workSpace {
-    .profile-information {
+    border-bottom: $border;
+    .profile-image {
       overflow: hidden;
-      width: 32vh;
-      border: 1px solid red;
+      width: 250px;
+      height: 30vh;
       border-radius: 12px;
       margin-top: 1rem;
 
@@ -770,8 +750,74 @@
         color: $profile-workspace-owner;
       }
     }
+
+    .profile-edit {
+      .edit {
+        color: $profile-edit;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+      .add-name {
+        color: $profile-edit;
+      }
+    }
+
+    .show-status {
+      padding-bottom: 16px;
+      .user-status {
+        height: 8px;
+        width: 9px;
+        border-radius: 50%;
+      }
+      .active {
+        background: $active-color;
+        border: $active-border;
+      }
+      .not-active {
+        background: $offline-color;
+        border: $active-border;
+      }
+
+      .user-offline-status {
+        height: 5px;
+        width: 5px;
+        border-radius: 50%;
+        background: $dark-accent;
+      }
+
+      .status-update-setting {
+        padding: 6px 0;
+        border: 1.4px solid $profile-set-status;
+        border-radius: 4px;
+        font-weight: 700;
+        height: 22px;
+
+        &.set-status {
+          // margin-right: 8px;
+          width: 83%;
+        }
+
+        &.set-more {
+          width: 32px;
+        }
+        &:hover {
+          background-color: $light-accent;
+        }
+      }
+    }
+  }
+  .contact-info {
+    .edit {
+      color: $profile-edit;
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
   }
 }
+
 .icon-with-hover {
   cursor: pointer;
 
@@ -787,8 +833,8 @@
 }
 
 .user-status {
-  height: 6px;
-  width: 6px;
+  min-height: 6px;
+  min-width: 6px;
   border-radius: 50%;
   top: 13px;
   left: 13px;
@@ -815,5 +861,102 @@
 
   &:hover {
     text-decoration: underline;
+  }
+}
+
+.email-container {
+  color: $offline-color;
+  .email-icon {
+    border-radius: 6px;
+    border: $border;
+    width: 33px;
+    height: 33px;
+    margin-right: 10px;
+    background-color: $light-accent;
+  }
+  .edit {
+    color: $profile-edit;
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.css-yem0l2-MuiPopper-root-MuiTooltip-popper {
+  .css-ja5taz-MuiTooltip-tooltip {
+    // max-width: 346px !important;
+    min-width: 346px !important;
+    padding: 0 !important;
+    border-radius: 12px;
+    border: none;
+
+    .workspace-info {
+      background: $base-color;
+      border-radius: 12px;
+      overflow: hidden;
+      z-index: 1;
+      border: 1px solid $sender-message-header;
+      cursor: auto;
+      display: flex;
+      transition-delay: 10s;
+
+      .workspace-owner {
+        width: auto;
+        padding: 10px 16px;
+        background-color: $time-color;
+        color: $base-color;
+      }
+
+      .owner-profile {
+        .direct-message-profile {
+          padding: 12px 8px 6px 16px;
+          border-bottom: 1px solid $sender-message-header;
+          cursor: auto;
+          margin-bottom: 10px;
+
+          .direct-message-profile-info {
+            color: $opposite-color;
+
+            .user-dp {
+              height: 42px;
+              width: 42px;
+            }
+            .userName {
+              margin-left: 0.8rem;
+              color: $opposite-color;
+              font-weight: $fw-bold;
+              font-size: 17px !important;
+              width: fit-content;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+            .user-postfix {
+              color: $opposite-color;
+              font-size: 13px;
+              padding-left: 5px;
+            }
+            .user-status {
+              margin-left: 3px;
+              min-height: 8px;
+              min-width: 8px;
+            }
+          }
+        }
+      }
+      .local-time {
+        .status-update-setting {
+          width: 100%;
+          display: flex;
+          padding: 3px 0;
+          border: 1.4px solid $sender-message-header;
+
+          &:hover {
+            background-color: $light-accent;
+          }
+        }
+      }
+    }
   }
 }

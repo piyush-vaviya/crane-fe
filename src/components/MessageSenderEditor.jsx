@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { Editor } from "react-draft-wysiwyg";
+import { getDefaultKeyBinding, KeyBindingUtil } from "draft-js";
+import { RichUtils } from "draft-js";
 import { RiSendPlane2Fill } from "react-icons/ri";
 import { Button } from "@mui/material";
-import CraneTooltip from "./CraneTooltip";
+import CraneTooltip from "./utils/CraneTooltip";
+import ListItem from "./ListItem";
+import ProfileStatus from "./utils/ProfileStatus";
 
 const getIcon = (iconName) => `icons/message-sender/${iconName}.svg`;
 
@@ -14,8 +18,27 @@ const MessageSenderEditor = ({
   editorState,
   setEditorState,
   messageReceiverName,
-  inputRef,
+  friends,
 }) => {
+  const { hasCommandModifier } = KeyBindingUtil;
+
+  const myKeyBindingFn = (e) => {
+    if (e.keyCode === 65 && hasCommandModifier(e)) {
+      //Cmd+1
+      return "BOLD";
+    }
+    return getDefaultKeyBinding(e);
+  };
+
+  const handleKeyCommand = (command) => {
+    const newState = RichUtils.handleKeyCommand(editorState, command);
+    if (newState) {
+      setEditorState(newState);
+      return true;
+    }
+    return false;
+  };
+
   const [showToolbar, setShowToolbar] = useState(true);
 
   const toolbarHide = () => {
@@ -26,8 +49,6 @@ const MessageSenderEditor = ({
       className={`message-sender d-flex flex-column w-100 ${
         editorFocus ? "focus-message-sender" : ""
       }`}
-
-      // onClick={focus}
     >
       <Editor
         editorState={editorState}
@@ -39,6 +60,8 @@ const MessageSenderEditor = ({
         onFocus={() => setEditorFocus(true)}
         onBlur={() => setEditorFocus(false)}
         placeholder={`message ${messageReceiverName}`}
+        handleKeyCommand={handleKeyCommand}
+        keyBindingFn={myKeyBindingFn}
         customStyleMap={{
           CODE: {
             fontFamily: "monospace",
@@ -54,8 +77,74 @@ const MessageSenderEditor = ({
           separator: " ",
           trigger: "@",
           suggestions: [
-            { text: "APPLE", value: "apple", url: "apple" },
-            { text: "BANANA", value: "banana", url: "banana" },
+            {
+              text: (
+                <ListItem
+                  className="with-border"
+                  prefix={
+                    <ProfileStatus
+                      active
+                      src="https://filmfare.wwmindia.com/content/2021/jun/rashmikamandanna41624856553.jpg"
+                    />
+                  }
+                  content="rashmika.piyush143"
+                  postfix="you"
+                />
+              ),
+              value: "rashmika.piyush143",
+              url: "",
+            },
+            {
+              text: (
+                <ListItem
+                  className="with-border"
+                  prefix={
+                    <ProfileStatus
+                      active={friends[0].active}
+                      src={friends[0].src}
+                    />
+                  }
+                  content={friends[0].username}
+                  postfix="you"
+                />
+              ),
+              value: friends[0].username,
+              url: "",
+            },
+            {
+              text: (
+                <ListItem
+                  className="with-border"
+                  prefix={
+                    <ProfileStatus
+                      active={friends[1].active}
+                      src={friends[1].src}
+                    />
+                  }
+                  content={friends[1].username}
+                  postfix="you"
+                />
+              ),
+              value: friends[1].username,
+              url: "",
+            },
+            {
+              text: (
+                <ListItem
+                  className="with-border"
+                  prefix={
+                    <ProfileStatus
+                      active={friends[2].active}
+                      src={friends[2].src}
+                    />
+                  }
+                  content={friends[2].username}
+                  postfix="you"
+                />
+              ),
+              value: friends[2].username,
+              url: "",
+            },
           ],
         }}
         hashtag={{

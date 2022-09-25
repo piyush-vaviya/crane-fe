@@ -3,11 +3,18 @@ import getFullTime from "./localTime";
 import { ContentState, convertFromHTML, EditorState } from "draft-js";
 import { stateToHTML } from "draft-js-export-html";
 import Header from "./Header";
-import DirectMessageProfile from "./DirectMessageProfile";
+import DirectMessageProfile from "./utils/DirectMessageProfile";
 import Sender from "./Sender";
 import MessageSenderEditor from "./MessageSenderEditor";
 
-const MessageSender = ({ active, username, src, bio }) => {
+const MessageSender = ({
+  active,
+  username,
+  src,
+  bio,
+  friends,
+  showProfileEditor,
+}) => {
   const [chatMessage, setChatMessage] = useState([]);
 
   const blocksFromHTML = convertFromHTML(``);
@@ -60,12 +67,8 @@ const MessageSender = ({ active, username, src, bio }) => {
         },
       })
     : "";
-  // const focus = () => refs.editor.focus();
 
-  // const handleKeyDown = (e, element, index) => {
-  //   element.current.focus();
-  // };
-  // const inputRef = useRef(null);
+  console.log(content);
 
   return (
     <>
@@ -77,8 +80,10 @@ const MessageSender = ({ active, username, src, bio }) => {
             username={username}
             src={src}
             bio={bio}
+            hiUserSize={60}
           />
           <Sender
+            showProfileEditor={showProfileEditor}
             src={src}
             username={username}
             active={active}
@@ -93,6 +98,7 @@ const MessageSender = ({ active, username, src, bio }) => {
           messageLength={messageLength}
           sendMessage={sendMessage}
           messageReceiverName={username}
+          friends={friends}
         />
       </div>
     </>

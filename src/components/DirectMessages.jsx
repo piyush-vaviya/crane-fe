@@ -5,9 +5,9 @@ import { FiMoreVertical } from "react-icons/fi";
 import { TiPlus } from "react-icons/ti";
 import { useState } from "react";
 import ListItem from "./ListItem";
-import ProfileStatus from "./ProfileStatus";
+import ProfileStatus from "./utils/ProfileStatus";
 
-const DirectMessages = (props) => {
+const DirectMessages = ({ friends, setDirectMessageUserName }) => {
   const [expanded, setExpanded] = useState(true);
 
   const handleExpand = () => setExpanded(!expanded);
@@ -41,59 +41,20 @@ const DirectMessages = (props) => {
       </div>
 
       <div className={`dms-list ${expanded ? "expanded" : ""}`}>
-        <ListItem
-          className="with-border"
-          selected
-          prefix={
-            <ProfileStatus
-              active
-              src={
-                "https://filmfare.wwmindia.com/content/2021/jun/rashmikamandanna41624856553.jpg"
-              }
-            />
-          }
-          content="rashmika.piyush143"
-          postfix="you"
-          removable
-        />
-        <ListItem
-          prefix={
-            <ProfileStatus
-              active
-              src={
-                "https://i.pinimg.com/736x/58/1e/fa/581efa65cec3ff19597aabfdfcb0a2d5.jpg"
-              }
-            />
-          }
-          content="kiara.yagnesh7446"
-          removable
-        />
-        <ListItem
-          prefix={
-            <ProfileStatus
-              active={false}
-              src={
-                "https://c.ndtvimg.com/2022-09/gg6q0kcg_disha_625x300_10_September_22.jpg"
-              }
-            />
-          }
-          content="disha.patni56"
-          removable
-        />
-        <ListItem
-          selected
-          prefix={
-            <ProfileStatus
-              active={false}
-
-              // src={
-              //   "https://assets.vogue.in/photos/601bfddd3514c40d2b37e596/master/pass/jacqueline%20fernandez%20makeup%20skincare.jpg"
-              // }
-            />
-          }
-          content="jacqueline.fernandez45"
-          removable
-        />
+        {friends?.map(
+          ({ active, src, username, selected, postfix, className }, index) => (
+            <div onClick={() => setDirectMessageUserName(username)} key={index}>
+              <ListItem
+                className={className}
+                prefix={<ProfileStatus active={active} src={src} />}
+                content={username}
+                removable
+                // selected={selected}
+                postfix={postfix}
+              />
+            </div>
+          )
+        )}
         <ListItem
           className="with-border"
           prefix={
