@@ -7,6 +7,7 @@ import { Button } from "@mui/material";
 import CraneTooltip from "./utils/CraneTooltip";
 import ListItem from "./ListItem";
 import ProfileStatus from "./utils/ProfileStatus";
+const { hasCommandModifier } = KeyBindingUtil;
 
 const getIcon = (iconName) => `icons/message-sender/${iconName}.svg`;
 
@@ -20,24 +21,23 @@ const MessageSenderEditor = ({
   messageReceiverName,
   friends,
 }) => {
-  const { hasCommandModifier } = KeyBindingUtil;
+  // const myKeyBindingFn = (e) => {
+  //   if (e.keyCode === 65 && hasCommandModifier(e)) {
+  //     //Cmd+1
+  //     return "BOLD";
+  //   }
+  //   return getDefaultKeyBinding(e);
+  // };
 
-  const myKeyBindingFn = (e) => {
-    if (e.keyCode === 65 && hasCommandModifier(e)) {
-      //Cmd+1
-      return "BOLD";
-    }
-    return getDefaultKeyBinding(e);
-  };
-
-  const handleKeyCommand = (command) => {
-    const newState = RichUtils.handleKeyCommand(editorState, command);
-    if (newState) {
-      setEditorState(newState);
-      return true;
-    }
-    return false;
-  };
+  // const handleKeyCommand = (command) => {
+  //   console.log({ command });
+  //   const newState = RichUtils.handleKeyCommand(editorState, command);
+  //   if (newState) {
+  //     setEditorState(newState);
+  //     return true;
+  //   }
+  //   return false;
+  // };
 
   const [showToolbar, setShowToolbar] = useState(true);
 
@@ -60,8 +60,8 @@ const MessageSenderEditor = ({
         onFocus={() => setEditorFocus(true)}
         onBlur={() => setEditorFocus(false)}
         placeholder={`message ${messageReceiverName}`}
-        handleKeyCommand={handleKeyCommand}
-        keyBindingFn={myKeyBindingFn}
+        // handleKeyCommand={handleKeyCommand}
+        // keyBindingFn={myKeyBindingFn}
         customStyleMap={{
           CODE: {
             fontFamily: "monospace",

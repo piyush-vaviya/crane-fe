@@ -41,20 +41,29 @@ const DirectMessages = ({ friends, setDirectMessageUserName }) => {
       </div>
 
       <div className={`dms-list ${expanded ? "expanded" : ""}`}>
-        {friends?.map(
-          ({ active, src, username, selected, postfix, className }, index) => (
-            <div onClick={() => setDirectMessageUserName(username)} key={index}>
-              <ListItem
-                className={className}
-                prefix={<ProfileStatus active={active} src={src} />}
-                content={username}
-                removable
-                // selected={selected}
-                postfix={postfix}
+        <div onClick={() => setDirectMessageUserName("rashmika.piyush143")}>
+          <ListItem
+            className="with-border"
+            selected
+            prefix={
+              <ProfileStatus
+                active={true}
+                src="https://filmfare.wwmindia.com/content/2021/jun/rashmikamandanna41624856553.jpg"
               />
-            </div>
-          )
-        )}
+            }
+            content="rashmika.piyush143"
+            removable
+          />
+        </div>
+        {friends?.map(({ active, src, username }, index) => (
+          <div onClick={() => setDirectMessageUserName(username)} key={index}>
+            <ListItem
+              prefix={<ProfileStatus active={active} src={src} />}
+              content={username}
+              removable
+            />
+          </div>
+        ))}
         <ListItem
           className="with-border"
           prefix={

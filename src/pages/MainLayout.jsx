@@ -20,14 +20,6 @@ const MainLayout = ({ Component, ...rest }) => {
   };
   const friends = [
     {
-      selected: true,
-      active: true,
-      username: "rashmika.piyush143",
-      src: "https://filmfare.wwmindia.com/content/2021/jun/rashmikamandanna41624856553.jpg",
-      postfix: "you",
-      className: "with-border",
-    },
-    {
       active: true,
       src: "https://i.pinimg.com/736x/58/1e/fa/581efa65cec3ff19597aabfdfcb0a2d5.jpg",
       username: "kiara.yagnesh7446",
@@ -38,7 +30,7 @@ const MainLayout = ({ Component, ...rest }) => {
       username: "jacqueline.fernandez45",
     },
     {
-      active: false,
+      active: true,
       //  src :"https://assets.vogue.in/photos/601bfddd3514c40d2b37e596/master/pass/jacqueline%20fernandez%20makeup%20skincare.jpg",
       src: "https://www.the-sun.com/wp-content/uploads/sites/6/2021/01/NINTCHDBPICT000631473456.jpg",
       username: "mia.malkova69",
@@ -47,11 +39,28 @@ const MainLayout = ({ Component, ...rest }) => {
   ];
 
   const messageSenderPage = (name) => {
+    if (name === "rashmika.piyush143") {
+      return (
+        <MessageSender
+          active={true}
+          username="rashmika.piyush143"
+          src="https://www.the-sun.com/wp-content/uploads/sites/6/2021/01/NINTCHDBPICT000631473456.jpg"
+          // src: "https://filmfare.wwmindia.com/content/2021/jun/rashmikamandanna41624856553.jpg"
+          bio="This space is just for you. Jot down notes, list your to-dos, or
+        keep links and files handy. You can also talk to yourself here,
+        but please bear in mind you’ll have to supply both sides of the
+        conversation."
+          friends={friends}
+          showProfileEditor={showProfileEditor}
+        />
+      );
+    }
     return friends?.map(({ active, src, username }, index) => {
       if (name === username) {
         return (
           <MessageSender
             key={index}
+            className="with-border"
             active={active}
             username={username}
             // src="https://www.the-sun.com/wp-content/uploads/sites/6/2021/01/NINTCHDBPICT000631473456.jpg"
@@ -125,6 +134,7 @@ const MainLayout = ({ Component, ...rest }) => {
         friends={friends}
         setDirectMessageUserName={setDirectMessageUserName}
       />
+
       <div className="layout-container">
         {messageSenderPage(directMessageUserName)}
         {Component ? <Component /> : null}

@@ -26,12 +26,29 @@ const Sender = ({ src, username, active, chatMessage, showProfileEditor }) => {
         {chatMessage?.map((msg, i) =>
           i === 0 ? (
             <div className="msg-container d-flex" key={i}>
-              <div className="sender-profile-image cursor-pointer" alt="">
-                {src ? <img src={src} alt="" /> : <HiUser size={40} />}
-              </div>
+              <CraneTooltip
+                placement="top"
+                arrow={false}
+                title={
+                  <WorkSpaceInfo
+                    username={username}
+                    active={active}
+                    src={src}
+                    workspaceOwner="Workspace Owner"
+                    setStatus="Set a Status"
+                  />
+                }
+                content={
+                  <div className="sender-profile-image cursor-pointer" alt="">
+                    {src ? <img src={src} alt="" /> : <HiUser size={40} />}
+                  </div>
+                }
+              />
+
               <div className="sender d-flex flex-column position-relative">
                 <div className="d-flex sender-name-time align-items-end ">
                   <CraneTooltip
+                    placement="top"
                     arrow={false}
                     title={
                       <WorkSpaceInfo

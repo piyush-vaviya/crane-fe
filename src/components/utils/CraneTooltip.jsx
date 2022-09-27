@@ -1,6 +1,5 @@
 import React from "react";
-import { Tooltip } from "@mui/material";
-import Zoom from "@mui/material/Zoom";
+import { Tooltip, Zoom } from "@mui/material";
 
 const CraneTooltip = ({ content, ...rest }) => {
   return (

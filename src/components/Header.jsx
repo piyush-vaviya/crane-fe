@@ -4,18 +4,23 @@ import { RiArrowDownSLine } from "react-icons/ri";
 import ProfileStatus from "./utils/ProfileStatus";
 import { TiPlus } from "react-icons/ti";
 import CraneTooltip from "./utils/CraneTooltip";
+import UserProfileImage from "./utils/UserProfileImage";
+import UserStatus from "./utils/UserStatus";
 
 const Header = ({ active, src, username }) => {
   return (
     <div className="header w-100 d-flex flex-column ">
       <div className="profile-details d-flex  align-items-center">
-        <ListItem
-          prefix={<ProfileStatus active={active} src={src} />}
-          content={username}
-          arrow={<RiArrowDownSLine />}
-        />
+        <div className="header-profile d-flex  align-items-center">
+          <div className="position-relative">
+            <UserProfileImage src={src} hiUserSize={26} />
+            <UserStatus active={active} position="position-absolute" />
+          </div>
+          <div className="userName text-break">{username}</div>
+          <RiArrowDownSLine />
+        </div>
       </div>
-      <div className="add-bookmark d-flex">
+      <div className="add-bookmark d-flex align-items-center">
         <CraneTooltip
           title={
             <div>

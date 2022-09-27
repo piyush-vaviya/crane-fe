@@ -1,3 +1,82 @@
+.login-page {
+  .login {
+    padding: 20px 50px;
+    min-width: 48vh;
+    border-radius: 6px;
+    -webkit-box-shadow: -2px 5px 28px -11px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: -2px 5px 28px -11px rgba(0, 0, 0, 0.75);
+    box-shadow: -2px 5px 28px -11px rgba(0, 0, 0, 0.75);
+    img {
+      width: 185px;
+      margin: auto;
+    }
+  }
+  h2 {
+    margin-bottom: 8px;
+  }
+  form {
+    // border: 1px solid green;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 20px;
+
+    .outlined-textarea {
+      margin-bottom: 20px;
+    }
+
+    .forgot-password {
+      color: $forget-password;
+      margin: 10px 0;
+      margin-left: auto;
+    }
+    .create-new-btn {
+      color: $create-new;
+      font-weight: 700;
+      font-size: 12px;
+      padding: 6px 16px;
+      border: 2px solid $create-new;
+    }
+  }
+}
+
+.divider:after,
+.divider:before {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: $login-button-color;
+}
+
+.sign-button {
+  background: $login-button-color;
+  color: rgba(255, 255, 255, 1) !important;
+}
+.google-button {
+  text-transform: none !important;
+  color: $base-color !important;
+}
+
+.signup-page {
+  color: $base-color !important;
+  .sign-up {
+    padding: 20px 50px;
+    min-width: 48vh;
+    border-radius: 6px;
+    -webkit-box-shadow: -2px 5px 28px -11px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: -2px 5px 28px -11px rgba(0, 0, 0, 0.75);
+    box-shadow: -2px 5px 28px -11px rgba(0, 0, 0, 0.75);
+    form {
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 20px;
+
+      .outlined-textarea {
+        margin-bottom: 20px;
+      }
+    }
+  }
+}
+
 .sidebar {
   width: 17vw;
   height: 100vh;
@@ -34,6 +113,19 @@
       // }
     }
   }
+
+  // button {
+  //   background: $light-accent;
+  //   color: $opposite-color;
+  //   width: 70%;
+  //   position: absolute;
+  //   z-index: 1;
+
+  //   &:hover {
+  //     background-color: $cta-color;
+  //     color: $opposite-color-hover;
+  //   }
+  // }
 
   .channels-container {
     border-bottom: $border;
@@ -221,51 +313,34 @@
       height: 6vh;
       padding: 4px 20px 4px 16px;
 
+      .header-profile {
+        padding: 4px 4px 4px 8px;
+        color: $opposite-color;
+        .user-dp {
+          width: 26px;
+          height: 26px;
+        }
+        .user-status {
+          height: 8px;
+          width: 8px;
+        }
+        .userName {
+          font-size: 18px;
+          font-weight: 700 !important;
+          margin-left: 12px;
+          margin-right: 5px;
+        }
+
+        &:hover:not(.selected) {
+          border-radius: 6px;
+          background-color: $dark-accent-hover;
+        }
+      }
+
       .list-item-container {
         color: $opposite-color;
         height: 26px;
         padding: 3px 4px 3px 8px;
-
-        .list-item-content {
-          .prefix {
-            .profile-status {
-              .dp-status {
-                display: flex;
-                justify-content: flex-end;
-                align-items: flex-end;
-                margin: 0;
-                .user-dp {
-                  width: 26px;
-                  height: 26px;
-
-                  .hi-user-icon {
-                    width: 26px;
-                    height: 26px;
-                  }
-                }
-                .user-status {
-                  height: 7px;
-                  width: 8px;
-                  border-radius: 50%;
-                  top: 15px;
-                  bottom: 0;
-                  left: 16px;
-
-                  .user-offline-status {
-                    height: 5.76px;
-                    width: 5.76px;
-                  }
-                }
-              }
-            }
-          }
-
-          .content {
-            font-size: 18px;
-            font-weight: 700 !important;
-            margin-left: 12px;
-          }
-        }
 
         &:hover:not(.selected) {
           border-radius: 6px;
@@ -958,5 +1033,19 @@
         }
       }
     }
+  }
+}
+
+// sign out button override css
+.css-3bmhjh-MuiPaper-root-MuiPopover-paper {
+  background: $light-accent !important;
+  color: $opposite-color;
+  left: 40px !important;
+  width: 130px;
+  text-align: center;
+  top: 7vh !important;
+
+  &:hover {
+    background-color: $profile-workspace-owner !important;
   }
 }

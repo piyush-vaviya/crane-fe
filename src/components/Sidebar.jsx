@@ -1,15 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { HiChevronDown, HiPencilAlt } from "react-icons/hi";
 import Channels from "./Channels";
 import CraneTooltip from "./utils/CraneTooltip";
 import DirectMessages from "./DirectMessages";
+import { Button } from "@mui/material";
+import Popover from "@mui/material/Popover";
 
 const Sidebar = ({ friends, setDirectMessageUserName }) => {
+  const navigate = useNavigate();
+  const [anchorEl, setAnchorEl] = useState();
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+    event.stopPropagation();
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const logoutFromCrane = () => {
+    localStorage.removeItem("loginDone");
+    navigate("/login");
+  };
+
   return (
     <div className="sidebar noSelect position-relative">
       {/* Workspace Title */}
       <div className="workspace-title-container d-flex justify-content-between align-items-center px-3">
-        <div className="flex-center">
+        <div
+          className="flex-center"
+          aria-describedby={id}
+          onClick={handleClick}
+        >
           <img
             // src="https://theviraler.com/wp-content/uploads/2021/04/Mia-Malkova-big-boobs-pics.jpg"
             src="https://s1.lovefap.com/content/photos/0cd452e1d0efb17f29c61854898c6cf8.jpeg"
@@ -38,7 +64,7 @@ const Sidebar = ({ friends, setDirectMessageUserName }) => {
               bottom: "0",
             }}
           />
-          <span className="title">Mass Developers</span>
+          <span className="title ">Mass Developers</span>
           <HiChevronDown size={20} />
         </div>
         <CraneTooltip
@@ -58,6 +84,22 @@ const Sidebar = ({ friends, setDirectMessageUserName }) => {
           }
         />
       </div>
+
+      <Popover
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+      >
+        <Button width={"150"} onClick={logoutFromCrane}>
+          Sign Out
+        </Button>
+      </Popover>
+
       {/* Channels List */}
       <Channels />
       {/* Direct Messages List */}
