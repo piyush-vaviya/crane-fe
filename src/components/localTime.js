@@ -1,4 +1,4 @@
-let date, timeType, hour, minutes, seconds, fullTime;
+let date, timeType, hour, minutes, seconds;
 
 date = new Date();
 

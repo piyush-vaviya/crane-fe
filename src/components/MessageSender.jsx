@@ -16,7 +16,7 @@ const MessageSender = ({
   showProfileEditor,
 }) => {
   const [chatMessage, setChatMessage] = useState([]);
-
+  const [editorFocus, setEditorFocus] = useState(false);
   const blocksFromHTML = convertFromHTML(``);
   const state = ContentState.createFromBlockArray(
     blocksFromHTML.contentBlocks,
@@ -26,8 +26,6 @@ const MessageSender = ({
   const [editorState, setEditorState] = useState(
     EditorState.createWithContent(state)
   );
-
-  const [editorFocus, setEditorFocus] = useState(false);
 
   let messageLength = editorState?.getCurrentContent().getPlainText("\u0001");
 
@@ -67,8 +65,6 @@ const MessageSender = ({
         },
       })
     : "";
-
-  console.log(content);
 
   return (
     <>

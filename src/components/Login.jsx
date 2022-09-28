@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import {
-  Button,
   IconButton,
   InputAdornment,
   TextField,
@@ -9,7 +9,6 @@ import {
 } from "@mui/material";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 import { FcGoogle } from "react-icons/fc";
-import { toast } from "react-toastify";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -18,8 +17,9 @@ const Login = () => {
     password: "",
   });
   const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPAssword] = useState(false);
-
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState({});
+  const { email, password } = user;
   let name, value;
   const handleInput = (e) => {
     name = e.target.name;
@@ -29,15 +29,15 @@ const Login = () => {
   };
 
   const handleClickShowPassword = () => {
-    setShowPAssword(!showPassword);
+    setShowPassword(!showPassword);
   };
 
   const loginToCrane = async (e) => {
     e.preventDefault();
+    setError({});
     setLoading(true);
 
     const { email, password } = user;
-    console.log(email, password);
     const data = await fetch("http://localhost:5000/api/v1/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -47,9 +47,19 @@ const Login = () => {
       }),
     });
     const response = await data.json();
-    console.log(response);
+
     if (response.error) {
-      toast.error(response.message);
+      response.message.includes("No User found against email")
+        ? setError({
+            ...error,
+            emailError:
+              "The username you entered doesn't belong to an account. Please check your username and try again.",
+          })
+        : setError({
+            ...error,
+            passwordError:
+              "Sorry, your password was incorrect. Please double-check your password.",
+          });
     } else {
       localStorage.setItem("loginDone", true);
       navigate("/home");
@@ -68,50 +78,63 @@ const Login = () => {
 
       <form action="" onSubmit={loginToCrane}>
         <h3>Please login to your account</h3>
+        <p className="error-handle-paragraph">
+          {error.emailError} {error.passwordError}
+        </p>
         <TextField
-          id="outlined-textarea"
+          id="outlined-username"
           className="outlined-textarea"
-          label="Username"
+          // label="Email"
           type="email"
-          placeholder="Enter your email here"
+          placeholder="Enter your email"
           name="email"
-          value={user.email}
+          value={email}
           onChange={handleInput}
           required
-          autoComplete="off"
         />
         <TextField
           id="outlined-adornment-password"
           className="outlined-adornment-password"
-          label="Password"
+          // label="Password"
           type={showPassword ? "text" : "password"}
-          placeholder="Enter your password here"
+          placeholder="Enter your password"
           name="password"
-          value={user.password}
+          value={password}
           onChange={handleInput}
           required
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={(e) => e.preventDefault()}
-                  edge="end"
-                >
-                  {showPassword ? <MdVisibilityOff /> : <MdVisibility />}
-                </IconButton>
+                {password.length ? (
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    className="border"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={(e) => e.preventDefault()}
+                    edge="end"
+                  >
+                    {showPassword ? <MdVisibilityOff /> : <MdVisibility />}
+                  </IconButton>
+                ) : null}
               </InputAdornment>
             ),
           }}
         />
-        <span className="forgot-password">Forgot Password?</span>
+        <NavLink
+          className="forgot-password cursor-pointer"
+          to="/accounts/password/reset"
+        >
+          Forgot Password?
+        </NavLink>
         <ToggleButton
           value="Sign In"
           className="sign-button"
           sx={{ width: "55%", margin: "auto", height: 40 }}
           aria-label="list"
           type="submit"
+          disabled={
+            email.length && password.length >= 8 && !loading ? false : true
+          }
         >
           {loading ? "please wait..." : "Sign In"}
         </ToggleButton>
@@ -136,15 +159,9 @@ const Login = () => {
 
         <div className="flex-center pt-4 ">
           <p className="mr-2">Don't have an account?</p>
-          <Button
-            className="create-new-btn"
-            onClick={(e) => {
-              e.preventDefault();
-              navigate("/signup");
-            }}
-          >
+          <NavLink className="create-new-btn" to="/accounts/emailSignup">
             Create new
-          </Button>
+          </NavLink>
         </div>
       </form>
     </div>

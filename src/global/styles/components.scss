@@ -1,11 +1,17 @@
 .login-page {
+  background: $base-color;
+  svg {
+    color: $input-placeholder-color !important;
+  }
   .login {
-    padding: 20px 50px;
+    color: $login-signup-text-color !important;
+    background-color: $login-signup-bg;
+    padding: 10px 50px;
     min-width: 48vh;
     border-radius: 6px;
-    -webkit-box-shadow: -2px 5px 28px -11px rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: -2px 5px 28px -11px rgba(0, 0, 0, 0.75);
-    box-shadow: -2px 5px 28px -11px rgba(0, 0, 0, 0.75);
+    -webkit-box-shadow: -2px 5px 28px -11px rgba(12, 12, 12, 0.953);
+    -moz-box-shadow: -2px 5px 28px -11px rgba(12, 12, 12, 0.953);
+    box-shadow: -2px 5px 28px -11px rgba(12, 12, 12, 0.953);
     img {
       width: 185px;
       margin: auto;
@@ -18,7 +24,7 @@
     // border: 1px solid green;
     display: flex;
     flex-direction: column;
-    padding-bottom: 20px;
+    // padding-bottom: 20px;
 
     .outlined-textarea {
       margin-bottom: 20px;
@@ -28,14 +34,121 @@
       color: $forget-password;
       margin: 10px 0;
       margin-left: auto;
+      background: none;
+      border: none;
+      text-decoration: none;
     }
     .create-new-btn {
       color: $create-new;
       font-weight: 700;
-      font-size: 12px;
+      font-size: 14px;
       padding: 6px 16px;
       border: 2px solid $create-new;
+      background: none;
+      text-decoration: none;
     }
+  }
+}
+
+.forgot-password-page {
+  background-color: $base-color;
+  svg {
+    color: $input-placeholder-color !important;
+  }
+  .forgot-password-container {
+    color: $login-signup-text-color !important;
+    background-color: $login-signup-bg;
+    padding: 20px 50px;
+    min-width: 48vh;
+    border-radius: 6px;
+    -webkit-box-shadow: -2px 5px 28px -11px rgba(12, 12, 12, 0.953);
+    -moz-box-shadow: -2px 5px 28px -11px rgba(12, 12, 12, 0.953);
+    box-shadow: -2px 5px 28px -11px rgba(12, 12, 12, 0.953);
+
+    .close-lock {
+      border-radius: 50%;
+      border: 3px solid $login-signup-text-color;
+    }
+    .trouble-logging {
+      margin-top: 16px;
+      font-size: 17px;
+      font-weight: 800;
+    }
+    p {
+      max-width: 45vh;
+    }
+    button {
+      margin-top: 20px;
+      background: $login-button-color !important;
+      color: $login-signup-text-color;
+      opacity: 1;
+
+      &:disabled {
+        opacity: 0.6;
+      }
+    }
+    .create-new {
+      background: none;
+      text-decoration: none;
+      border: none;
+      color: $create-new;
+    }
+    .back-to-login {
+      text-decoration: none;
+      background: $input-border-color;
+      border: none;
+      text-align: center;
+      color: $login-signup-text-color;
+      border-radius: 4px;
+      margin-top: 12vh;
+    }
+  }
+}
+
+.signup-page {
+  background: $base-color;
+  svg {
+    color: $input-placeholder-color !important;
+  }
+  .sign-up {
+    color: $login-signup-text-color !important;
+    background-color: $login-signup-bg;
+    padding: 20px 50px;
+    min-width: 48vh;
+    border-radius: 6px;
+    -webkit-box-shadow: -2px 5px 28px -11px rgba(12, 12, 12, 0.953);
+    -moz-box-shadow: -2px 5px 28px -11px rgba(12, 12, 12, 0.953);
+    box-shadow: -2px 5px 28px -11px rgba(12, 12, 12, 0.953);
+    form {
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 20px;
+
+      .outlined-textarea {
+        margin-bottom: 20px;
+      }
+
+      .login-here-btn {
+        color: $create-new;
+        background: none;
+        border: none;
+      }
+    }
+  }
+}
+
+// common class of signup and login page
+
+.error-handle-paragraph {
+  margin: auto;
+  margin-bottom: 16px;
+  margin-top: 0;
+  max-width: 45vh;
+  text-align: center;
+  color: $error-color;
+
+  &.success-message {
+    color: rgba(199, 242, 95, 1);
   }
 }
 
@@ -50,31 +163,70 @@
 .sign-button {
   background: $login-button-color;
   color: rgba(255, 255, 255, 1) !important;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 1);
+    color: $login-button-color !important;
+  }
+
+  &:disabled {
+    opacity: 0.7;
+  }
 }
 .google-button {
   text-transform: none !important;
   color: $base-color !important;
+  font-weight: 700 !important;
+  font-size: 16px !important;
+  letter-spacing: 0 !important;
+
+  &:hover {
+    background: $google-btn-hover !important;
+  }
 }
 
-.signup-page {
-  color: $base-color !important;
-  .sign-up {
-    padding: 20px 50px;
-    min-width: 48vh;
-    border-radius: 6px;
-    -webkit-box-shadow: -2px 5px 28px -11px rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: -2px 5px 28px -11px rgba(0, 0, 0, 0.75);
-    box-shadow: -2px 5px 28px -11px rgba(0, 0, 0, 0.75);
-    form {
-      display: flex;
-      flex-direction: column;
-      padding-bottom: 20px;
+// override class for input label....
 
-      .outlined-textarea {
-        margin-bottom: 20px;
+.MuiFormControl-root {
+  label {
+    color: $opposite-color;
+  }
+  .MuiInputBase-root {
+    .MuiOutlinedInput-notchedOutline {
+      border-color: $input-border-color;
+    }
+
+    input {
+      color: $input-placeholder-color;
+    }
+
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus {
+      -webkit-text-fill-color: #000000f9;
+      filter: $message-sender-icon-active-filter;
+    }
+
+    &:hover {
+      .MuiOutlinedInput-notchedOutline {
+        border-color: rgb(113, 113, 113) !important;
       }
     }
   }
+}
+
+.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(185, 185, 184, 1) !important;
+}
+.MuiFormLabel-root.Mui-focused {
+  color: $label-color !important;
+}
+
+.true-check-circle {
+  color: $true-check-circle !important;
+}
+.close-circle-outline {
+  color: $close-circle-outline !important;
 }
 
 .sidebar {
@@ -113,19 +265,6 @@
       // }
     }
   }
-
-  // button {
-  //   background: $light-accent;
-  //   color: $opposite-color;
-  //   width: 70%;
-  //   position: absolute;
-  //   z-index: 1;
-
-  //   &:hover {
-  //     background-color: $cta-color;
-  //     color: $opposite-color-hover;
-  //   }
-  // }
 
   .channels-container {
     border-bottom: $border;
@@ -652,10 +791,9 @@
           &.rdw-inline-wrapper,
           &.rdw-list-wrapper,
           &.rdw-link-wrapper,
-          &.rdw-history-wrapper,
-          &.rdw-remove-wrapper {
+          &.rdw-history-wrapper {
             height: 26px !important;
-            margin: 0px !important;
+            margin: 0px;
           }
 
           &.icon,
@@ -684,6 +822,10 @@
               filter: $message-sender-icon-idle-filter;
             }
           }
+        }
+
+        .rdw-remove-wrapper {
+          margin-bottom: 0 !important;
         }
 
         .rdw-link-wrapper {
