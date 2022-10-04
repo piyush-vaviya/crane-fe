@@ -1,7 +1,7 @@
 .login-page {
   background: $base-color;
   svg {
-    color: $input-placeholder-color !important;
+    color: $input-placeholder-color;
   }
   .login {
     color: $login-signup-text-color !important;
@@ -53,7 +53,7 @@
 .forgot-password-page {
   background-color: $base-color;
   svg {
-    color: $input-placeholder-color !important;
+    color: $input-placeholder-color;
   }
   .forgot-password-container {
     color: $login-signup-text-color !important;
@@ -108,7 +108,7 @@
 .signup-page {
   background: $base-color;
   svg {
-    color: $input-placeholder-color !important;
+    color: $input-placeholder-color;
   }
   .sign-up {
     color: $login-signup-text-color !important;
@@ -145,10 +145,10 @@
   margin-top: 0;
   max-width: 45vh;
   text-align: center;
-  color: $error-color;
+  color: $error-color !important;
 
   &.success-message {
-    color: rgba(199, 242, 95, 1);
+    color: rgba(199, 242, 95, 1) !important;
   }
 }
 
@@ -173,6 +173,7 @@
     opacity: 0.7;
   }
 }
+
 .google-button {
   text-transform: none !important;
   color: $base-color !important;
@@ -229,6 +230,7 @@
   color: $close-circle-outline !important;
 }
 
+// side bar component
 .sidebar {
   width: 17vw;
   height: 100vh;
@@ -519,7 +521,7 @@
   }
 
   .messenger {
-    height: 69%;
+    height: 71%;
     // border: 1px solid red;
     ::-webkit-scrollbar {
       width: 1vh;
@@ -635,10 +637,13 @@
           }
           &:hover {
             background-color: $light-accent;
+            .edit-delete-icon {
+              opacity: 1;
+            }
           }
         }
         .sender-message {
-          padding: 6px 14px 6px 22px;
+          padding: 5px 14px 5px 22px;
           .sender-message-time {
             color: $time-color;
             width: 40px;
@@ -653,8 +658,32 @@
           &:hover {
             background-color: $light-accent;
 
-            .sender-message-time {
+            .sender-message-time,
+            .edit-delete-icon {
               opacity: 1;
+            }
+          }
+        }
+
+        .edit-delete-icon {
+          border: 1px solid $edit-delete-border;
+          border-radius: 5px;
+          right: 22px;
+          top: -10px;
+          padding: 3px;
+          gap: 4px;
+          color: $edit-delete-icon;
+          background-color: $edit-delete-icon-bg;
+          opacity: 0;
+
+          .edit-message,
+          .delete-message {
+            color: $edit-delete-icon;
+            padding: 3px;
+            border: 3px;
+            &:hover {
+              background-color: $light-accent;
+              border-radius: 3px;
             }
           }
         }
@@ -858,6 +887,11 @@
           }
         }
 
+        .cancel-btn {
+          background-color: $base-color;
+          color: $message-sender-bg;
+          margin-right: 8px;
+        }
         .send-message-icon {
           width: fit-content;
           padding: 2px;
@@ -871,7 +905,6 @@
             background-color: $light-accent;
             color: $message-sender-bg;
             position: relative;
-            height: 28px;
 
             svg {
               position: absolute;
@@ -879,6 +912,10 @@
               left: 40%;
               margin: auto;
             }
+          }
+
+          .save-btn {
+            cursor: not-allowed !important;
           }
 
           &.send-message-icon-active {
@@ -1050,7 +1087,7 @@
 }
 
 .user-status {
-  min-height: 6px;
+  min-height: 7px;
   min-width: 6px;
   border-radius: 50%;
   top: 13px;
@@ -1190,4 +1227,11 @@
   &:hover {
     background-color: $profile-workspace-owner !important;
   }
+}
+
+.grow-power-reset {
+  background-color: red;
+  border-radius: 4px;
+  padding: 1px;
+  cursor: pointer;
 }

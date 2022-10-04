@@ -1163,6 +1163,9 @@
 .cursor-pointer {
   cursor: pointer;
 }
+.cursor-not-allowed {
+  cursor: not-allowed !important;
+}
 
 .noSelect {
   -webkit-touch-callout: none; /* iOS Safari */

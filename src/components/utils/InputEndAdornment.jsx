@@ -4,7 +4,7 @@ import {
   IoCloseCircleOutline,
 } from "react-icons/io5";
 
-const InputEndAdornment = ({ isValidate }) => {
+const InputEndAdornment = ({ isValidate, userName }) => {
   return (
     <InputAdornment position="end">
       {isValidate === true ? (

@@ -1,11 +1,14 @@
-import React, { useState } from "react";
-import getFullTime from "./localTime";
+import React, { useEffect, useState } from "react";
+// import getFullTime from "./localTime";
+import { toast } from "react-toastify";
 import { ContentState, convertFromHTML, EditorState } from "draft-js";
 import { stateToHTML } from "draft-js-export-html";
 import Header from "./Header";
 import DirectMessageProfile from "./utils/DirectMessageProfile";
 import Sender from "./Sender";
 import MessageSenderEditor from "./MessageSenderEditor";
+import axios from "../components/api/message";
+import { getDifferedState } from "./api/utils";
 
 const MessageSender = ({
   active,
@@ -14,31 +17,44 @@ const MessageSender = ({
   bio,
   friends,
   showProfileEditor,
+  ownerUserName,
 }) => {
-  const [chatMessage, setChatMessage] = useState([]);
-  const [editorFocus, setEditorFocus] = useState(false);
+  const [chatMessage, setChatMessage] = useState({});
+  const [isSending, setIsSending] = useState();
+  const [editingMode, setEditingMode] = useState(false);
+  const [loading, setLoading] = useState(false);
+  // const [mappedMessages, setMappedMessages] = useState([]);
+  const [editorId, setEditorId] = useState("");
+  const [editorLocalKey, setEditorLocalKey] = useState("");
   const blocksFromHTML = convertFromHTML(``);
   const state = ContentState.createFromBlockArray(
     blocksFromHTML.contentBlocks,
     blocksFromHTML.entityMap
   );
 
+  console.log("😊 -> ownerUserName", ownerUserName);
+  console.log("😊 -> username", username);
+  const getAllMessage = async () => {
+    setLoading(true);
+    const response = await axios.get(
+      `/message?sender=${ownerUserName}&receiver=${username}` // TODO: ahiya sender ne receiver ma _id aavse user ni
+    );
+    setChatMessage({ ...response.data });
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    getAllMessage();
+  }, []);
+
   const [editorState, setEditorState] = useState(
     EditorState.createWithContent(state)
   );
 
-  let messageLength = editorState?.getCurrentContent().getPlainText("\u0001");
-
-  const sendMessage = (event) => {
-    const messageDetails = {
-      message: content,
-      time: getFullTime("hh:mm tt"),
-      tooltipTime: getFullTime("hh:mm:ss tt"),
-      msgTime: getFullTime("hh:mm"),
-    };
-    setChatMessage([...chatMessage, messageDetails]);
-    setEditorState(EditorState.createEmpty());
-  };
+  let messageLength = editorState
+    ?.getCurrentContent()
+    .getPlainText("\u0001")
+    ?.trim()?.length;
 
   const content = editorState?.getCurrentContent()
     ? stateToHTML(editorState?.getCurrentContent(), {
@@ -66,6 +82,85 @@ const MessageSender = ({
       })
     : "";
 
+  const sendMessage = async () => {
+    const randomId = Math.floor(new Date().valueOf() * Math.random());
+
+    let clonedMessages = { ...chatMessage };
+    try {
+      const duplicateMessage = {
+        localId: randomId,
+        _id: randomId,
+        message: content,
+        messageTime: new Date(),
+        sending: true,
+        sendingError: false,
+        isEditing: false,
+        isDeleting: false,
+      };
+      clonedMessages[randomId] = { ...duplicateMessage };
+      setEditorState(EditorState.createEmpty());
+
+      setChatMessage(clonedMessages);
+      // console.log(
+      //   "🚀 ~ sendMessageAfterSetChat ~ clonedMessages",
+      //   clonedMessages
+      // );
+      setIsSending(true);
+      const data = { message: content, localId: randomId };
+
+      const response = await axios.post("/message", data);
+
+      const { _id } = response;
+
+      clonedMessages = { ...(await getDifferedState(setChatMessage)) };
+      // console.log("🚀 ~ sendMessage ~ clonedMessages", clonedMessages);
+      clonedMessages[randomId].sending = false;
+      clonedMessages[randomId]._id = _id;
+    } catch (error) {
+      console.log("error detected");
+      clonedMessages = { ...(await getDifferedState(setChatMessage)) };
+      clonedMessages[randomId].sending = false;
+      clonedMessages[randomId].sendingError = true;
+      toast.error(error.message);
+    }
+    console.log("🚀 ~ sendMessage before ~ clonedMessages", clonedMessages);
+    setChatMessage(clonedMessages);
+    console.log("🚀 ~ sendMessage after ~ clonedMessages", clonedMessages);
+
+    // console.log(clonedMessages);
+    setIsSending(false);
+  };
+
+  const updateMessage = async (_id, localKey) => {
+    setEditingMode(false);
+    let clonedMessages = { ...mappedMessages };
+    try {
+      clonedMessages[localKey].isUpdating = true;
+      setChatMessage(clonedMessages);
+      setLoading(true);
+      const data = { message: content, _id: _id };
+      setEditorState(EditorState.createEmpty());
+      const response = await axios.put("/message", data);
+
+      console.log(response);
+      clonedMessages[localKey].message = content;
+      clonedMessages[localKey].isUpdating = false;
+      toast.success(response.message);
+    } catch (error) {
+      toast.error(error.message);
+      setEditingMode(false);
+      setEditorState(EditorState.createEmpty());
+    }
+    setChatMessage(clonedMessages);
+    setLoading(false);
+  };
+
+  const mappedMessages = [];
+  for (const messageKey of Object.keys(chatMessage)) {
+    mappedMessages.push({ ...chatMessage[messageKey], localKey: messageKey });
+  }
+  // console.log("chatmessssage", mappedMessages);
+
   return (
     <>
       <Header active={active} src={src} username={username} />
@@ -83,18 +178,32 @@ const MessageSender = ({
             src={src}
             username={username}
             active={active}
-            chatMessage={chatMessage}
+            chatMessage={mappedMessages}
+            setChatMessage={setChatMessage}
+            isSending={isSending}
+            editorState={editorState}
+            setEditorState={setEditorState}
+            editingMode={editingMode}
+            setEditingMode={setEditingMode}
+            setEditorId={setEditorId}
+            content={content}
+            setEditorLocalKey={setEditorLocalKey}
           />
         </div>
         <MessageSenderEditor
           editorState={editorState}
           setEditorState={setEditorState}
-          editorFocus={editorFocus}
-          setEditorFocus={setEditorFocus}
           messageLength={messageLength}
           sendMessage={sendMessage}
           messageReceiverName={username}
           friends={friends}
+          ownerUserName={ownerUserName}
+          username={username}
+          editingMode={editingMode}
+          setEditingMode={setEditingMode}
+          updateMessage={updateMessage}
+          editorId={editorId}
+          editorLocalKey={editorLocalKey}
         />
       </div>
     </>

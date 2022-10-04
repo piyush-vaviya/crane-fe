@@ -37,5 +37,35 @@ const getFullTime = (type = "hh:mm:ss, tt") => {
     .replace("ss", seconds)
     .replace("tt", timeType);
 };
+const date1 = new Date();
+// const date2 = new Date(
+//   "Thu Sep 29 2022 17:29:18 GMT+0530 (India Standard Time"
+// );
 
+// console.log(
+//   date1.toLocaleString("en-US", {
+//     hour: "numeric",
+//     minute: "numeric",
+//     second: "numeric",
+//     hour12: true,
+//   })
+// );
+console.log(
+  date1.toLocaleString("en-US", {
+    hour: "numeric",
+    minute: "numeric",
+  })
+);
+console.log(date1.getTime());
+// const diff = date1.getTime() - date2.getTime();
+
+// let msec = diff;
+// const hh = Math.floor(msec / 1000 / 60 / 60);
+// msec -= hh * 1000 * 60 * 60;
+// const mm = Math.floor(msec / 1000 / 60);
+// msec -= mm * 1000 * 60;
+// const ss = Math.floor(msec / 1000);
+// msec -= ss * 1000;
+
+// console.log(hh, mm, ss);
 export default getFullTime;

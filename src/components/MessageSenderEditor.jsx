@@ -1,45 +1,37 @@
 import React, { useState } from "react";
 import { Editor } from "react-draft-wysiwyg";
-import { getDefaultKeyBinding, KeyBindingUtil } from "draft-js";
+import { EditorState, getDefaultKeyBinding, KeyBindingUtil } from "draft-js";
 import { RichUtils } from "draft-js";
 import { RiSendPlane2Fill } from "react-icons/ri";
 import { Button } from "@mui/material";
 import CraneTooltip from "./utils/CraneTooltip";
 import ListItem from "./ListItem";
 import ProfileStatus from "./utils/ProfileStatus";
-const { hasCommandModifier } = KeyBindingUtil;
 
 const getIcon = (iconName) => `icons/message-sender/${iconName}.svg`;
 
 const MessageSenderEditor = ({
-  editorFocus,
-  setEditorFocus,
   messageLength,
   sendMessage,
   editorState,
   setEditorState,
   messageReceiverName,
   friends,
+  username,
+  ownerUserName,
+  editingMode,
+  setEditingMode,
+  updateMessage,
+  editorId,
+  editorLocalKey,
 }) => {
-  const myKeyBindingFn = (e) => {
-    if (e.keyCode === 65 && hasCommandModifier(e)) {
-      //Cmd+1
-      return "BOLD";
-    }
-    return getDefaultKeyBinding(e);
-  };
-
-  const handleKeyCommand = (command) => {
-    console.log({ command });
-    const newState = RichUtils.handleKeyCommand(editorState, command);
-    if (newState) {
-      setEditorState(newState);
-      return true;
-    }
-    return false;
-  };
+  const [editorFocus, setEditorFocus] = useState(false);
 
   const [showToolbar, setShowToolbar] = useState(true);
+
+  const saveMessage = () => {
+    updateMessage(editorId, editorLocalKey);
+  };
 
   const toolbarHide = () => {
     setShowToolbar(!showToolbar);
@@ -59,9 +51,11 @@ const MessageSenderEditor = ({
         spellCheck="true"
         onFocus={() => setEditorFocus(true)}
         onBlur={() => setEditorFocus(false)}
-        placeholder={`message ${messageReceiverName}`}
-        handleKeyCommand={handleKeyCommand}
-        keyBindingFn={myKeyBindingFn}
+        placeholder={
+          username === ownerUserName
+            ? "jot something down"
+            : `message ${messageReceiverName}`
+        }
         customStyleMap={{
           CODE: {
             fontFamily: "monospace",
@@ -268,18 +262,45 @@ const MessageSenderEditor = ({
           />
         </div>
 
-        <div
-          className={`d-flex ${
-            messageLength ? "send-message-icon-active" : ""
-          } send-message-icon  mr-1`}
-        >
-          <Button
-            onClick={sendMessage}
-            disabled={!messageLength ? true : false}
-            onMouseDown={(e) => e.preventDefault()}
+        <div className="d-flex">
+          {editingMode ? (
+            <Button
+              onClick={() => {
+                setEditingMode(false);
+                setEditorState(EditorState.createEmpty());
+              }}
+              // style={{ background: "black" }}
+              onMouseDown={(e) => e.preventDefault()}
+              className="cancel-btn"
+            >
+              Cancel
+            </Button>
+          ) : null}
+          <div
+            className={`d-flex ${
+              messageLength || editingMode ? "send-message-icon-active" : ""
+            } send-message-icon  mr-1`}
           >
-            <RiSendPlane2Fill size={17} />
-          </Button>
+            {!editingMode ? (
+              <Button
+                onClick={sendMessage}
+                disabled={!messageLength ? true : false}
+                onMouseDown={(e) => e.preventDefault()}
+                style={{ height: "28px" }}
+              >
+                <RiSendPlane2Fill size={17} />
+              </Button>
+            ) : (
+              <Button
+                className={!messageLength ? "save-btn" : ""}
+                onClick={saveMessage}
+                onMouseDown={(e) => e.preventDefault()}
+                disabled={!messageLength ? true : false}
+              >
+                save
+              </Button>
+            )}
+          </div>
         </div>
       </div>
     </div>

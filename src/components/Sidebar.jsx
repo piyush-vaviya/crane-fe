@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { HiChevronDown, HiPencilAlt } from "react-icons/hi";
 import Channels from "./Channels";
@@ -6,12 +7,15 @@ import CraneTooltip from "./utils/CraneTooltip";
 import DirectMessages from "./DirectMessages";
 import { Button } from "@mui/material";
 import Popover from "@mui/material/Popover";
+import { setLoginFalse } from "../features/user/userSlice";
 
-const Sidebar = ({ friends, setDirectMessageUserName }) => {
+const Sidebar = ({ friends, setDirectMessageUser }) => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState();
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
+
+  const dispatch = useDispatch();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -24,6 +28,7 @@ const Sidebar = ({ friends, setDirectMessageUserName }) => {
 
   const logoutFromCrane = () => {
     localStorage.removeItem("loginDone");
+    dispatch(setLoginFalse());
     navigate("/login");
   };
 
@@ -105,7 +110,7 @@ const Sidebar = ({ friends, setDirectMessageUserName }) => {
       {/* Direct Messages List */}
       <DirectMessages
         friends={friends}
-        setDirectMessageUserName={setDirectMessageUserName}
+        setDirectMessageUser={setDirectMessageUser}
       />
     </div>
   );

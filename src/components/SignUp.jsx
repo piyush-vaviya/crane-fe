@@ -56,6 +56,7 @@ const SignUp = () => {
       }),
     });
     const response = await data.json();
+
     if (response.error) {
       setMessage({ ...message, emailError: response.message });
     } else {
@@ -63,7 +64,7 @@ const SignUp = () => {
         ...message,
         success: "signUp successfully completed, Now you can Login",
       });
-      setUser({ userName: "", email: "", password: "", passwordConfirm: "" });
+      setUser({ name: "", email: "", password: "", passwordConfirm: "" });
     }
     setLoading(false);
   };
@@ -88,14 +89,14 @@ const SignUp = () => {
           type="text"
           name="name"
           value={userName}
-          onChange={handleInput}
+          onChange={(e) => {
+            handleInput(e);
+            e.target.value.length >= 5
+              ? setIsValidate({ ...isValidate, name: true })
+              : setIsValidate({ ...isValidate, name: false });
+          }}
           placeholder="Username"
           required
-          onBlur={() =>
-            userName.length >= 10
-              ? setIsValidate({ ...isValidate, name: true })
-              : setIsValidate({ ...isValidate, name: false })
-          }
           // autoFocus
           InputProps={{
             startAdornment: (
@@ -103,7 +104,12 @@ const SignUp = () => {
                 <FiUserCheck size={22} />
               </InputAdornment>
             ),
-            endAdornment: <InputEndAdornment isValidate={isValidate?.name} />,
+            endAdornment: userName ? (
+              <InputEndAdornment
+                isValidate={isValidate?.name}
+                userName={userName}
+              />
+            ) : null,
           }}
         />
         <TextField
@@ -114,9 +120,9 @@ const SignUp = () => {
           placeholder="Email Address"
           name="email"
           value={email}
-          onChange={handleInput}
-          onBlur={() => {
-            isEmail(email)
+          onChange={(e) => {
+            handleInput(e);
+            isEmail(e.target.value)
               ? setIsValidate({ ...isValidate, email: true })
               : setIsValidate({ ...isValidate, email: false });
           }}
@@ -128,7 +134,9 @@ const SignUp = () => {
                 <MdOutlineEmail size={22} />
               </InputAdornment>
             ),
-            endAdornment: <InputEndAdornment isValidate={isValidate?.email} />,
+            endAdornment: email ? (
+              <InputEndAdornment isValidate={isValidate?.email} />
+            ) : null,
           }}
         />
         <TextField
@@ -147,9 +155,6 @@ const SignUp = () => {
                 <BiLock size={22} />
               </InputAdornment>
             ),
-            endAdornment: (
-              <InputEndAdornment isValidate={isValidate?.password} />
-            ),
           }}
         />
         <TextField
@@ -160,19 +165,22 @@ const SignUp = () => {
           placeholder="Enter Password Again"
           name="passwordConfirm"
           value={passwordConfirm}
-          onChange={handleInput}
-          required
-          onBlur={() => {
-            password === passwordConfirm
+          onChange={(e) => {
+            handleInput(e);
+            password === e.target.value
               ? setIsValidate({ ...isValidate, password: true })
               : setIsValidate({ ...isValidate, password: false });
           }}
+          required
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
                 <BiLock size={22} />
               </InputAdornment>
             ),
+            endAdornment: passwordConfirm ? (
+              <InputEndAdornment isValidate={isValidate?.password} />
+            ) : null,
           }}
         />
         <ToggleButton
@@ -182,10 +190,10 @@ const SignUp = () => {
           aria-label="list"
           type="submit"
           disabled={
-            userName.length &&
-            email.length &&
-            password.length >= 8 &&
-            passwordConfirm.length >= 8 &&
+            userName?.length &&
+            email?.length &&
+            password?.length >= 8 &&
+            passwordConfirm?.length >= 8 &&
             !loading
               ? false
               : true

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import {
   IconButton,
@@ -9,8 +10,10 @@ import {
 } from "@mui/material";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 import { FcGoogle } from "react-icons/fc";
+import { addUser } from "../features/user/userSlice";
 
 const Login = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [user, setUser] = useState({
     email: "",
@@ -18,7 +21,7 @@ const Login = () => {
   });
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState({});
+  const [error, setError] = useState("");
   const { email, password } = user;
   let name, value;
   const handleInput = (e) => {
@@ -34,7 +37,6 @@ const Login = () => {
 
   const loginToCrane = async (e) => {
     e.preventDefault();
-    setError({});
     setLoading(true);
 
     const { email, password } = user;
@@ -47,20 +49,18 @@ const Login = () => {
       }),
     });
     const response = await data.json();
-
+    setError();
     if (response.error) {
-      response.message.includes("No User found against email")
-        ? setError({
-            ...error,
-            emailError:
-              "The username you entered doesn't belong to an account. Please check your username and try again.",
-          })
-        : setError({
-            ...error,
-            passwordError:
-              "Sorry, your password was incorrect. Please double-check your password.",
-          });
+      setError(response.message);
     } else {
+      const craneNewUser = {
+        active: true,
+        src: "",
+        userName: response.data.user.name,
+        email: response.data.user.email,
+        isLogin: true,
+      };
+      dispatch(addUser(craneNewUser));
       localStorage.setItem("loginDone", true);
       navigate("/home");
       toast.success("Welcome to Crane");
@@ -78,9 +78,7 @@ const Login = () => {
 
       <form action="" onSubmit={loginToCrane}>
         <h3>Please login to your account</h3>
-        <p className="error-handle-paragraph">
-          {error.emailError} {error.passwordError}
-        </p>
+        <p className="error-handle-paragraph">{error}</p>
         <TextField
           id="outlined-username"
           className="outlined-textarea"

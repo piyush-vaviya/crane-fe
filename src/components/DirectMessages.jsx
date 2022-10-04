@@ -7,7 +7,7 @@ import { useState } from "react";
 import ListItem from "./ListItem";
 import ProfileStatus from "./utils/ProfileStatus";
 
-const DirectMessages = ({ friends, setDirectMessageUserName }) => {
+const DirectMessages = ({ friends, setDirectMessageUser }) => {
   const [expanded, setExpanded] = useState(true);
 
   const handleExpand = () => setExpanded(!expanded);
@@ -41,7 +41,7 @@ const DirectMessages = ({ friends, setDirectMessageUserName }) => {
       </div>
 
       <div className={`dms-list ${expanded ? "expanded" : ""}`}>
-        <div onClick={() => setDirectMessageUserName("rashmika.piyush143")}>
+        {/* <div onClick={() => setDirectMessageUser("rashmika.piyush143")}>
           <ListItem
             className="with-border"
             selected
@@ -54,9 +54,9 @@ const DirectMessages = ({ friends, setDirectMessageUserName }) => {
             content="rashmika.piyush143"
             removable
           />
-        </div>
+        </div> */}
         {friends?.map(({ active, src, username }, index) => (
-          <div onClick={() => setDirectMessageUserName(username)} key={index}>
+          <div onClick={() => setDirectMessageUser(username)} key={index}>
             <ListItem
               prefix={<ProfileStatus active={active} src={src} />}
               content={username}
