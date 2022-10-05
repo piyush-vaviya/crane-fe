@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useState, useMemo } from "react";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { HiUser } from "react-icons/hi";
 import { RiArrowDownSLine, RiDeleteBin6Fill } from "react-icons/ri";
@@ -11,6 +12,7 @@ import WorkSpaceInfo from "./WorkSpaceInfo";
 import CircularProgressBar from "./utils/CircularProgressBar";
 import { ContentState, convertFromHTML, EditorState } from "draft-js";
 import axios from "../components/api/message";
+import { userData } from "../features/user/userSlice";
 
 const Sender = ({
   src,
@@ -26,18 +28,15 @@ const Sender = ({
   content,
   setEditorId,
   setEditorLocalKey,
+  senderId,
+  receiverId,
 }) => {
   const [loading, setLoading] = useState(false);
 
-  // const blocksFromHTML = convertFromHTML(``);
-  // const state = ContentState.createFromBlockArray(
-  //   blocksFromHTML.contentBlocks,
-  //   blocksFromHTML.entityMap
-  // );
+  const craneUSer = useSelector(userData);
+  const ownerOfApp = craneUSer.find(({ _id }) => _id === senderId);
 
   const setTime = (time, type = "hh:mm:ss, tt") => {
-    // console.log("🚀 ~ setTime ~ hii");
-
     const messageTime = new Date(time);
     let hour, minutes;
     hour = messageTime.getHours();
@@ -108,8 +107,6 @@ const Sender = ({
     //   return nv._id === _id;
     // });
 
-    // console.log(newObject);
-
     craneMessages[localKey].isDeleting = true;
     if (craneMessages[localKey]?.sendingError) {
       await new Promise((resolve) =>
@@ -140,23 +137,107 @@ const Sender = ({
   const SenderMessage = ({ chatMessage }) => {
     const allMessages = useMemo(() => {
       return Object.values(chatMessage).map((msg, i) =>
+        //  if (msg.senderId === receiverId && msg.receiverId === receiverId) {
+        //       return (
+        //         <div className="msg-container d-flex position-relative" key={i}>
+        //           <CraneTooltip
+        //             placement="top"
+        //             arrow={false}
+        //             title={
+        //               <WorkSpaceInfo
+        //                 username={username}
+        //                 active={active}
+        //                 src={src}
+        //                 workspaceOwner="Workspace Owner"
+        //                 setStatus="Set a Status"
+        //               />
+        //             }
+        //             content={
+        //               <div className="sender-profile-image cursor-pointer" alt="">
+        //                 {src ? <img src={src} alt="" /> : <HiUser size={40} />}
+        //               </div>
+        //             }
+        //           />
+
+        //           <div className="sender d-flex flex-column position-relative">
+        //             <div className="d-flex sender-name-time align-items-end ">
+        //               <CraneTooltip
+        //                 placement="top"
+        //                 arrow={false}
+        //                 title={
+        //                   <WorkSpaceInfo
+        //                     username={username}
+        //                     active={active}
+        //                     src={src}
+        //                     workspaceOwner="Workspace Owner"
+        //                     setStatus="Set a Status"
+        //                   />
+        //                 }
+        //                 content={
+        //                   <div
+        //                     className="sender-name fw-bold cursor-pointer"
+        //                     onClick={showProfileEditor}
+        //                   >
+        //                     {username}
+        //                   </div>
+        //                 }
+        //               />
+        //               <CraneTooltip
+        //                 title={
+        //                   <div className="flex-center flex-column">
+        //                     <span className="fs-7 fw-bold">
+        //                       Today at{" "}
+        //                       {new Date(msg.messageTime).toLocaleTimeString()}
+        //                     </span>
+        //                   </div>
+        //                 }
+        //                 content={
+        //                   <div className="sender-message-time fs-7 ml-2 cursor-pointer">
+        //                     {new Date(msg.messageTime).toLocaleString("en-US", {
+        //                       hour: "numeric",
+        //                       minute: "numeric",
+        //                       hour12: true,
+        //                     })}
+        //                   </div>
+        //                 }
+        //               />
+        //             </div>
+        //             <div className="sender-first-message text-break">
+        //               <div className="d-flex align-items-center">
+        //                 <span
+        //                   className="message-format"
+        //                   dangerouslySetInnerHTML={{
+        //                     __html: `${msg.message}`,
+        //                   }}
+        //                 />
+        //                 {Date.now()}
+        //               </div>
+        //             </div>
+        //           </div>
+        //         </div>
+        //       );
+        //     }    else {
         i === 0 ? (
-          <div className="msg-container d-flex position-relative" key={i}>
+          <div className="msg-container d-flex position-relative" key={msg._id}>
             <CraneTooltip
               placement="top"
               arrow={false}
               title={
                 <WorkSpaceInfo
-                  username={username}
-                  active={active}
-                  src={src}
+                  username={ownerOfApp.username}
+                  active={ownerOfApp.active}
+                  src={ownerOfApp.src}
                   workspaceOwner="Workspace Owner"
                   setStatus="Set a Status"
                 />
               }
               content={
                 <div className="sender-profile-image cursor-pointer" alt="">
-                  {src ? <img src={src} alt="" /> : <HiUser size={40} />}
+                  {ownerOfApp.src ? (
+                    <img src={ownerOfApp.src} alt="" />
+                  ) : (
+                    <HiUser size={40} />
+                  )}
                 </div>
               }
             />
@@ -168,9 +249,9 @@ const Sender = ({
                   arrow={false}
                   title={
                     <WorkSpaceInfo
-                      username={username}
-                      active={active}
-                      src={src}
+                      username={ownerOfApp.username}
+                      active={ownerOfApp.active}
+                      src={ownerOfApp.src}
                       workspaceOwner="Workspace Owner"
                       setStatus="Set a Status"
                     />
@@ -180,14 +261,14 @@ const Sender = ({
                       className="sender-name fw-bold cursor-pointer"
                       onClick={showProfileEditor}
                     >
-                      {username}
+                      {ownerOfApp.username}
                     </div>
                   }
                 />
 
                 {/* <Drawer anchor="right" open={state} onClose={toggleDrawer}>
-                        <div>hii this is piyush</div>
-                      </Drawer> */}
+                                  <div>hii this is piyush</div>
+                                </Drawer> */}
                 <CraneTooltip
                   title={
                     <div className="flex-center flex-column">
@@ -298,7 +379,7 @@ const Sender = ({
         ) : (
           <div
             className="sender-message d-flex align-items-center position-relative"
-            key={i}
+            key={msg._id}
           >
             <CraneTooltip
               title={

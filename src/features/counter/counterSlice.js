@@ -16,7 +16,6 @@ export const incrementAsync = createAsyncThunk(
   async (amount) => {
     const response = await fetchCount(amount);
     // The value we return becomes the `fulfilled` action payload
-    console.log(response.data);
     return response.data;
   }
 );
@@ -80,7 +79,6 @@ export const selectCount = (state) => state.counter;
 // Here's an example of conditionally dispatching actions based on current state.
 export const incrementIfOdd = (amount) => (dispatch, getState) => {
   const currentValue = selectCount(getState());
-  // console.log(currentValue);
 
   if (currentValue.value % 2 === 1) {
     dispatch(incrementByAmount(amount));

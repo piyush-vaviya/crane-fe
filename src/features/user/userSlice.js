@@ -6,27 +6,34 @@ const initialState = [
     src: "https://filmfare.wwmindia.com/content/2021/jun/rashmikamandanna41624856553.jpg",
     username: "rashmika.piyush143",
     email: "piyush.vaviya27@gmail.com",
+    _id: "63332c201a1b6747543dbfcf",
     isLogin: true,
+    selected: false,
   },
   {
     active: true,
     src: "https://i.pinimg.com/736x/58/1e/fa/581efa65cec3ff19597aabfdfcb0a2d5.jpg",
     username: "kiara.yagnesh7446",
     email: "yasanghani7446@gmail.com",
+    _id: "63355f7239091f4cd46bed8a",
     isLogin: "",
+    selected: false,
   },
   {
     active: false,
     src: "",
     // src: "https://assets.vogue.in/photos/601bfddd3514c40d2b37e596/master/pass/jacqueline%20fernandez%20makeup%20skincare.jpg",
     username: "jacqueline.fernandez45",
+    _id: "63355f7539091f4cd43bed8a",
+    selected: false,
   },
   {
     active: true,
     //  src :"https://assets.vogue.in/photos/601bfddd3514c40d2b37e596/master/pass/jacqueline%20fernandez%20makeup%20skincare.jpg",
     src: "https://www.the-sun.com/wp-content/uploads/sites/6/2021/01/NINTCHDBPICT000631473456.jpg",
     username: "mia.malkova69",
-    // selected: true,
+    _id: "63355g7539091f8cd43bed8a",
+    selected: false,
   },
 ];
 
@@ -46,11 +53,11 @@ export const userSlice = createSlice({
     },
 
     setLoginFalse: (state, action) => {
-      const isUerLoginIndex = state.findIndex(
+      const isUserLoginIndex = state.findIndex(
         ({ isLogin }) => isLogin === true
       );
 
-      state[isUerLoginIndex].isLogin = false;
+      state[isUserLoginIndex].isLogin = false;
     },
   },
 });

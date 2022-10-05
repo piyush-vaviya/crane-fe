@@ -37,26 +37,8 @@ const getFullTime = (type = "hh:mm:ss, tt") => {
     .replace("ss", seconds)
     .replace("tt", timeType);
 };
-const date1 = new Date();
-// const date2 = new Date(
-//   "Thu Sep 29 2022 17:29:18 GMT+0530 (India Standard Time"
-// );
+// const date1 = new Date();
 
-// console.log(
-//   date1.toLocaleString("en-US", {
-//     hour: "numeric",
-//     minute: "numeric",
-//     second: "numeric",
-//     hour12: true,
-//   })
-// );
-console.log(
-  date1.toLocaleString("en-US", {
-    hour: "numeric",
-    minute: "numeric",
-  })
-);
-console.log(date1.getTime());
 // const diff = date1.getTime() - date2.getTime();
 
 // let msec = diff;

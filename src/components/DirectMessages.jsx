@@ -55,13 +55,20 @@ const DirectMessages = ({ friends, setDirectMessageUser }) => {
             removable
           />
         </div> */}
-        {friends?.map(({ active, src, username }, index) => (
-          <div onClick={() => setDirectMessageUser(username)} key={index}>
+        {friends?.map(({ active, src, username, selected }, index) => (
+          <div
+            onClick={() => {
+              setDirectMessageUser(username);
+            }}
+            key={username}
+          >
             <ListItem
+              selected={selected}
               prefix={<ProfileStatus active={active} src={src} />}
               content={username}
               removable
             />
+            {console.log(friends[index].selected)}
           </div>
         ))}
         <ListItem

@@ -18,6 +18,8 @@ const MessageSender = ({
   friends,
   showProfileEditor,
   ownerUserName,
+  ownerUserId,
+  receiverId,
 }) => {
   const [chatMessage, setChatMessage] = useState({});
   const [isSending, setIsSending] = useState();
@@ -32,12 +34,10 @@ const MessageSender = ({
     blocksFromHTML.entityMap
   );
 
-  console.log("😊 -> ownerUserName", ownerUserName);
-  console.log("😊 -> username", username);
   const getAllMessage = async () => {
     setLoading(true);
     const response = await axios.get(
-      `/message?sender=${ownerUserName}&receiver=${username}` // TODO: ahiya sender ne receiver ma _id aavse user ni
+      `/message?senderId=${ownerUserId}&receiverId=${receiverId}` // TODO: ahiya sender ne receiver ma _id aavse user ni
     );
     setChatMessage({ ...response.data });
     setLoading(false);
@@ -101,33 +101,30 @@ const MessageSender = ({
       setEditorState(EditorState.createEmpty());
 
       setChatMessage(clonedMessages);
-      // console.log(
-      //   "🚀 ~ sendMessageAfterSetChat ~ clonedMessages",
-      //   clonedMessages
-      // );
+
       setIsSending(true);
-      const data = { message: content, localId: randomId };
+      const data = {
+        message: content,
+        senderId: ownerUserId,
+        receiverId: receiverId,
+      };
 
       const response = await axios.post("/message", data);
 
       const { _id } = response;
 
       clonedMessages = { ...(await getDifferedState(setChatMessage)) };
-      // console.log("🚀 ~ sendMessage ~ clonedMessages", clonedMessages);
       clonedMessages[randomId].sending = false;
       clonedMessages[randomId]._id = _id;
     } catch (error) {
-      console.log("error detected");
       clonedMessages = { ...(await getDifferedState(setChatMessage)) };
       clonedMessages[randomId].sending = false;
       clonedMessages[randomId].sendingError = true;
       toast.error(error.message);
     }
-    console.log("🚀 ~ sendMessage before ~ clonedMessages", clonedMessages);
-    setChatMessage(clonedMessages);
-    console.log("🚀 ~ sendMessage after ~ clonedMessages", clonedMessages);
 
-    // console.log(clonedMessages);
+    setChatMessage(clonedMessages);
+
     setIsSending(false);
   };
 
@@ -142,7 +139,6 @@ const MessageSender = ({
       setEditorState(EditorState.createEmpty());
       const response = await axios.put("/message", data);
 
-      console.log(response);
       clonedMessages[localKey].message = content;
       clonedMessages[localKey].isUpdating = false;
       toast.success(response.message);
@@ -159,7 +155,6 @@ const MessageSender = ({
   for (const messageKey of Object.keys(chatMessage)) {
     mappedMessages.push({ ...chatMessage[messageKey], localKey: messageKey });
   }
-  // console.log("chatmessssage", mappedMessages);
 
   return (
     <>
@@ -188,6 +183,8 @@ const MessageSender = ({
             setEditorId={setEditorId}
             content={content}
             setEditorLocalKey={setEditorLocalKey}
+            senderId={ownerUserId}
+            receiverId={receiverId}
           />
         </div>
         <MessageSenderEditor

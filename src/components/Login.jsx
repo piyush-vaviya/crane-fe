@@ -11,6 +11,7 @@ import {
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 import { FcGoogle } from "react-icons/fc";
 import { addUser } from "../features/user/userSlice";
+import axios from "./api/message";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -36,34 +37,28 @@ const Login = () => {
   };
 
   const loginToCrane = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+    try {
+      e.preventDefault();
+      setLoading(true);
+      const response = await axios.post("/login", user);
+      setError();
 
-    const { email, password } = user;
-    const data = await fetch("http://localhost:5000/api/v1/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    });
-    const response = await data.json();
-    setError();
-    if (response.error) {
-      setError(response.message);
-    } else {
+      const { name, email, _id } = response.data.user;
+
       const craneNewUser = {
         active: true,
         src: "",
-        userName: response.data.user.name,
-        email: response.data.user.email,
-        isLogin: true,
+        username: name,
+        email: email,
+        _id: _id,
+        // isLogin: true,
       };
       dispatch(addUser(craneNewUser));
       localStorage.setItem("loginDone", true);
       navigate("/home");
       toast.success("Welcome to Crane");
+    } catch (error) {
+      setError(error.message);
     }
     setLoading(false);
   };
