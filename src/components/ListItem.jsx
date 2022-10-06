@@ -21,7 +21,7 @@ const ListItem = ({
         <div className={`prefix flex-center ${!postfix ? "status-icon" : ""}`}>
           {prefix}
         </div>
-        <div className="content flex-center">{content}</div>
+        <div className="content ">{content}</div>
         <div className="postfix">{postfix}</div>
         <div className="flex-center">{arrow}</div>
       </div>

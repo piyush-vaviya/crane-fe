@@ -7,7 +7,7 @@ import { useState } from "react";
 import ListItem from "./ListItem";
 import ProfileStatus from "./utils/ProfileStatus";
 
-const DirectMessages = ({ friends, setDirectMessageUser }) => {
+const DirectMessages = ({ friends, setDirectMessageUser, setOpenChannel }) => {
   const [expanded, setExpanded] = useState(true);
 
   const handleExpand = () => setExpanded(!expanded);
@@ -59,6 +59,7 @@ const DirectMessages = ({ friends, setDirectMessageUser }) => {
           <div
             onClick={() => {
               setDirectMessageUser(username);
+              setOpenChannel(false);
             }}
             key={username}
           >
@@ -68,7 +69,6 @@ const DirectMessages = ({ friends, setDirectMessageUser }) => {
               content={username}
               removable
             />
-            {console.log(friends[index].selected)}
           </div>
         ))}
         <ListItem

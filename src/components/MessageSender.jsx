@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 import { ContentState, convertFromHTML, EditorState } from "draft-js";
 import { stateToHTML } from "draft-js-export-html";
 import Header from "./Header";
-import DirectMessageProfile from "./utils/DirectMessageProfile";
 import Sender from "./Sender";
 import MessageSenderEditor from "./MessageSenderEditor";
 import axios from "../components/api/message";
@@ -14,12 +13,13 @@ const MessageSender = ({
   active,
   username,
   src,
-  bio,
   friends,
   showProfileEditor,
   ownerUserName,
   ownerUserId,
   receiverId,
+  messageProfile,
+  headerProfile,
 }) => {
   const [chatMessage, setChatMessage] = useState({});
   const [isSending, setIsSending] = useState();
@@ -40,6 +40,7 @@ const MessageSender = ({
       `/message?senderId=${ownerUserId}&receiverId=${receiverId}` // TODO: ahiya sender ne receiver ma _id aavse user ni
     );
     setChatMessage({ ...response.data });
+
     setLoading(false);
   };
 
@@ -158,16 +159,10 @@ const MessageSender = ({
 
   return (
     <>
-      <Header active={active} src={src} username={username} />
+      <Header headerProfile={headerProfile} />
       <div className=" messenger d-flex flex-center ">
         <div className="d-flex flex-column messages-container mt-auto">
-          <DirectMessageProfile
-            active={active}
-            username={username}
-            src={src}
-            bio={bio}
-            hiUserSize={60}
-          />
+          {messageProfile}
           <Sender
             showProfileEditor={showProfileEditor}
             src={src}

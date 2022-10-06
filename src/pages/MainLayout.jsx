@@ -9,11 +9,16 @@ import MessageSender from "../components/MessageSender";
 import ProfileSetup from "../components/ProfileSetup";
 import ContactItem from "../components/utils/ContactItem";
 import { userData } from "../features/user/userSlice";
+import DirectMessageProfile from "../components/utils/DirectMessageProfile";
+import HeaderProfile from "../components/HeaderProfile";
+import ChannelProfile from "../components/ChannelProfile";
 
 const MainLayout = ({ Component, ...rest }) => {
   const craneUSer = useSelector(userData);
 
   const [profileEditor, setProfileEditor] = useState(false);
+  const [channelList, setChannelList] = useState({});
+  const [openChannel, setOpenChannel] = useState(false);
   const ownerOfApp = craneUSer.find(({ isLogin }) => isLogin === true);
   const [directMessageUser, setDirectMessageUser] = useState(
     ownerOfApp?.username
@@ -25,8 +30,8 @@ const MainLayout = ({ Component, ...rest }) => {
     setProfileEditor(false);
   };
 
-  const messageSenderPage = (name) => {
-    if (name === ownerOfApp?.username) {
+  const messageSenderPage = (nameOf) => {
+    if (nameOf === ownerOfApp?.username) {
       return (
         <MessageSender
           key={ownerOfApp._id}
@@ -34,11 +39,29 @@ const MainLayout = ({ Component, ...rest }) => {
           username={ownerOfApp.username}
           src={ownerOfApp.src}
           receiverId={ownerOfApp._id}
+          messageProfile={
+            <DirectMessageProfile
+              active={ownerOfApp.active}
+              username={ownerOfApp.username}
+              src={ownerOfApp.src}
+              bio="This space is just for you. Jot down notes, list your to-dos, or
+            keep links and files handy. You can also talk to yourself here,
+            but please bear in mind you’ll have to supply both sides of the
+            conversation."
+              hiUserSize={60}
+            />
+          }
+          // messageProfile={<ChannelProfile />}
+          headerProfile={
+            <HeaderProfile
+              directMessage={true}
+              active={ownerOfApp.active}
+              src={ownerOfApp.src}
+              username={ownerOfApp.username}
+            />
+          }
           // src: "https://filmfare.wwmindia.com/content/2021/jun/rashmikamandanna41624856553.jpg"
-          bio="This space is just for you. Jot down notes, list your to-dos, or
-          keep links and files handy. You can also talk to yourself here,
-          but please bear in mind you’ll have to supply both sides of the
-          conversation."
+
           friends={craneUSer}
           showProfileEditor={showProfileEditor}
           ownerUserName={ownerOfApp.username}
@@ -48,7 +71,7 @@ const MainLayout = ({ Component, ...rest }) => {
     }
 
     return craneUSer?.map(({ active, src, username, _id }) => {
-      if (name === username) {
+      if (nameOf === username) {
         return (
           <MessageSender
             key={_id}
@@ -58,10 +81,23 @@ const MainLayout = ({ Component, ...rest }) => {
             receiverId={_id}
             // src="https://www.the-sun.com/wp-content/uploads/sites/6/2021/01/NINTCHDBPICT000631473456.jpg"
             src={src}
-            bio="This space is just for you. Jot down notes, list your to-dos, or
-          keep links and files handy. You can also talk to yourself here,
-          but please bear in mind you’ll have to supply both sides of the
-          conversation."
+            messageProfile={
+              <DirectMessageProfile
+                active={active}
+                username={username}
+                src={src}
+                bio={`${username} hasn’t signed in yet…but you can leave a message for when they do.`}
+                hiUserSize={60}
+              />
+            }
+            headerProfile={
+              <HeaderProfile
+                directMessage={true}
+                active={active}
+                src={src}
+                username={username}
+              />
+            }
             friends={craneUSer}
             showProfileEditor={showProfileEditor}
             ownerUserName={ownerOfApp.username}
@@ -69,69 +105,61 @@ const MainLayout = ({ Component, ...rest }) => {
           />
         );
       }
+
       return false;
     });
   };
 
-  //   if (name === "jacqueline.fernandez45") {
-  //     return (
-  //       <MessageSender
-  //         active={false}
-  //         username="jacqueline.fernandez45"
-  //         // src="https://www.the-sun.com/wp-content/uploads/sites/6/2021/01/NINTCHDBPICT000631473456.jpg"
-  //         src="https://filmfare.wwmindia.com/content/2021/jun/rashmikamandanna41624856553.jpg"
-  //         bio="This space is just for you. Jot down notes, list your to-dos, or
-  //       keep links and files handy. You can also talk to yourself here,
-  //       but please bear in mind you’ll have to supply both sides of the
-  //       conversation."
-  //         friends={friends}
-  //         showProfileEditor={showProfileEditor}
-  //       />
-  //     );
-  //   }
-  //   if (name === "kiara.yagnesh7446") {
-  //     return (
-  //       <MessageSender
-  //         active={false}
-  //         username="kiara.yagnesh7446"
-  //         // src="https://www.the-sun.com/wp-content/uploads/sites/6/2021/01/NINTCHDBPICT000631473456.jpg"
-  //         src="https://i.pinimg.com/736x/58/1e/fa/581efa65cec3ff19597aabfdfcb0a2d5.jpg"
-  //         bio="This space is just for you. Jot down notes, list your to-dos, or
-  //       keep links and files handy. You can also talk to yourself here,
-  //       but please bear in mind you’ll have to supply both sides of the
-  //       conversation."
-  //         friends={friends}
-  //         showProfileEditor={showProfileEditor}
-  //       />
-  //     );
-  //   }
-  //   if (name === "mia.malkova69") {
-  //     return (
-  //       <MessageSender
-  //         active={false}
-  //         username="mia.malkova69"
-  //         src="https://www.the-sun.com/wp-content/uploads/sites/6/2021/01/NINTCHDBPICT000631473456.jpg"
-  //         // src="https://filmfare.wwmindia.com/content/2021/jun/rashmikamandanna41624856553.jpg"
-  //         bio="This space is just for you. Jot down notes, list your to-dos, or
-  //       keep links and files handy. You can also talk to yourself here,
-  //       but please bear in mind you’ll have to supply both sides of the
-  //       conversation."
-  //         friends={friends}
-  //         showProfileEditor={showProfileEditor}
-  //       />
-  //     );
-  //   } else
-  // };
+  const channelPage = (channelId) => {
+    return Object.values(channelList)?.map(
+      ({ name, description, _id, isPublic }) => {
+        if (channelId === _id) {
+          return (
+            <MessageSender
+              key={_id}
+              className="with-border"
+              active={ownerOfApp.active}
+              username={ownerOfApp.username}
+              receiverId={ownerOfApp._id}
+              // src="https://www.the-sun.com/wp-content/uploads/sites/6/2021/01/NINTCHDBPICT000631473456.jpg"
+              src={ownerOfApp.src}
+              messageProfile={
+                <ChannelProfile name={name} isPublic={isPublic} />
+              }
+              headerProfile={
+                <HeaderProfile
+                  directMessage={false}
+                  username={name}
+                  isPublic={isPublic}
+                />
+              }
+              friends={craneUSer}
+              showProfileEditor={showProfileEditor}
+              ownerUserName={ownerOfApp.username}
+              ownerUserId={ownerOfApp?._id}
+            />
+          );
+        }
+        return false;
+      }
+    );
+  };
 
   return (
     <div className="main-layout">
       <Sidebar
         friends={craneUSer}
         setDirectMessageUser={setDirectMessageUser}
+        ownerOfApp={ownerOfApp}
+        channelList={channelList}
+        setChannelList={setChannelList}
+        setOpenChannel={setOpenChannel}
       />
 
       <div className="layout-container">
-        {messageSenderPage(directMessageUser)}
+        {!openChannel
+          ? messageSenderPage(directMessageUser)
+          : channelPage(directMessageUser)}
         {Component ? <Component /> : null}
       </div>
 

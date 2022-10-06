@@ -9,7 +9,14 @@ import { Button } from "@mui/material";
 import Popover from "@mui/material/Popover";
 import { setLoginFalse } from "../features/user/userSlice";
 
-const Sidebar = ({ friends, setDirectMessageUser }) => {
+const Sidebar = ({
+  friends,
+  setDirectMessageUser,
+  ownerOfApp,
+  channelList,
+  setChannelList,
+  setOpenChannel,
+}) => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState();
   const open = Boolean(anchorEl);
@@ -106,11 +113,18 @@ const Sidebar = ({ friends, setDirectMessageUser }) => {
       </Popover>
 
       {/* Channels List */}
-      <Channels />
+      <Channels
+        ownerOfApp={ownerOfApp}
+        channelList={channelList}
+        setChannelList={setChannelList}
+        setChannel={setDirectMessageUser}
+        setOpenChannel={setOpenChannel}
+      />
       {/* Direct Messages List */}
       <DirectMessages
         friends={friends}
         setDirectMessageUser={setDirectMessageUser}
+        setOpenChannel={setOpenChannel}
       />
     </div>
   );

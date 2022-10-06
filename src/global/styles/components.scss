@@ -294,6 +294,18 @@
         opacity: 1;
         transform: scaleY(1);
       }
+
+      .add-channel-modal {
+        button {
+          padding: 0 !important;
+          width: 100% !important;
+          text-transform: none;
+
+          .list-item-container {
+            width: 100%;
+          }
+        }
+      }
     }
   }
 
@@ -325,6 +337,30 @@
       }
     }
   }
+}
+
+.private-switch-handle {
+  border: 2px solid $private-switch-border;
+}
+
+.channel-create-btn {
+  margin-left: auto !important;
+  margin-right: 1rem !important;
+  color: $private-create-btn !important;
+  text-transform: none !important;
+  font-weight: 600 !important;
+  padding: 6px 20px !important;
+  background-color: $private-create-bg !important;
+  font-size: 16px !important;
+
+  &.active-btn {
+    background-color: $private-create-active-bg !important;
+    color: $private-create-active-selected-color !important;
+  }
+}
+
+.make-private-text {
+  font-size: 18px;
 }
 
 .tooltip-chip {
@@ -362,6 +398,9 @@
   color: $opposite-color-dull;
   cursor: pointer;
   padding: 6px 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
   .list-item-content {
     height: 20px;
@@ -378,7 +417,14 @@
       }
     }
     .content {
+      text-align: start;
       margin-left: 8px;
+      margin-right: auto;
+      width: 12vw;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      // width: 100px;
     }
     .postfix {
       font-size: small;
@@ -466,10 +512,14 @@
           width: 8px;
         }
         .userName {
-          font-size: 18px;
+          font-size: 20px;
           font-weight: 700 !important;
           margin-left: 12px;
           margin-right: 5px;
+
+          &.channel-type {
+            margin-left: 1px;
+          }
         }
 
         &:hover:not(.selected) {
@@ -515,6 +565,53 @@
             transition: all 0s ease;
             background: $dark-accent-hover;
           }
+        }
+      }
+    }
+  }
+
+  .channel-profile-container {
+    .MuiFormControl-root {
+      .MuiInputBase-root {
+        input {
+          font-size: 22px !important;
+        }
+      }
+    }
+    padding: 0 22px 30px;
+
+    .channel-logo {
+      height: 40px;
+      width: 40px;
+      border-radius: 15%;
+      margin-right: 10px;
+      background-color: $channel-logo-bg;
+      color: $base-color;
+      border: none;
+    }
+
+    .channel-description {
+      color: $opposite-color;
+      font-weight: 400;
+
+      .channel-info {
+        color: $opposite-color;
+
+        .channel-type-name {
+          color: $mention-text-color;
+        }
+      }
+      .add-people {
+        width: fit-content;
+        color: $mention-text-color;
+        padding: 0 !important;
+        margin: 22px 0px 16px 0px !important;
+        text-transform: none !important;
+        font-weight: bold !important;
+        font-size: 16px !important;
+        &:hover {
+          color: rgba(64, 179, 228, 1) !important;
+          background-color: $base-color !important;
         }
       }
     }
