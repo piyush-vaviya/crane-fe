@@ -1,16 +1,14 @@
-import React from "react";
-import ListItem from "./ListItem";
-import ProfileStatus from "./utils/ProfileStatus";
-import { TiPlus } from "react-icons/ti";
-import CraneTooltip from "./utils/CraneTooltip";
+import React from 'react'
+import ListItem from './ListItem'
+import ProfileStatus from './utils/ProfileStatus'
+import { TiPlus } from 'react-icons/ti'
+import CraneTooltip from './utils/CraneTooltip'
 
 const Header = ({ headerProfile }) => {
   return (
     <div className="header w-100 d-flex flex-column ">
       <div className="profile-details d-flex  align-items-center">
-        <div className="header-profile d-flex  align-items-center">
-          {headerProfile}
-        </div>
+        <div className="header-profile d-flex  align-items-center">{headerProfile}</div>
       </div>
       <div className="add-bookmark d-flex align-items-center">
         <CraneTooltip
@@ -22,13 +20,7 @@ const Header = ({ headerProfile }) => {
           content={
             <div className="title-edit">
               <ListItem
-                prefix={
-                  <ProfileStatus
-                    active
-                    addButton={true}
-                    plusSign={<TiPlus size={12} />}
-                  />
-                }
+                prefix={<ProfileStatus active addButton={true} plusSign={<TiPlus size={14} />} />}
                 content="Add a bookmark"
               />
             </div>
@@ -36,7 +28,7 @@ const Header = ({ headerProfile }) => {
         />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

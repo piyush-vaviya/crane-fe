@@ -1,6 +1,6 @@
-import React from "react";
-import UserProfileImage from "./UserProfileImage";
-import UserStatus from "./UserStatus";
+import React from 'react'
+import UserProfileImage from './UserProfileImage'
+import UserStatus from './UserStatus'
 
 const ProfileStatus = ({ src, active, addButton, plusSign }) => {
   return !addButton ? (
@@ -14,7 +14,7 @@ const ProfileStatus = ({ src, active, addButton, plusSign }) => {
     <div className="profile-status position-relative flex-center">
       <div className="user-dp flex-center">{plusSign}</div>
     </div>
-  );
-};
+  )
+}
 
-export default ProfileStatus;
+export default ProfileStatus

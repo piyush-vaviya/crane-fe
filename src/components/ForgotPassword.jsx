@@ -1,57 +1,48 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
-import { Button, TextField } from "@mui/material";
-import { HiOutlineLockClosed } from "react-icons/hi";
+import React, { useState } from 'react'
+import { NavLink } from 'react-router-dom'
+import { Button, TextField } from '@mui/material'
+import { HiOutlineLockClosed } from 'react-icons/hi'
 
 const ForgotPassword = () => {
-  const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState({});
+  const [email, setEmail] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState({})
 
   const forgotPassword = async (e) => {
-    e.preventDefault();
-    setMessage({});
-    setLoading(true);
+    e.preventDefault()
+    setMessage({})
+    setLoading(true)
 
-    const data = await fetch("http://localhost:5000/api/v1/forgotPassword", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    const data = await fetch('http://localhost:5000/api/v1/forgotPassword', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         email,
       }),
-    });
-    const response = await data.json();
+    })
+    const response = await data.json()
     if (response.error) {
       setMessage({
         ...message,
-        error:
-          "No User Found against this Email, Check your Email and Try again",
-      });
+        error: 'No User Found against this Email, Check your Email and Try again',
+      })
     } else {
       setMessage({
         ...message,
-        success:
-          "Forget password link successfully sent to your Email, Check and Update password",
-      });
+        success: 'Forget password link successfully sent to your Email, Check and Update password',
+      })
     }
-    setLoading(false);
-  };
+    setLoading(false)
+  }
 
   return (
     <div className="forgot-password-page flex-center">
       <div className="forgot-password-container d-flex flex-column">
         <HiOutlineLockClosed className="m-auto close-lock p-3" size={90} />
         <span className="text-center trouble-logging">Trouble logging in?</span>
-        <p className="text-center mx-auto">
-          Enter your email and we'll send you a link to get back into your
-          account.
-        </p>
+        <p className="text-center mx-auto">Enter your email and we'll send you a link to get back into your account.</p>
         <form action="" className="d-flex flex-column">
-          <p
-            className={`error-handle-paragraph ${
-              message.success ? "success-message" : ""
-            }`}
-          >
+          <p className={`error-handle-paragraph ${message.success ? 'success-message' : ''}`}>
             {message.error}
             {message.success}
           </p>
@@ -63,12 +54,8 @@ const ForgotPassword = () => {
             required
             label="Email"
           />
-          <Button
-            type="submit"
-            onClick={forgotPassword}
-            disabled={email.length && !loading ? false : true}
-          >
-            {loading ? "please wait..." : "Send Login Link"}
+          <Button type="submit" onClick={forgotPassword} disabled={email.length && !loading ? false : true}>
+            {loading ? 'please wait...' : 'Send Login Link'}
           </Button>
           <div className="divider d-flex align-items-center ">
             <p className="text-center fw-bold mx-3 text-muted">OR</p>
@@ -82,6 +69,6 @@ const ForgotPassword = () => {
         </form>
       </div>
     </div>
-  );
-};
-export default ForgotPassword;
+  )
+}
+export default ForgotPassword

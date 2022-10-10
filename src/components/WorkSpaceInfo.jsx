@@ -1,26 +1,13 @@
-import DirectMessageProfile from "./utils/DirectMessageProfile";
-import LocalTime from "./utils/LocalTime";
+import DirectMessageProfile from './utils/DirectMessageProfile'
+import LocalTime from './utils/LocalTime'
 
-const WorkSpaceInfo = ({
-  workspaceOwner,
-  setStatus,
-  username,
-  active,
-  src,
-}) => {
+const WorkSpaceInfo = ({ workspaceOwner, setStatus, user }) => {
   return (
     <div className="workspace-info d-flex flex-column cursor-">
-      {workspaceOwner ? (
-        <div className="workspace-owner fs-7">{workspaceOwner}</div>
-      ) : null}
+      {workspaceOwner ? <div className="workspace-owner fs-7">{workspaceOwner}</div> : null}
 
       <div className="owner-profile">
-        <DirectMessageProfile
-          username={username}
-          active={active}
-          src={src}
-          hiUserSize={36}
-        />
+        <DirectMessageProfile user={user} hiUserSize={36} />
       </div>
       <div className="local-time d-flex flex-column p-3 ">
         <LocalTime />
@@ -29,7 +16,7 @@ const WorkSpaceInfo = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default WorkSpaceInfo;
+export default WorkSpaceInfo

@@ -1,11 +1,11 @@
 export const getDifferedState = async (setState) => {
-  let differedState;
+  let differedState
   await new Promise((resolve) =>
     setState((data) => {
-      differedState = data;
-      resolve();
-      return data;
+      differedState = data
+      resolve()
+      return data
     })
-  );
-  return differedState;
-};
+  )
+  return differedState
+}

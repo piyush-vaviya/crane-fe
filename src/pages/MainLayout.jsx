@@ -1,154 +1,151 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import Sidebar from "../components/Sidebar";
-import { HiPlus } from "react-icons/hi";
-import { MdOutlineMail } from "react-icons/md";
-import { BsTelephone } from "react-icons/bs";
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import Sidebar from '../components/Sidebar'
+import { HiPlus } from 'react-icons/hi'
+import { MdOutlineMail } from 'react-icons/md'
+import { BsTelephone } from 'react-icons/bs'
 // import Invitation from "../components/utils/Invitation";
-import MessageSender from "../components/MessageSender";
-import ProfileSetup from "../components/ProfileSetup";
-import ContactItem from "../components/utils/ContactItem";
-import { userData } from "../features/user/userSlice";
-import DirectMessageProfile from "../components/utils/DirectMessageProfile";
-import HeaderProfile from "../components/HeaderProfile";
-import ChannelProfile from "../components/ChannelProfile";
+import MessageSender from '../components/MessageSender'
+import ProfileSetup from '../components/ProfileSetup'
+import ContactItem from '../components/utils/ContactItem'
+import { authUserData } from '../features/user/authUserSlice'
 
+import DirectMessageProfile from '../components/utils/DirectMessageProfile'
+import HeaderProfile from '../components/HeaderProfile'
+import ChannelProfile from '../components/ChannelProfile'
+import { getDifferedState } from '../components/api/utils'
+import { Link } from '@mui/material'
+import { io } from 'socket.io-client'
+import axios from '../components/api/message'
+
+const socket = io('http://localhost:5000')
 const MainLayout = ({ Component, ...rest }) => {
-  const craneUSer = useSelector(userData);
+  const ownerOfApp = useSelector(authUserData)
 
-  const [profileEditor, setProfileEditor] = useState(false);
-  const [channelList, setChannelList] = useState({});
-  const [openChannel, setOpenChannel] = useState(false);
-  const ownerOfApp = craneUSer.find(({ isLogin }) => isLogin === true);
-  const [directMessageUser, setDirectMessageUser] = useState(
-    ownerOfApp?.username
-  );
+  const [chatMessage, setChatMessage] = useState({})
+  const [profileEditor, setProfileEditor] = useState(false)
+  const [channelList, setChannelList] = useState({})
+  const [openChannel, setOpenChannel] = useState(false)
+  const [dataLoading, setDataLoading] = useState(false)
+  const [friends, setFriends] = useState([])
+  const [directMessageUser, setDirectMessageUser] = useState({})
   const showProfileEditor = () => {
-    setProfileEditor(true);
-  };
+    setProfileEditor(true)
+  }
   const HideProfileEditor = () => {
-    setProfileEditor(false);
-  };
+    setProfileEditor(false)
+  }
 
-  const messageSenderPage = (nameOf) => {
-    if (nameOf === ownerOfApp?.username) {
-      return (
-        <MessageSender
-          key={ownerOfApp._id}
-          active={ownerOfApp.active}
-          username={ownerOfApp.username}
-          src={ownerOfApp.src}
-          receiverId={ownerOfApp._id}
-          messageProfile={
-            <DirectMessageProfile
-              active={ownerOfApp.active}
-              username={ownerOfApp.username}
-              src={ownerOfApp.src}
-              bio="This space is just for you. Jot down notes, list your to-dos, or
-            keep links and files handy. You can also talk to yourself here,
-            but please bear in mind you’ll have to supply both sides of the
-            conversation."
-              hiUserSize={60}
-            />
-          }
-          // messageProfile={<ChannelProfile />}
-          headerProfile={
-            <HeaderProfile
-              directMessage={true}
-              active={ownerOfApp.active}
-              src={ownerOfApp.src}
-              username={ownerOfApp.username}
-            />
-          }
-          // src: "https://filmfare.wwmindia.com/content/2021/jun/rashmikamandanna41624856553.jpg"
+  useEffect(() => {
+    socket.on('message', async (data) => {
+      const currentChats = { ...await getDifferedState(setChatMessage) }
+      const directMessageUser = { ...await getDifferedState(setDirectMessageUser) }
+      console.log('Message received', data, directMessageUser)
+      if (data.isChannelMessage && data.message.channelId !== directMessageUser._id) {
+        console.log('Returning because channel not matched.')
+        return
+      }
+      if (!data.isChannelMessage && data.message.senderId !== ownerOfApp._id && data.message.receiverId !== ownerOfApp._id) {
+        console.log('Returning because users not matched.', data.message.senderId, data.message.receiverId, ownerOfApp._id)
+        return
+      }
+      switch (data.action) {
+        case 'create':
+          currentChats[data.localId] = { ...data.message, localKey: data.localId }
+          break
+        case 'update':
+          currentChats[data.localId] = { ...data.message, localKey: data.localId }
+          break
+        case 'delete':
+          delete currentChats[data.localId]
+          break
+        default:
+          break
+      }
+      console.log('Setting current chats to', currentChats)
+      setChatMessage(currentChats)
+    })
 
-          friends={craneUSer}
-          showProfileEditor={showProfileEditor}
-          ownerUserName={ownerOfApp.username}
-          ownerUserId={ownerOfApp._id}
-        />
-      );
-    }
+    return () => socket.off('message')
+  }, [])
 
-    return craneUSer?.map(({ active, src, username, _id }) => {
-      if (nameOf === username) {
+  useEffect(() => {
+    console.log('Chat message updated', chatMessage)
+  }, [chatMessage])
+
+  const getFriendsData = async () => {
+    setDataLoading(true)
+    const response = await axios.get('/users')
+
+    const data = response.data.users
+    const filterUSer = data.filter(({ _id }) => _id !== ownerOfApp._id)
+
+    setFriends([{ ...ownerOfApp }, ...filterUSer])
+    setDataLoading(false)
+  }
+
+  useEffect(() => {
+    getFriendsData()
+  }, [])
+
+  const messageSenderPage = (user) => {
+    return friends?.map((friend) => {
+      if (user.name === friend.name) {
         return (
           <MessageSender
-            key={_id}
+            chatMessage={chatMessage}
+            setChatMessage={setChatMessage}
+            key={friend._id}
             className="with-border"
-            active={active}
-            username={username}
-            receiverId={_id}
-            // src="https://www.the-sun.com/wp-content/uploads/sites/6/2021/01/NINTCHDBPICT000631473456.jpg"
-            src={src}
+            craneUser={friend}
+            mainOwner={ownerOfApp}
             messageProfile={
               <DirectMessageProfile
-                active={active}
-                username={username}
-                src={src}
-                bio={`${username} hasn’t signed in yet…but you can leave a message for when they do.`}
+                user={friend}
+                bio={`This space is just for you. Jot down notes, list your to-dos, or keep links and files handy. You can also talk to yourself here,but please bear in mind you’ll have to supply both sides of the conversation.`}
                 hiUserSize={60}
               />
             }
-            headerProfile={
-              <HeaderProfile
-                directMessage={true}
-                active={active}
-                src={src}
-                username={username}
-              />
-            }
-            friends={craneUSer}
+            headerProfile={<HeaderProfile directMessage={true} user={friend} />}
+            friends={friends}
             showProfileEditor={showProfileEditor}
-            ownerUserName={ownerOfApp.username}
-            ownerUserId={ownerOfApp?._id}
+            receiverId={friend._id}
           />
-        );
+        )
       }
 
-      return false;
-    });
-  };
+      return false
+    })
+  }
 
-  const channelPage = (channelId) => {
-    return Object.values(channelList)?.map(
-      ({ name, description, _id, isPublic }) => {
-        if (channelId === _id) {
-          return (
-            <MessageSender
-              key={_id}
-              className="with-border"
-              active={ownerOfApp.active}
-              username={ownerOfApp.username}
-              receiverId={ownerOfApp._id}
-              // src="https://www.the-sun.com/wp-content/uploads/sites/6/2021/01/NINTCHDBPICT000631473456.jpg"
-              src={ownerOfApp.src}
-              messageProfile={
-                <ChannelProfile name={name} isPublic={isPublic} />
-              }
-              headerProfile={
-                <HeaderProfile
-                  directMessage={false}
-                  username={name}
-                  isPublic={isPublic}
-                />
-              }
-              friends={craneUSer}
-              showProfileEditor={showProfileEditor}
-              ownerUserName={ownerOfApp.username}
-              ownerUserId={ownerOfApp?._id}
-            />
-          );
-        }
-        return false;
+  const channelPage = (propChannel) => {
+    return Object.values(channelList)?.map((channel) => {
+      if (propChannel._id === channel._id) {
+        return (
+          <MessageSender
+            chatMessage={chatMessage}
+            setChatMessage={setChatMessage}
+            key={channel._id}
+            className="with-border"
+            mainOwner={ownerOfApp}
+            receiverId={channel._id}
+            craneUser=""
+            messageProfile={<ChannelProfile {...channel} />}
+            headerProfile={<HeaderProfile directMessage={false} channelName={channel.name} isPublic={channel.isPublic} />}
+            friends={friends}
+            showProfileEditor={showProfileEditor}
+            channelId={channel._id}
+          />
+        )
       }
-    );
-  };
+      return false
+    })
+  }
 
   return (
     <div className="main-layout">
       <Sidebar
-        friends={craneUSer}
+        friends={friends}
         setDirectMessageUser={setDirectMessageUser}
         ownerOfApp={ownerOfApp}
         channelList={channelList}
@@ -157,23 +154,14 @@ const MainLayout = ({ Component, ...rest }) => {
       />
 
       <div className="layout-container">
-        {!openChannel
-          ? messageSenderPage(directMessageUser)
-          : channelPage(directMessageUser)}
+        {!openChannel ? messageSenderPage(directMessageUser) : channelPage(directMessageUser)}
         {Component ? <Component /> : null}
       </div>
 
       <ProfileSetup
         edit="Edit"
-        active={ownerOfApp?.active}
-        username={ownerOfApp?.username}
-        // src="https://www.the-sun.com/wp-content/uploads/sites/6/2021/01/NINTCHDBPICT000631473456.jpg"
-        src={ownerOfApp?.src}
-        workSpaceOwner={
-          <div className="workspace-owner d-flex align-items-center fw-bold fs-6-7">
-            Workspace Owner
-          </div>
-        }
+        user={ownerOfApp}
+        workSpaceOwner={<div className="workspace-owner d-flex align-items-center fw-bold fs-6-7">Workspace Owner</div>}
         addName={
           <div className="add-name d-flex align-items-center fw-normal cursor-pointer">
             <HiPlus className="pr-2" />
@@ -185,7 +173,16 @@ const MainLayout = ({ Component, ...rest }) => {
           <ContactItem
             itemIcon={<MdOutlineMail size={22} />}
             itemName="Email Address"
-            itemValue={ownerOfApp?.email}
+            itemValue={
+              <Link
+                underline="none"
+                href={`mailto:${ownerOfApp?.email}?subject=Mail from Our Site`}
+                target="_blank"
+                className="edit"
+              >
+                {ownerOfApp?.email}
+              </Link>
+            }
           />
         }
         phone={
@@ -195,7 +192,9 @@ const MainLayout = ({ Component, ...rest }) => {
             itemValue={
               <div className="add-name d-flex align-items-center fw-normal">
                 <HiPlus className="pr-1" />
-                Add Phone
+                <Link underline="none" target="_blank" href="tel:+91-9909756426" className="edit ">
+                  Add Phone
+                </Link>
               </div>
             }
           />
@@ -204,7 +203,7 @@ const MainLayout = ({ Component, ...rest }) => {
         hideProfileEditor={HideProfileEditor}
       />
     </div>
-  );
-};
+  )
+}
 
-export default MainLayout;
+export default MainLayout

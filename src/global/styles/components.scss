@@ -154,7 +154,7 @@
 
 .divider:after,
 .divider:before {
-  content: "";
+  content: '';
   flex: 1;
   height: 1px;
   background: $login-button-color;
@@ -552,8 +552,8 @@
           color: $opposite-color-dull;
 
           .content {
-            font-size: 13px;
-            font-weight: 400 !important;
+            font-size: 14px;
+            font-weight: 700 !important;
             margin: 0;
           }
           .profile-status {
@@ -582,7 +582,7 @@
 
     .channel-logo {
       height: 40px;
-      width: 40px;
+      min-width: 40px;
       border-radius: 15%;
       margin-right: 10px;
       background-color: $channel-logo-bg;
@@ -671,9 +671,16 @@
             height: 8px;
             width: 8px;
           }
+          .userName {
+            font-size: 19px;
+          }
         }
       }
 
+      .bio {
+        font-size: 17px;
+        font-weight: 600;
+      }
       .sender-message-container {
         // border: 1px solid palevioletred;
         padding: 8px 0 18px 0;
@@ -699,7 +706,16 @@
           }
         }
         .msg-container {
-          padding: 6px 14px 6px 22px;
+          padding: 6px 72px 6px 22px;
+
+          &.receiver-side-message {
+            padding: 6px 22px 6px 72px;
+
+            .sender-profile-image {
+              margin-right: 0px;
+              margin-left: 10px;
+            }
+          }
           .sender-profile-image {
             height: 40px;
             width: 40px;
@@ -735,29 +751,7 @@
           &:hover {
             background-color: $light-accent;
             .edit-delete-icon {
-              opacity: 1;
-            }
-          }
-        }
-        .sender-message {
-          padding: 5px 14px 5px 22px;
-          .sender-message-time {
-            color: $time-color;
-            width: 40px;
-            height: fit-content;
-            font-size: 12px;
-            padding-right: 10px;
-            min-width: fit-content;
-            text-align: end;
-            opacity: 0;
-          }
-
-          &:hover {
-            background-color: $light-accent;
-
-            .sender-message-time,
-            .edit-delete-icon {
-              opacity: 1;
+              display: flex;
             }
           }
         }
@@ -771,7 +765,7 @@
           gap: 4px;
           color: $edit-delete-icon;
           background-color: $edit-delete-icon-bg;
-          opacity: 0;
+          display: none;
 
           .edit-message,
           .delete-message {
@@ -781,6 +775,38 @@
             &:hover {
               background-color: $light-accent;
               border-radius: 3px;
+            }
+          }
+        }
+        .sender-message {
+          padding: 5px 72px 5px 22px;
+
+          &.receiver {
+            padding: 5px 22px 5px 72px;
+
+            .receiver-message-time {
+              padding-left: 10px;
+              padding-right: 0px;
+            }
+          }
+          .sender-message-time {
+            color: $time-color;
+            width: 40px;
+            height: fit-content;
+            font-size: 12px;
+            padding-right: 10px;
+            min-width: 40px;
+            text-align: end;
+            opacity: 0;
+          }
+
+          &:hover {
+            background-color: $light-accent;
+
+            .sender-message-time,
+            .edit-delete-icon {
+              opacity: 1;
+              display: flex;
             }
           }
         }
@@ -1117,7 +1143,7 @@
     .show-status {
       padding-bottom: 16px;
       .user-status {
-        height: 8px;
+        height: 9px;
         width: 9px;
         border-radius: 50%;
       }
@@ -1160,11 +1186,15 @@
   }
   .contact-info {
     .edit {
-      color: $profile-edit;
+      color: $profile-edit !important;
       cursor: pointer;
       &:hover {
         text-decoration: underline;
       }
+    }
+    .active {
+      background-color: $base-color;
+      border: none;
     }
   }
 }

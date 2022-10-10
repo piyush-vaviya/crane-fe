@@ -1,4 +1,4 @@
-import CraneTooltip from "./CraneTooltip";
+import CraneTooltip from './CraneTooltip'
 
 const CircularProgressBar = ({ content, circularProgress }) => {
   return (
@@ -10,7 +10,7 @@ const CircularProgressBar = ({ content, circularProgress }) => {
       }
       content={circularProgress}
     />
-  );
-};
+  )
+}
 
-export default CircularProgressBar;
+export default CircularProgressBar

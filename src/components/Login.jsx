@@ -1,74 +1,63 @@
-import React, { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { toast } from "react-toastify";
-import {
-  IconButton,
-  InputAdornment,
-  TextField,
-  ToggleButton,
-} from "@mui/material";
-import { MdVisibility, MdVisibilityOff } from "react-icons/md";
-import { FcGoogle } from "react-icons/fc";
-import { addUser } from "../features/user/userSlice";
-import axios from "./api/message";
+import React, { useState } from 'react'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { toast } from 'react-toastify'
+import { IconButton, InputAdornment, TextField, ToggleButton } from '@mui/material'
+import { MdVisibility, MdVisibilityOff } from 'react-icons/md'
+import { FcGoogle } from 'react-icons/fc'
+import { loginCrane } from '../features/user/authUserSlice'
+import axios from './api/message'
 
 const Login = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   const [user, setUser] = useState({
-    email: "",
-    password: "",
-  });
-  const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState("");
-  const { email, password } = user;
-  let name, value;
+    email: '',
+    password: '',
+  })
+  const [loading, setLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
+  const [error, setError] = useState('')
+  const { email, password } = user
+  let name, value
   const handleInput = (e) => {
-    name = e.target.name;
-    value = e.target.value;
+    name = e.target.name
+    value = e.target.value
 
-    setUser({ ...user, [name]: value });
-  };
+    setUser({ ...user, [name]: value })
+  }
 
   const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
+    setShowPassword(!showPassword)
+  }
 
   const loginToCrane = async (e) => {
     try {
-      e.preventDefault();
-      setLoading(true);
-      const response = await axios.post("/login", user);
-      setError();
+      e.preventDefault()
+      setLoading(true)
+      console.log('welcome')
 
-      const { name, email, _id } = response.data.user;
+      console.log(user)
+      const response = await axios.post('/login', user)
+      setError()
 
-      const craneNewUser = {
-        active: true,
-        src: "",
-        username: name,
-        email: email,
-        _id: _id,
-        // isLogin: true,
-      };
-      dispatch(addUser(craneNewUser));
-      localStorage.setItem("loginDone", true);
-      navigate("/home");
-      toast.success("Welcome to Crane");
+      const loggedUser = response.data.user
+      console.log('🚀 ~ loginToCrane ~ loggedUser', loggedUser)
+
+      localStorage.setItem('loginDone', true)
+      navigate('/home')
+      dispatch(loginCrane(loggedUser))
+      toast.success('Welcome to Crane')
     } catch (error) {
-      setError(error.message);
+      console.log(error)
+      setError(error.message)
     }
-    setLoading(false);
-  };
+    setLoading(false)
+  }
 
   return (
     <div className="login d-flex flex-column">
-      <img
-        src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
-        alt="logo"
-      ></img>
+      <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp" alt="logo"></img>
       <h2 className="m-0 text-center">We are The Crane Team</h2>
 
       <form action="" onSubmit={loginToCrane}>
@@ -78,8 +67,8 @@ const Login = () => {
           id="outlined-username"
           className="outlined-textarea"
           // label="Email"
-          type="email"
-          placeholder="Enter your email"
+          type="text"
+          placeholder="Enter Email or Username"
           name="email"
           value={email}
           onChange={handleInput}
@@ -89,8 +78,8 @@ const Login = () => {
           id="outlined-adornment-password"
           className="outlined-adornment-password"
           // label="Password"
-          type={showPassword ? "text" : "password"}
-          placeholder="Enter your password"
+          type={showPassword ? 'text' : 'password'}
+          placeholder="Enter password"
           name="password"
           value={password}
           onChange={handleInput}
@@ -113,23 +102,18 @@ const Login = () => {
             ),
           }}
         />
-        <NavLink
-          className="forgot-password cursor-pointer"
-          to="/accounts/password/reset"
-        >
+        <NavLink className="forgot-password cursor-pointer" to="/accounts/password/reset">
           Forgot Password?
         </NavLink>
         <ToggleButton
           value="Sign In"
           className="sign-button"
-          sx={{ width: "55%", margin: "auto", height: 40 }}
+          sx={{ width: '55%', margin: 'auto', height: 40 }}
           aria-label="list"
           type="submit"
-          disabled={
-            email.length && password.length >= 8 && !loading ? false : true
-          }
+          disabled={email.length && password.length >= 8 && !loading ? false : true}
         >
-          {loading ? "please wait..." : "Sign In"}
+          {loading ? 'please wait...' : 'Sign In'}
         </ToggleButton>
         <div className="divider d-flex align-items-center ">
           <p className="text-center fw-bold mx-3  text-muted">OR</p>
@@ -139,10 +123,10 @@ const Login = () => {
           value="Sign In"
           className="google-button"
           sx={{
-            width: "100%",
-            margin: "auto",
+            width: '100%',
+            margin: 'auto',
             height: 40,
-            backgroundColor: "white",
+            backgroundColor: 'white',
           }}
           aria-label="list"
           type="button"
@@ -158,7 +142,7 @@ const Login = () => {
         </div>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

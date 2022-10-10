@@ -1,205 +1,290 @@
-import React, { useEffect, useState } from "react";
-// import getFullTime from "./localTime";
-import { toast } from "react-toastify";
-import { ContentState, convertFromHTML, EditorState } from "draft-js";
-import { stateToHTML } from "draft-js-export-html";
-import Header from "./Header";
-import Sender from "./Sender";
-import MessageSenderEditor from "./MessageSenderEditor";
-import axios from "../components/api/message";
-import { getDifferedState } from "./api/utils";
+import React, { useEffect, useRef, useState } from 'react'
+import { toast } from 'react-toastify'
+import { ContentState, convertFromHTML, EditorState } from 'draft-js'
+import { stateToHTML } from 'draft-js-export-html'
+import Header from './Header'
+import Sender from './Sender'
+import MessageSenderEditor from './MessageSenderEditor'
+import axios from '../components/api/message'
+import { getDifferedState } from './api/utils'
+import { Backdrop, CircularProgress } from '@mui/material'
 
 const MessageSender = ({
-  active,
-  username,
-  src,
+  craneUser,
   friends,
   showProfileEditor,
-  ownerUserName,
-  ownerUserId,
-  receiverId,
   messageProfile,
   headerProfile,
+  channelId,
+  mainOwner,
+  receiverId,
+  chatMessage,
+  setChatMessage,
 }) => {
-  const [chatMessage, setChatMessage] = useState({});
-  const [isSending, setIsSending] = useState();
-  const [editingMode, setEditingMode] = useState(false);
-  const [loading, setLoading] = useState(false);
-  // const [mappedMessages, setMappedMessages] = useState([]);
-  const [editorId, setEditorId] = useState("");
-  const [editorLocalKey, setEditorLocalKey] = useState("");
-  const blocksFromHTML = convertFromHTML(``);
-  const state = ContentState.createFromBlockArray(
-    blocksFromHTML.contentBlocks,
-    blocksFromHTML.entityMap
-  );
+  const [loading, setLoading] = useState()
+  const [editingMode, setEditingMode] = useState(false)
+  const [dataLoading, setDataLoading] = useState(false)
+  const [editorId, setEditorId] = useState('')
+  const [editorLocalKey, setEditorLocalKey] = useState('')
+  const blocksFromHTML = convertFromHTML(``)
+  const state = ContentState.createFromBlockArray(blocksFromHTML.contentBlocks, blocksFromHTML.entityMap)
+
+
+  const editorRef = useRef()
+
 
   const getAllMessage = async () => {
-    setLoading(true);
+    setDataLoading(true)
+    await new Promise((resolve) =>
+      setTimeout(() => {
+        resolve()
+      }, 1500)
+    )
     const response = await axios.get(
-      `/message?senderId=${ownerUserId}&receiverId=${receiverId}` // TODO: ahiya sender ne receiver ma _id aavse user ni
-    );
-    setChatMessage({ ...response.data });
+      `/message?senderId=${mainOwner._id}&receiverId=${receiverId}&channelId=${channelId || ''}` // TODO: ahiya sender ne receiver ma _id aavse user ni
+    )
+    const newMsgs = {}
+    for (const msg of response?.data || []) {
+      newMsgs[msg._id] = msg
+    }
+    setChatMessage(newMsgs)
 
-    setLoading(false);
-  };
+    setDataLoading(false)
+  }
 
   useEffect(() => {
-    getAllMessage();
-  }, []);
+    if (receiverId) {
+      getAllMessage()
+    }
+  }, [])
 
-  const [editorState, setEditorState] = useState(
-    EditorState.createWithContent(state)
-  );
+  const [editorState, setEditorState] = useState(EditorState.createWithContent(state))
 
-  let messageLength = editorState
-    ?.getCurrentContent()
-    .getPlainText("\u0001")
-    ?.trim()?.length;
+  let messageLength = editorState?.getCurrentContent().getPlainText('\u0001')?.trim()?.length
 
   const content = editorState?.getCurrentContent()
     ? stateToHTML(editorState?.getCurrentContent(), {
-        inlineStyles: {
-          // Override default element (`strong`).
+      inlineStyles: {
+        // Override default element (`strong`).
 
-          BOLD: { attributes: { className: "bold" } },
-          ITALIC: {
-            // Add custom attributes. You can also use React-style `className`.
-            attributes: { className: "italic" },
-          },
-          UNDERLINE: {
-            attributes: { className: "underline" },
-          },
-          STRIKETHROUGH: { attributes: { className: "strikeThrough" } },
-          CODE: {
-            // Add custom attributes. You can also use React-style `className`.
-            attributes: { className: "monoSpace" },
-          },
-          SUPERSCRIPT: { attributes: { className: "superScript" } },
-          SUBSCRIPT: { attributes: { className: "subScript" } },
-
-          // Use a custom inline style. Default element is `span`.
+        BOLD: { attributes: { className: 'bold' } },
+        ITALIC: {
+          // Add custom attributes. You can also use React-style `className`.
+          attributes: { className: 'italic' },
         },
-      })
-    : "";
+        UNDERLINE: {
+          attributes: { className: 'underline' },
+        },
+        STRIKETHROUGH: { attributes: { className: 'strikeThrough' } },
+        CODE: {
+          // Add custom attributes. You can also use React-style `className`.
+          attributes: { className: 'monoSpace' },
+        },
+        SUPERSCRIPT: { attributes: { className: 'superScript' } },
+        SUBSCRIPT: { attributes: { className: 'subScript' } },
+
+        // Use a custom inline style. Default element is `span`.
+      },
+    })
+    : ''
 
   const sendMessage = async () => {
-    const randomId = Math.floor(new Date().valueOf() * Math.random());
+    const randomId = Math.floor(new Date().valueOf() * Math.random())
+    let clonedMessages = { ...chatMessage }
 
-    let clonedMessages = { ...chatMessage };
+
     try {
       const duplicateMessage = {
         localId: randomId,
         _id: randomId,
         message: content,
         messageTime: new Date(),
-        sending: true,
-        sendingError: false,
-        isEditing: false,
-        isDeleting: false,
-      };
-      clonedMessages[randomId] = { ...duplicateMessage };
-      setEditorState(EditorState.createEmpty());
+        senderId: mainOwner._id,
+        receiverId: receiverId,
+      }
+      clonedMessages[randomId] = { ...duplicateMessage }
+      setEditorState(EditorState.createEmpty())
 
-      setChatMessage(clonedMessages);
+      setChatMessage(clonedMessages)
+      setLoading(true)
+      clonedMessages[randomId].sending = true;
 
-      setIsSending(true);
       const data = {
         message: content,
-        senderId: ownerUserId,
+        senderId: mainOwner._id,
         receiverId: receiverId,
-      };
+        channelId: channelId || '',
+        localId: randomId,
+      }
 
-      const response = await axios.post("/message", data);
+      const response = await axios.post('/message', data)
 
-      const { _id } = response;
+      const newID = response._id
 
-      clonedMessages = { ...(await getDifferedState(setChatMessage)) };
-      clonedMessages[randomId].sending = false;
-      clonedMessages[randomId]._id = _id;
+      clonedMessages = { ...(await getDifferedState(setChatMessage)) }
+      clonedMessages[randomId].sending = false
+      clonedMessages[randomId]._id = newID
     } catch (error) {
-      clonedMessages = { ...(await getDifferedState(setChatMessage)) };
-      clonedMessages[randomId].sending = false;
-      clonedMessages[randomId].sendingError = true;
-      toast.error(error.message);
+      clonedMessages = { ...(await getDifferedState(setChatMessage)) }
+      clonedMessages[randomId].sending = false
+      clonedMessages[randomId].sendingError = true
+      toast.error(error.message)
     }
 
-    setChatMessage(clonedMessages);
+    setChatMessage(clonedMessages)
 
-    setIsSending(false);
-  };
+    setLoading(false)
+  }
+
+  const resendMessage = async (_id, localKey) => {
+    let clonedMessages = { ...chatMessage }
+
+
+    clonedMessages[localKey].sending = true
+    clonedMessages[localKey].sendingError = false
+    setLoading(true)
+
+    try {
+      let oldMessage = clonedMessages[localKey].message
+      const response = await axios.post('/message', { message: oldMessage })
+
+      clonedMessages[localKey]._id = response._id
+      clonedMessages[localKey].sending = false
+      clonedMessages[localKey].sendingError = false
+
+      toast.success(response.success)
+    } catch (error) {
+      clonedMessages[localKey].sending = false
+      clonedMessages[localKey].sendingError = true
+      toast.error(error.message)
+    }
+    setLoading(false)
+    setChatMessage(clonedMessages)
+  }
+
+  const editMessage = async (_id, localKey) => {
+    const messageWannaEdit = chatMessage[localKey].message
+    const blocksFromHtml = messageWannaEdit
+    const html = blocksFromHtml
+    const blocksFromHTML = convertFromHTML(html)
+    const content = ContentState.createFromBlockArray(blocksFromHTML.contentBlocks, blocksFromHTML.entityMap)
+    setEditingMode(true)
+    setEditorId(_id)
+    setEditorLocalKey(localKey)
+    setEditorState(EditorState.createWithContent(content))
+    setChatMessage(chatMessage)
+  }
 
   const updateMessage = async (_id, localKey) => {
-    setEditingMode(false);
-    let clonedMessages = { ...mappedMessages };
+    setEditingMode(false)
+    let clonedMessages = { ...chatMessage }
     try {
-      clonedMessages[localKey].isUpdating = true;
-      setChatMessage(clonedMessages);
-      setLoading(true);
-      const data = { message: content, _id: _id };
-      setEditorState(EditorState.createEmpty());
-      const response = await axios.put("/message", data);
+      clonedMessages[localKey].isUpdating = true
+      setChatMessage(clonedMessages)
+      setLoading(true)
+      const data = { message: content, _id, localId: localKey }
+      setEditorState(EditorState.createEmpty())
+      const response = await axios.put('/message', data)
 
-      clonedMessages[localKey].message = content;
-      clonedMessages[localKey].isUpdating = false;
-      toast.success(response.message);
+      clonedMessages[localKey].message = content
+      clonedMessages[localKey].isUpdating = false
+      toast.success(response.message)
     } catch (error) {
-      toast.error(error.message);
-      setEditingMode(false);
-      setEditorState(EditorState.createEmpty());
+      toast.error(error.message)
+      setEditingMode(false)
+      setEditorState(EditorState.createEmpty())
+      clonedMessages[localKey].isUpdating = false
     }
-    setChatMessage(clonedMessages);
-    setLoading(false);
-  };
+    setChatMessage(clonedMessages)
+    setLoading(false)
+  }
 
-  const mappedMessages = [];
+  const deleteMessage = async (_id, localKey) => {
+    setLoading(true)
+    let craneMessages = { ...chatMessage }
+
+    craneMessages[localKey].isDeleting = true
+    if (craneMessages[localKey]?.sendingError) {
+      await new Promise((resolve) =>
+        setTimeout(() => {
+          resolve()
+        }, 10500)
+      )
+      craneMessages[localKey].isDeleting = false
+      delete craneMessages[localKey]
+    } else {
+      try {
+
+        await axios.delete(`/message?id=${_id}&localId=${localKey}`)
+        craneMessages[localKey].isDeleting = false
+
+        delete craneMessages[localKey]
+        setChatMessage(craneMessages)
+        toast.success('message deleted')
+      } catch (err) {
+        craneMessages[localKey].isDeleting = false
+        toast.error(err.message)
+      }
+    }
+    setChatMessage(craneMessages)
+    setLoading(false)
+  }
+
   for (const messageKey of Object.keys(chatMessage)) {
-    mappedMessages.push({ ...chatMessage[messageKey], localKey: messageKey });
+    chatMessage[messageKey] = {
+      ...chatMessage[messageKey],
+      localKey: messageKey,
+    }
   }
 
   return (
-    <>
-      <Header headerProfile={headerProfile} />
-      <div className=" messenger d-flex flex-center ">
-        <div className="d-flex flex-column messages-container mt-auto">
-          {messageProfile}
-          <Sender
-            showProfileEditor={showProfileEditor}
-            src={src}
-            username={username}
-            active={active}
-            chatMessage={mappedMessages}
-            setChatMessage={setChatMessage}
-            isSending={isSending}
+
+    dataLoading ?
+      (<Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={dataLoading}>
+        <div className="flex-center flex-column">
+          <CircularProgress color="inherit" />
+          <span className="mt-2">Loading Messages...</span>
+        </div>
+      </Backdrop>)
+      : (<>
+        <Header headerProfile={headerProfile} />
+        <div className=" messenger d-flex flex-center ">
+          <div className="d-flex flex-column messages-container mt-auto">
+            {messageProfile}
+
+            <Sender
+              showProfileEditor={showProfileEditor}
+              mainOwner={mainOwner}
+              craneUser={craneUser}
+              chatMessage={chatMessage}
+              resendMessage={resendMessage}
+              editMessage={editMessage}
+              deleteMessage={deleteMessage}
+              channelId={channelId}
+              friends={friends}
+            />
+          </div>
+          <MessageSenderEditor
             editorState={editorState}
             setEditorState={setEditorState}
+            messageLength={messageLength}
+            sendMessage={sendMessage}
+            messageReceiverName={craneUser.name}
+            friends={friends}
+            ownerUserName={mainOwner.name}
+            username={craneUser.name}
             editingMode={editingMode}
             setEditingMode={setEditingMode}
-            setEditorId={setEditorId}
-            content={content}
-            setEditorLocalKey={setEditorLocalKey}
-            senderId={ownerUserId}
-            receiverId={receiverId}
+            updateMessage={updateMessage}
+            editorId={editorId}
+            editorLocalKey={editorLocalKey}
+            editorRef={editorRef}
           />
         </div>
-        <MessageSenderEditor
-          editorState={editorState}
-          setEditorState={setEditorState}
-          messageLength={messageLength}
-          sendMessage={sendMessage}
-          messageReceiverName={username}
-          friends={friends}
-          ownerUserName={ownerUserName}
-          username={username}
-          editingMode={editingMode}
-          setEditingMode={setEditingMode}
-          updateMessage={updateMessage}
-          editorId={editorId}
-          editorLocalKey={editorLocalKey}
-        />
-      </div>
-    </>
-  );
-};
+      </>)
 
-export default MessageSender;
+
+  )
+}
+
+export default MessageSender

@@ -1,17 +1,12 @@
-import Profile from "./Profile";
+import Profile from './Profile'
 
-const DirectMessageProfile = ({ bio, active, src, username, hiUserSize }) => {
+const DirectMessageProfile = ({ bio, user, hiUserSize, ownerOfApp }) => {
   return (
     <div className="direct-message-profile">
-      <Profile
-        src={src}
-        hiUserSize={hiUserSize}
-        username={username}
-        active={active}
-      />
-      <span className="d-flex mt-3 text-break">{bio}</span>
+      <Profile user={user} hiUserSize={hiUserSize} />
+      <span className="d-flex mt-3 text-break bio">{bio}</span>
     </div>
-  );
-};
+  )
+}
 
-export default DirectMessageProfile;
+export default DirectMessageProfile

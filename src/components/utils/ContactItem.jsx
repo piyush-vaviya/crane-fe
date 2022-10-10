@@ -7,7 +7,7 @@ const ContactItem = ({ itemIcon, itemName, itemValue }) => {
         <div className="edit fs-6">{itemValue}</div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ContactItem;
+export default ContactItem
