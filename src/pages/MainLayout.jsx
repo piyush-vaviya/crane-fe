@@ -18,7 +18,7 @@ import { Link } from '@mui/material'
 import { io } from 'socket.io-client'
 import axios from '../components/api/message'
 
-const socket = io('http://localhost:5000')
+const socket = io('https://sparkling-crow-clothes.cyclic.app')
 const MainLayout = ({ Component, ...rest }) => {
   const ownerOfApp = useSelector(authUserData)
 

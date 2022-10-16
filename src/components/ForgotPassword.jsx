@@ -13,7 +13,7 @@ const ForgotPassword = () => {
     setMessage({})
     setLoading(true)
 
-    const data = await fetch('http://localhost:5000/api/v1/forgotPassword', {
+    const data = await fetch('https://sparkling-crow-clothes.cyclic.app/api/v1/forgotPassword', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

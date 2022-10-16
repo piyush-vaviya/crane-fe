@@ -44,7 +44,7 @@ const SignUp = () => {
       })
     }
 
-    const data = await fetch('http://localhost:5000/api/v1/signUp', {
+    const data = await fetch('https://sparkling-crow-clothes.cyclic.app/api/v1/signUp', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
