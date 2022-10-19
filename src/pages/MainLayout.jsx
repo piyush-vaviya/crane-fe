@@ -18,7 +18,7 @@ import { Link } from '@mui/material'
 import { io } from 'socket.io-client'
 import axios from '../components/api/message'
 
-const socket = io('https://sparkling-crow-clothes.cyclic.app')
+const socket = io('https://sparkling-crow-clothes.cyclic.app', { transports: ['websocket'], withCredentials: true })
 const MainLayout = ({ Component, ...rest }) => {
   const ownerOfApp = useSelector(authUserData)
 
@@ -78,7 +78,7 @@ const MainLayout = ({ Component, ...rest }) => {
     const response = await axios.get('/users')
 
     const data = response.data.users
-    const filterUSer = data.filter(({ _id }) => _id !== ownerOfApp._id)
+    const filterUSer = data?.filter(({ _id }) => _id !== ownerOfApp._id)
 
     setFriends([{ ...ownerOfApp }, ...filterUSer])
     setDataLoading(false)
@@ -104,6 +104,7 @@ const MainLayout = ({ Component, ...rest }) => {
                 user={friend}
                 bio={`This space is just for you. Jot down notes, list your to-dos, or keep links and files handy. You can also talk to yourself here,but please bear in mind you’ll have to supply both sides of the conversation.`}
                 hiUserSize={60}
+                ownerOfApp={ownerOfApp}
               />
             }
             headerProfile={<HeaderProfile directMessage={true} user={friend} />}

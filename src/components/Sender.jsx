@@ -31,8 +31,8 @@ const Sender = ({
     const allMessages = useMemo(() => {
       return chats.map((msg, i) => {
         if (!(msg.senderId === mainOwner._id)) {
-          if (channelId.length) {
-            const member = friends.find(({ _id }) => _id === msg.senderId)
+          if (channelId?.length) {
+            const member = friends?.find(({ _id }) => _id === msg.senderId)
             setFindUser(member);
           }
 
@@ -41,10 +41,10 @@ const Sender = ({
               <CraneTooltip
                 placement="top"
                 arrow={false}
-                title={<WorkSpaceInfo user={!channelId.length ? craneUser : findUser} workspaceOwner="Workspace Owner" setStatus="Set a Status" />}
+                title={<WorkSpaceInfo user={!channelId?.length ? craneUser : findUser} workspaceOwner="Workspace Owner" setStatus="Set a Status" />}
                 content={
                   <div className="sender-profile-image cursor-pointer" alt="">
-                    {channelId.length ?
+                    {channelId?.length ?
                       findUser?.profileImage ? <img src={findUser?.profileImage} alt="" /> : <HiUser size={40} />
                       : craneUser?.profileImage ? <img src={craneUser?.profileImage} alt="" /> : <HiUser size={40} />}
                   </div>
@@ -70,10 +70,10 @@ const Sender = ({
                   <CraneTooltip
                     placement="top"
                     arrow={false}
-                    title={<WorkSpaceInfo user={!channelId.length ? craneUser : findUser} workspaceOwner="Workspace Owner" setStatus="Set a Status" />}
+                    title={<WorkSpaceInfo user={!channelId?.length ? craneUser : findUser} workspaceOwner="Workspace Owner" setStatus="Set a Status" />}
                     content={
                       <div className="sender-name fw-bold cursor-pointer" onClick={showProfileEditor}>
-                        {!channelId.length ? craneUser.name : findUser.name}
+                        {!channelId?.length ? craneUser.name : findUser.name}
 
                       </div>
                     }

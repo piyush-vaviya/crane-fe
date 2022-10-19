@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { InputAdornment, TextField, ToggleButton } from '@mui/material'
 import InputEndAdornment from './utils/InputEndAdornment'
-import { FcGoogle } from 'react-icons/fc'
+// import { FcGoogle } from 'react-icons/fc'
 import { MdOutlineEmail } from 'react-icons/md'
 import { FiUserCheck } from 'react-icons/fi'
 import { BiLock } from 'react-icons/bi'
@@ -183,10 +183,10 @@ const SignUp = () => {
         >
           {loading ? 'please wait...' : 'Sign Up'}
         </ToggleButton>
-        <div className="divider d-flex align-items-center ">
+        {/* <div className="divider d-flex align-items-center ">
           <p className="text-center fw-bold mx-3  text-muted">OR</p>
-        </div>
-
+        </div> */}
+        {/* 
         <ToggleButton
           value="Sign In"
           className="google-button"
@@ -201,7 +201,7 @@ const SignUp = () => {
           type="button"
         >
           <FcGoogle className="mr-2" size={18} /> Continue with Google
-        </ToggleButton>
+        </ToggleButton> */}
 
         <div className="flex-center pt-4 ">
           <p className="mr-2">Have already an account?</p>
