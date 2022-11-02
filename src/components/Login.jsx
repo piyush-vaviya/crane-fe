@@ -35,21 +35,20 @@ const Login = () => {
     try {
       e.preventDefault()
       setLoading(true)
-      console.log('welcome')
 
-      console.log(user)
+      // console.log(user)
       const response = await axios.post('/login', user)
       setError()
 
       const loggedUser = response.data.user
-      console.log('🚀 ~ loginToCrane ~ loggedUser', loggedUser)
+      // console.log('🚀 ~ loginToCrane ~ loggedUser', loggedUser)
 
       localStorage.setItem('loginDone', true)
       navigate('/home')
       dispatch(loginCrane(loggedUser))
       toast.success('Welcome to Crane')
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       setError(error.message)
     }
     setLoading(false)

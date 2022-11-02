@@ -24,9 +24,6 @@ const Sender = ({
   const chats = Object.values(chatMessage)
   const [findUser, setFindUser] = useState({})
 
-
-  console.log(craneUser)
-
   const SenderMessage = ({ chatMessage }) => {
     const allMessages = useMemo(() => {
       return chats.map((msg, i) => {

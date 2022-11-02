@@ -62,16 +62,16 @@ const MainLayout = ({ Component, ...rest }) => {
         default:
           break
       }
-      console.log('Setting current chats to', currentChats)
+      // console.log('Setting current chats to', currentChats)
       setChatMessage(currentChats)
     })
 
     return () => socket.off('message')
   }, [])
 
-  useEffect(() => {
-    console.log('Chat message updated', chatMessage)
-  }, [chatMessage])
+  // useEffect(() => {
+  //   console.log('Chat message updated', chatMessage)
+  // }, [chatMessage])
 
   const getFriendsData = async () => {
     setDataLoading(true)
