@@ -38,7 +38,7 @@ const MessageSender = ({
     await new Promise((resolve) =>
       setTimeout(() => {
         resolve()
-      }, 1500)
+      }, 500)
     )
     const response = await axios.get(
       `/message?senderId=${mainOwner._id}&receiverId=${receiverId}&channelId=${channelId || ''}` // TODO: ahiya sender ne receiver ma _id aavse user ni
@@ -208,7 +208,7 @@ const MessageSender = ({
       await new Promise((resolve) =>
         setTimeout(() => {
           resolve()
-        }, 10500)
+        }, 1000)
       )
       craneMessages[localKey].isDeleting = false
       delete craneMessages[localKey]

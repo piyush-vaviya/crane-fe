@@ -29,8 +29,8 @@ const Sidebar = ({ friends, setDirectMessageUser, ownerOfApp, channelList, setCh
 
   const logoutFromCrane = async () => {
     await axios.patch(`/users/${ownerOfApp._id}`, { active: false })
-    dispatch(logOutToCrane());
     localStorage.removeItem('loginDone')
+    dispatch(logOutToCrane());
     navigate('/login')
   }
 

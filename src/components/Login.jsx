@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
 import { IconButton, InputAdornment, TextField, ToggleButton } from '@mui/material'
 import { MdVisibility, MdVisibilityOff } from 'react-icons/md'
-import { FcGoogle } from 'react-icons/fc'
+// import { FcGoogle } from 'react-icons/fc'
 import { loginCrane } from '../features/user/authUserSlice'
 import axios from './api/message'
 
@@ -35,21 +35,20 @@ const Login = () => {
     try {
       e.preventDefault()
       setLoading(true)
-      console.log('welcome')
 
-      console.log(user)
+      // console.log(user)
       const response = await axios.post('/login', user)
       setError()
 
       const loggedUser = response.data.user
-      console.log('🚀 ~ loginToCrane ~ loggedUser', loggedUser)
+      // console.log('🚀 ~ loginToCrane ~ loggedUser', loggedUser)
 
       localStorage.setItem('loginDone', true)
       navigate('/home')
       dispatch(loginCrane(loggedUser))
       toast.success('Welcome to Crane')
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       setError(error.message)
     }
     setLoading(false)
@@ -115,10 +114,10 @@ const Login = () => {
         >
           {loading ? 'please wait...' : 'Sign In'}
         </ToggleButton>
-        <div className="divider d-flex align-items-center ">
+        {/* <div className="divider d-flex align-items-center ">
           <p className="text-center fw-bold mx-3  text-muted">OR</p>
-        </div>
-
+        </div> */}
+        {/* 
         <ToggleButton
           value="Sign In"
           className="google-button"
@@ -132,7 +131,7 @@ const Login = () => {
           type="button"
         >
           <FcGoogle className="mr-2" size={18} /> Continue with Google
-        </ToggleButton>
+        </ToggleButton> */}
 
         <div className="flex-center pt-4 ">
           <p className="mr-2">Don't have an account?</p>
