@@ -9,6 +9,12 @@ import PrivateRoute from './helper/PrivateRoute'
 import PublicRoute from './helper/PublicRoute'
 import ForgotPassword from './components/ForgotPassword'
 
+import lottie from 'lottie-web';
+import { defineElement } from 'lord-icon-element';
+
+// define "lord-icon" custom element with default properties
+defineElement(lottie.loadAnimation);
+
 function App() {
   const withPrivacy = (component) => {
     return <PrivateRoute component={component} />

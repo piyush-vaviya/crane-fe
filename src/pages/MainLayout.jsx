@@ -17,6 +17,7 @@ import { getDifferedState } from '../components/api/utils'
 import { Link } from '@mui/material'
 import { io } from 'socket.io-client'
 import axios from '../components/api/message'
+import { selectChannelState } from '../redux/selectors/channelSelectors'
 
 const socket = io('https://sparkling-crow-clothes.cyclic.app', { transports: ['websocket'], withCredentials: true })
 const MainLayout = ({ Component, ...rest }) => {
@@ -24,7 +25,6 @@ const MainLayout = ({ Component, ...rest }) => {
 
   const [chatMessage, setChatMessage] = useState({})
   const [profileEditor, setProfileEditor] = useState(false)
-  const [channelList, setChannelList] = useState({})
   const [openChannel, setOpenChannel] = useState(false)
   const [dataLoading, setDataLoading] = useState(false)
   const [friends, setFriends] = useState([])
@@ -35,6 +35,8 @@ const MainLayout = ({ Component, ...rest }) => {
   const HideProfileEditor = () => {
     setProfileEditor(false)
   }
+
+  const { channels } = useSelector(selectChannelState)
 
   useEffect(() => {
     socket.on('message', async (data) => {
@@ -120,7 +122,7 @@ const MainLayout = ({ Component, ...rest }) => {
   }
 
   const channelPage = (propChannel) => {
-    return Object.values(channelList)?.map((channel) => {
+    return Object.values(channels)?.map((channel) => {
       if (propChannel._id === channel._id) {
         return (
           <MessageSender
@@ -149,8 +151,6 @@ const MainLayout = ({ Component, ...rest }) => {
         friends={friends}
         setDirectMessageUser={setDirectMessageUser}
         ownerOfApp={ownerOfApp}
-        channelList={channelList}
-        setChannelList={setChannelList}
         setOpenChannel={setOpenChannel}
       />
 

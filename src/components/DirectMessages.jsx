@@ -9,6 +9,7 @@ import ProfileStatus from './utils/ProfileStatus'
 
 const DirectMessages = ({ friends, setDirectMessageUser, setOpenChannel }) => {
   const [expanded, setExpanded] = useState(true)
+  const [selectedUser, setSelectedUser] = useState("")
 
   const handleExpand = () => setExpanded(!expanded)
 
@@ -38,7 +39,6 @@ const DirectMessages = ({ friends, setDirectMessageUser, setOpenChannel }) => {
         {/* <div onClick={() => setDirectMessageUser("rashmika.piyush143")}>
           <ListItem
             className="with-border"
-            selected
             prefix={
               <ProfileStatus
                 active={true}
@@ -50,17 +50,18 @@ const DirectMessages = ({ friends, setDirectMessageUser, setOpenChannel }) => {
           />
         </div> */}
         {friends?.map((dmUser, index) => {
-          const { active, profileImage, name, selected, _id } = dmUser
+          const { active, profileImage, name, _id } = dmUser
           return (
             <div
               onClick={() => {
                 setDirectMessageUser(dmUser)
                 setOpenChannel(false)
+                setSelectedUser(name)
               }}
               key={_id}
             >
               <ListItem
-                selected={selected}
+                isSelected={selectedUser === name}
                 prefix={<ProfileStatus active={active} src={profileImage} />}
                 content={name}
                 removable

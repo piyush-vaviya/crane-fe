@@ -1,10 +1,10 @@
 import axios from 'axios'
 
-const api = axios.create({
+const axiosInstance = axios.create({
   baseURL: 'https://sparkling-crow-clothes.cyclic.app/api/v1',
 })
 
-api.interceptors.request.use(
+axiosInstance.interceptors.request.use(
   function (config) {
     // Do something before request is sent
     return config
@@ -16,7 +16,7 @@ api.interceptors.request.use(
 )
 
 // Add a response interceptor
-api.interceptors.response.use(
+axiosInstance.interceptors.response.use(
   function (response) {
     // Do something with response data
     return response.data
@@ -28,4 +28,4 @@ api.interceptors.response.use(
   }
 )
 
-export default api
+export default axiosInstance
