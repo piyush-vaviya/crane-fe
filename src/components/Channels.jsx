@@ -1,19 +1,21 @@
 import React, { useState } from 'react'
 import { HiPlus, HiOutlineHashtag, HiOutlineLockClosed } from 'react-icons/hi'
+import { useDispatch, useSelector } from "react-redux"
 import { IoPlay } from 'react-icons/io5'
 import { FiMoreVertical } from 'react-icons/fi'
 import { TiPlus } from 'react-icons/ti'
-import { Button, InputAdornment, InputLabel, TextField } from '@mui/material'
+import { Button, CircularProgress, InputAdornment, InputLabel, TextField } from '@mui/material'
 import Switch from 'react-switch'
 import ListItem from './ListItem'
 import { toast } from 'react-toastify'
 import axios from './api/message'
-import { getDifferedState } from './api/utils'
 import { useEffect } from 'react'
 import ModalBlock from './utils/ModalBlock'
+import { channelActions } from '../redux/features/channelSlice'
+import { selectChannelState } from '../redux/selectors/channelSelectors'
 
-const Channels = ({ ownerOfApp, channelList, setChannelList, setChannel, setOpenChannel }) => {
-  // const [channelList, setChannelList] = useState({});
+const Channels = ({ ownerOfApp, setChannel, setOpenChannel }) => {
+  const dispatch = useDispatch()
   const [expanded, setExpanded] = useState(true)
   const [checked, setChecked] = useState(false)
   const [open, setOpen] = useState(false)
@@ -22,7 +24,10 @@ const Channels = ({ ownerOfApp, channelList, setChannelList, setChannel, setOpen
   const [channelDescription, setChannelDescription] = useState('')
   const [channelNameLength, setChannelNameLength] = useState(80)
   const [error, setError] = useState({})
-  const [loading, setLoading] = useState(false)
+  const [activeChannel, setActiveChannel] = useState("")
+
+  const [isCreating, setIsCreating] = useState(false)
+  const [isGenerated, setIsGenerated] = useState(false)
 
   const handleOpen = () => setOpen(true)
   const handleClose = () => {
@@ -34,15 +39,10 @@ const Channels = ({ ownerOfApp, channelList, setChannelList, setChannel, setOpen
     setChecked(false)
   }
 
-  const getAllChannel = async () => {
-    setLoading(true)
-    const response = await axios.get('channel')
-    setChannelList({ ...response.data })
-    setLoading(false)
-  }
+  const { channels } = useSelector(selectChannelState)
 
   useEffect(() => {
-    getAllChannel()
+    dispatch(channelActions.getChannels({}))
   }, [])
 
   const handleExpand = () => setExpanded(!expanded)
@@ -82,17 +82,23 @@ const Channels = ({ ownerOfApp, channelList, setChannelList, setChannel, setOpen
     }
   }
 
+  const mappedChannels = []
+  for (const channelKey of Object.keys(channels)) {
+    mappedChannels.push({ ...channels[channelKey], localKey: channelKey })
+  }
+
+  let clonedChannel = { ...mappedChannels }
+
   const createChannel = async () => {
-    setLoading(true)
+    setIsCreating(true)
     if (!channelName) {
-      setLoading(false)
+      setIsCreating(false)
       return setError({
         ...error,
         requireNameError: 'Don’t forget to name your channel.',
       })
     }
     const randomId = Math.floor(new Date().valueOf() * Math.random())
-    let clonedChannel = { ...mappedChannels }
     try {
       const dummyChannel = {
         _id: randomId,
@@ -101,10 +107,9 @@ const Channels = ({ ownerOfApp, channelList, setChannelList, setChannel, setOpen
         isPublic: !checked ? true : false,
         participants: [ownerOfApp._id],
         createdAt: new Date(),
-        selected: null,
       }
+
       clonedChannel[randomId] = { ...dummyChannel }
-      setChannelList(clonedChannel)
 
       const channelData = {
         name: channelName,
@@ -116,32 +121,35 @@ const Channels = ({ ownerOfApp, channelList, setChannelList, setChannel, setOpen
       const response = await axios.post('/channel', channelData)
 
       const { _id } = response
-      clonedChannel = { ...(await getDifferedState(setChannelList)) }
 
       clonedChannel[randomId]._id = _id
 
+      setIsCreating(false)
+      setIsGenerated(true)
+
+      await new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(setIsGenerated(false))
+        }, 1500)
+      });
+
+      handleClose();
+      dispatch(channelActions.setChannels({ channels: clonedChannel }))
       toast.success(response.success)
     } catch (error) {
+      setIsCreating(false)
+      handleClose()
       toast.error(error.message)
     }
-    setChannelList(clonedChannel)
-    handleClose()
-    setLoading(false)
   }
 
-  const mappedChannels = []
-  for (const channelKey of Object.keys(channelList)) {
-    mappedChannels.push({ ...channelList[channelKey], localKey: channelKey })
-  }
+
 
   const sortedChannelList = Object.values(mappedChannels)?.sort((a, b) => (a.name > b.name ? 1 : -1))
 
   const channelNameArray = sortedChannelList.map(({ name }) => name)
 
-  // const setSelect = (id) => {
-  //   mappedChannels[id].selected = true;
-  //   setChannelList(mappedChannels);
-  // };
+
 
   return (
     <div className={`channels-container ${expanded ? 'border-none-imp' : ''}`}>
@@ -167,19 +175,19 @@ const Channels = ({ ownerOfApp, channelList, setChannelList, setChannel, setOpen
 
       <div className={`channels-list ${expanded ? 'expanded' : ''}`}>
         {sortedChannelList?.map((channel) => {
-          const { name, description, isPublic, _id, participants, selected } = channel
+          const { name, isPublic, _id, participants } = channel
           return isPublic || participants.includes(ownerOfApp._id) ? (
             <div
               onClick={() => {
                 setChannel(channel)
                 setOpenChannel(true)
+                setActiveChannel(name)
 
               }}
               key={_id}
             >
               <ListItem
-                selected={selected}
-                selectable
+                isSelected={activeChannel === name}
                 key={_id}
                 prefix={isPublic ? <HiOutlineHashtag /> : <HiOutlineLockClosed />}
                 content={name}
@@ -292,10 +300,13 @@ const Channels = ({ ownerOfApp, channelList, setChannelList, setChannel, setOpen
                     disabled={!channelName || Object.values(error).length ? true : false}
                     onClick={createChannel}
                   >
-                    Create
+                    {isCreating && !isGenerated ? "Create" :
+                      !isCreating ? <CircularProgress size={18} /> :
+                        <lord-icon trigger="loop" id="lord-icon" src="icons/animated-icons/confirmation-tick.json"></lord-icon>}
                   </Button>
                 </div>
               </>
+
             }
           />
         </div>

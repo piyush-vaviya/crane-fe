@@ -10,7 +10,7 @@ import Popover from '@mui/material/Popover'
 import { logOutToCrane } from '../features/user/authUserSlice'
 import axios from './api/message'
 
-const Sidebar = ({ friends, setDirectMessageUser, ownerOfApp, channelList, setChannelList, setOpenChannel }) => {
+const Sidebar = ({ friends, setDirectMessageUser, ownerOfApp, setOpenChannel }) => {
   const navigate = useNavigate()
   const [anchorEl, setAnchorEl] = useState()
   const open = Boolean(anchorEl)
@@ -106,8 +106,6 @@ const Sidebar = ({ friends, setDirectMessageUser, ownerOfApp, channelList, setCh
       {/* Channels List */}
       <Channels
         ownerOfApp={ownerOfApp}
-        channelList={channelList}
-        setChannelList={setChannelList}
         setChannel={setDirectMessageUser}
         setOpenChannel={setOpenChannel}
       />

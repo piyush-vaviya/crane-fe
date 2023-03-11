@@ -352,11 +352,17 @@
   padding: 6px 20px !important;
   background-color: $private-create-bg !important;
   font-size: 16px !important;
+  min-height: 40px;
+  min-width: 92px !important;
 
   &.active-btn {
     background-color: $private-create-active-bg !important;
     color: $private-create-active-selected-color !important;
   }
+
+  .MuiCircularProgress-colorPrimary {
+    color: rgb(142, 144, 142) !important;
+}
 }
 
 .make-private-text {
