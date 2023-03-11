@@ -300,8 +300,8 @@ const Channels = ({ ownerOfApp, setChannel, setOpenChannel }) => {
                     disabled={!channelName || Object.values(error).length ? true : false}
                     onClick={createChannel}
                   >
-                    {isCreating && !isGenerated ? "Create" :
-                      !isCreating ? <CircularProgress size={18} /> :
+                    {!isCreating && !isGenerated ? "Create" :
+                      isCreating ? <CircularProgress size={18} /> :
                         <lord-icon trigger="loop" id="lord-icon" src="icons/animated-icons/confirmation-tick.json"></lord-icon>}
                   </Button>
                 </div>
