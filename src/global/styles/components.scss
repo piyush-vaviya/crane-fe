@@ -1,11 +1,11 @@
 .login-page {
-  background: $base-color;
+  background: rgba(26, 29, 33, 1);
   svg {
-    color: $input-placeholder-color;
+    color: var(--color-light-gray);
   }
   .login {
-    color: $login-signup-text-color !important;
-    background-color: $login-signup-bg;
+    color: var(--color-white) !important;
+    background-color: var(--primary-bg-color);
     padding: 10px 50px;
     min-width: 48vh;
     border-radius: 6px;
@@ -31,7 +31,7 @@
     }
 
     .forgot-password {
-      color: $forget-password;
+      color: rgb(157, 156, 156);
       margin: 10px 0;
       margin-left: auto;
       background: none;
@@ -39,11 +39,11 @@
       text-decoration: none;
     }
     .create-new-btn {
-      color: $create-new;
+      color: var(--color-light-red);
       font-weight: 700;
       font-size: 14px;
       padding: 6px 16px;
-      border: 2px solid $create-new;
+      border: 2px solid var(--color-light-red);
       background: none;
       text-decoration: none;
     }
@@ -51,13 +51,13 @@
 }
 
 .forgot-password-page {
-  background-color: $base-color;
+  background-color: var(--base-color);
   svg {
-    color: $input-placeholder-color;
+    color: var(--color-light-gray);
   }
   .forgot-password-container {
-    color: $login-signup-text-color !important;
-    background-color: $login-signup-bg;
+    color: var(--color-white) !important;
+    background-color: var(--primary-bg-color);
     padding: 20px 50px;
     min-width: 48vh;
     border-radius: 6px;
@@ -67,7 +67,7 @@
 
     .close-lock {
       border-radius: 50%;
-      border: 3px solid $login-signup-text-color;
+      border: 3px solid var(--color-white);
     }
     .trouble-logging {
       margin-top: 16px;
@@ -79,8 +79,8 @@
     }
     button {
       margin-top: 20px;
-      background: $login-button-color !important;
-      color: $login-signup-text-color;
+      background: var(--primary-gradient-color) !important;
+      color: var(--color-white);
       opacity: 1;
 
       &:disabled {
@@ -91,14 +91,14 @@
       background: none;
       text-decoration: none;
       border: none;
-      color: $create-new;
+      color: var(--color-light-red);
     }
     .back-to-login {
       text-decoration: none;
-      background: $input-border-color;
+      background: var(--input-border-color);
       border: none;
       text-align: center;
-      color: $login-signup-text-color;
+      color: var(--color-white);
       border-radius: 4px;
       margin-top: 12vh;
     }
@@ -106,13 +106,13 @@
 }
 
 .signup-page {
-  background: $base-color;
+  background: var(--base-color);
   svg {
-    color: $input-placeholder-color;
+    color: var(--color-light-gray);
   }
   .sign-up {
-    color: $login-signup-text-color !important;
-    background-color: $login-signup-bg;
+    color: var(--color-white) !important;
+    background-color: var(--primary-bg-color);
     padding: 20px 50px;
     min-width: 48vh;
     border-radius: 6px;
@@ -129,7 +129,7 @@
       }
 
       .login-here-btn {
-        color: $create-new;
+        color: var(--color-light-red);
         background: none;
         border: none;
       }
@@ -145,7 +145,7 @@
   margin-top: 0;
   max-width: 45vh;
   text-align: center;
-  color: $error-color !important;
+  color: var(--color-red) !important;
 
   &.success-message {
     color: rgba(199, 242, 95, 1) !important;
@@ -157,16 +157,16 @@
   content: '';
   flex: 1;
   height: 1px;
-  background: $login-button-color;
+  background: var(--primary-gradient-color);
 }
 
 .sign-button {
-  background: $login-button-color;
+  background: var(--primary-gradient-color);
   color: rgba(255, 255, 255, 1) !important;
 
   &:hover {
     background-color: rgba(255, 255, 255, 1);
-    color: $login-button-color !important;
+    color: var(--primary-gradient-color) !important;
   }
 
   &:disabled {
@@ -176,13 +176,13 @@
 
 .google-button {
   text-transform: none !important;
-  color: $base-color !important;
+  color: var(--base-color) !important;
   font-weight: 700 !important;
   font-size: 16px !important;
   letter-spacing: 0 !important;
 
   &:hover {
-    background: $google-btn-hover !important;
+    background: rgb(234, 232, 232) !important;
   }
 }
 
@@ -190,15 +190,15 @@
 
 .MuiFormControl-root {
   label {
-    color: $opposite-color;
+    color: var(--color-light-gray);
   }
   .MuiInputBase-root {
     .MuiOutlinedInput-notchedOutline {
-      border-color: $input-border-color;
+      border-color: var(--input-border-color);
     }
 
     input {
-      color: $input-placeholder-color;
+      color: var(--color-light-gray);
     }
 
     input:-webkit-autofill,
@@ -220,26 +220,41 @@
   border-color: rgba(185, 185, 184, 1) !important;
 }
 .MuiFormLabel-root.Mui-focused {
-  color: $label-color !important;
+  color: var(--color-white) !important;
 }
 
 .true-check-circle {
-  color: $true-check-circle !important;
+  color: var(--color-green) !important;
 }
 .close-circle-outline {
-  color: $close-circle-outline !important;
+  color: var(--color-dark-red) !important;
 }
 
 // side bar component
 .sidebar {
   width: 17vw;
   height: 100vh;
-  background-color: $dark-accent;
+  background-color: var(--dark-accent);
   border-right: $border;
 
   .workspace-title-container {
-    height: 7vh;
+    min-height: 7vh;
+    max-height: 7vh;
     border-bottom: $border;
+
+    .sidebar-header {
+      width: 100%;
+    }
+
+    .theme-icon {
+      background: var(--dark-accent);
+      border: none;
+      cursor: pointer;
+
+      path {
+        fill: var(--color-light-gray);
+      }
+    }
 
     img {
       display: none;
@@ -253,14 +268,14 @@
     .title-edit {
       width: 32px;
       height: 32px;
-      color: $dark-accent;
+      color: var(--dark-accent);
       border-radius: 50%;
-      background-color: $opposite-color;
+      background-color: var(--color-light-gray);
     }
 
     &:hover {
       cursor: pointer;
-      background-color: $dark-accent-hover;
+      background-color: var(--dark-accent)-hover;
 
       // img {
       //   display: flex;
@@ -340,29 +355,29 @@
 }
 
 .private-switch-handle {
-  border: 2px solid $private-switch-border;
+  border: 2px solid rgba(129, 131, 133, 1);
 }
 
 .channel-create-btn {
   margin-left: auto !important;
   margin-right: 1rem !important;
-  color: $private-create-btn !important;
+  color: var(--primary-btn-text-color) !important;
   text-transform: none !important;
   font-weight: 600 !important;
   padding: 6px 20px !important;
-  background-color: $private-create-bg !important;
+  background-color: var(--primary-btn-btn-bg-color) !important;
   font-size: 16px !important;
   min-height: 40px;
   min-width: 92px !important;
 
   &.active-btn {
-    background-color: $private-create-active-bg !important;
-    color: $private-create-active-selected-color !important;
+    background-color: var(--color-active) !important;
+    color: var(--color-white) !important;
   }
 
   .MuiCircularProgress-colorPrimary {
     color: rgb(142, 144, 142) !important;
-}
+  }
 }
 
 .make-private-text {
@@ -370,7 +385,7 @@
 }
 
 .tooltip-chip {
-  background-color: $tooltip-chips-bg;
+  background-color: var(--tooltip-arrow-color);
   padding: 4px 8px;
 }
 
@@ -384,7 +399,7 @@
   cursor: pointer;
 
   &:hover {
-    background-color: $dark-accent-hover;
+    background-color: var(--dark-accent)-hover;
   }
 }
 
@@ -401,7 +416,7 @@
 }
 
 .list-item-container {
-  color: $opposite-color-dull;
+  color: var(--color-gray);
   cursor: pointer;
   padding: 6px 12px;
   white-space: nowrap;
@@ -410,23 +425,25 @@
 
   .list-item-content {
     height: 20px;
+    display: flex;
+    gap: 0.6rem;
 
     .prefix {
       max-height: 20px;
 
       .profile-status {
         position: relative;
-        background: $profile-bg;
+        background: var(--avatar-dm-bg-color);
         height: 20px;
         width: 20px;
         border-radius: 15%;
       }
     }
     .content {
+      display: flex;
       text-align: start;
-      margin-left: 8px;
-      margin-right: auto;
-      width: 12vw;
+      max-width: 12vw;
+      width: 100%;
       white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
@@ -440,7 +457,7 @@
   }
 
   .list-item-icon {
-    background: $profile-bg;
+    background: var(--avatar-dm-bg-color);
     height: 20px;
     width: 20px;
     border-radius: 15%;
@@ -452,27 +469,27 @@
   }
 
   &.selected {
-    color: $opposite-color-hover;
-    background-color: $cta-color;
+    color: var(--color-light-gray-hover);
+    background-color: var(--color-light-blue);
 
     .list-item-content {
       .prefix {
         .profile-status {
-          background: $profile-bg-without-src;
+          background: var(--profile-bg-color);
 
           .active {
-            background-color: $active-selected;
+            background-color: var(--color-white);
             border: $selected-border;
           }
 
           .not-active {
-            background: $offline-selected;
+            background: var(--color-white);
             border: $selected-border;
           }
 
           .user-status {
             .user-offline-status {
-              background: $cta-color;
+              background: var(--color-light-blue);
             }
           }
         }
@@ -485,7 +502,7 @@
   }
 
   &:hover:not(.selected) {
-    background-color: $dark-accent-hover;
+    background-color: var(--dark-accent)-hover;
   }
 
   .list-item-remove {
@@ -499,6 +516,7 @@
 
 .layout-container {
   position: relative;
+
   .header {
     margin: auto;
     .profile-details {
@@ -508,20 +526,30 @@
 
       .header-profile {
         padding: 4px 4px 4px 8px;
-        color: $opposite-color;
+        color: var(--text-primary);
+        font-size: 20px;
+        font-weight: 700 !important;
+
         .user-dp {
           width: 26px;
           height: 26px;
+          background: var(--avatar-bg-color);
         }
         .user-status {
-          height: 8px;
-          width: 8px;
+          border: $status-border;
+          height: 10px;
+          width: 10px;
+          border-radius: 10px;
+
+          .user-offline-status {
+            height: 6px;
+            width: 6px;
+            border-radius: 6px;
+            background: var(--profile-status-inactive-bg-color);
+          }
         }
         .userName {
-          font-size: 20px;
-          font-weight: 700 !important;
           margin-left: 12px;
-          margin-right: 5px;
 
           &.channel-type {
             margin-left: 1px;
@@ -530,12 +558,12 @@
 
         &:hover:not(.selected) {
           border-radius: 6px;
-          background-color: $dark-accent-hover;
+          background-color: var(--dark-accent)-hover;
         }
       }
 
       .list-item-container {
-        color: $opposite-color;
+        color: var(--color-light-gray);
         height: 26px;
         padding: 3px 4px 3px 8px;
 
@@ -555,7 +583,7 @@
         padding: 0;
         width: max-content;
         .list-item-content {
-          color: $opposite-color-dull;
+          color: var(--text-primary);
 
           .content {
             font-size: 14px;
@@ -564,12 +592,12 @@
           }
           .profile-status {
             .user-dp {
-              background: $base-color;
+              background: var(--base-color);
             }
           }
           &:hover .user-dp {
             transition: all 0s ease;
-            background: $dark-accent-hover;
+            background: var(--primary-hover-bg-color);
           }
         }
       }
@@ -591,25 +619,24 @@
       min-width: 40px;
       border-radius: 15%;
       margin-right: 10px;
-      background-color: $channel-logo-bg;
-      color: $base-color;
+      color: var(--text-primary);
       border: none;
     }
 
     .channel-description {
-      color: $opposite-color;
+      color: var(--text-primary);
       font-weight: 400;
 
       .channel-info {
-        color: $opposite-color;
+        color: var(--text-primary);
 
         .channel-type-name {
-          color: $mention-text-color;
+          color: var(--mention-content-color);
         }
       }
       .add-people {
         width: fit-content;
-        color: $mention-text-color;
+        color: var(--mention-content-color);
         padding: 0 !important;
         margin: 22px 0px 16px 0px !important;
         text-transform: none !important;
@@ -617,7 +644,7 @@
         font-size: 16px !important;
         &:hover {
           color: rgba(64, 179, 228, 1) !important;
-          background-color: $base-color !important;
+          background-color: var(--base-color) !important;
         }
       }
     }
@@ -632,11 +659,11 @@
     }
 
     ::-webkit-scrollbar-thumb {
-      background-color: $message-sender-scrollbar;
+      background-color: var(--scrollbar-track-thumb-color);
       border-radius: 5px;
     }
     ::-webkit-scrollbar-track {
-      background-color: $base-color;
+      background-color: var(--base-color);
     }
     .messages-container {
       // height: 98%;
@@ -651,34 +678,34 @@
         display: flex;
         flex-direction: column;
         padding: 0px 22px 30px;
-        color: $message-color;
         position: relative;
 
         .direct-message-profile-info {
-          color: $opposite-color;
+          color: var(--text-primary);
+          gap: 0.6rem;
+          font-size: 19px;
 
           .user-dp {
             height: 60px;
             width: 60px;
-          }
-          .userName {
-            margin-left: 0.8rem;
-            color: $opposite-color;
-            font-weight: $fw-bold;
-            word-break: break;
+            background: var(--avatar-bg-color);
           }
           .user-postfix {
-            color: $opposite-color;
             font-size: 13px;
             padding-left: 5px;
           }
           .user-status {
-            margin-left: 3px;
-            height: 8px;
-            width: 8px;
-          }
-          .userName {
-            font-size: 19px;
+            border: $status-border;
+            height: 10px;
+            width: 10px;
+            border-radius: 10px;
+
+            .user-offline-status {
+              height: 6px;
+              width: 6px;
+              border-radius: 6px;
+              background-color: var(--profile-status-inactive-bg-color);
+            }
           }
         }
       }
@@ -692,7 +719,7 @@
         padding: 8px 0 18px 0;
 
         .sender-message-header {
-          border-top: 1px solid $sender-message-header;
+          border-top: 1px solid var(--primary-border);
 
           .message-duration {
             // right: calc(100% - 50vw);
@@ -700,9 +727,9 @@
             padding: 6px 8px 6px 14px;
             border-radius: 16px;
             bottom: -12px;
-            background: $base-color;
-            border: 1px solid $sender-message-header;
-            color: $opposite-color;
+            background: var(--base-color);
+            border: 1px solid var(--primary-border);
+            color: var(--duration-color);
             width: fit-content;
 
             div {
@@ -727,8 +754,7 @@
             width: 40px;
             border-radius: 15%;
             margin-right: 10px;
-            background-color: $light-accent;
-            color: $opposite-color-dull;
+            background-color: var(--avatar-bg-color);
             img {
               width: 40px;
               height: 40px;
@@ -739,12 +765,12 @@
             }
           }
           .sender {
-            color: $opposite-color;
+            color: var(--text-primary);
             font-weight: 400;
 
             .sender-name-time {
               .sender-name {
-                color: $opposite-color;
+                color: var(--text-primary);
                 display: flex;
                 align-items: center;
 
@@ -755,7 +781,7 @@
             }
           }
           &:hover {
-            background-color: $light-accent;
+            background-color: var(--primary-hover-bg-color);
             .edit-delete-icon {
               display: flex;
             }
@@ -763,23 +789,25 @@
         }
 
         .edit-delete-icon {
-          border: 1px solid $edit-delete-border;
+          border: 1px solid var(--edit-delete-btn-border-color);
           border-radius: 5px;
           right: 22px;
           top: -10px;
           padding: 3px;
           gap: 4px;
-          color: $edit-delete-icon;
-          background-color: $edit-delete-icon-bg;
+          background-color: var(--edit-delete-icon-bg-color);
           display: none;
 
+          button {
+            min-width: 2.3rem;
+          }
           .edit-message,
           .delete-message {
-            color: $edit-delete-icon;
+            color: var(--edit-delete-icon-color);
             padding: 3px;
             border: 3px;
             &:hover {
-              background-color: $light-accent;
+              background-color: var(--edit-delete-icon-hover-color);
               border-radius: 3px;
             }
           }
@@ -796,7 +824,7 @@
             }
           }
           .sender-message-time {
-            color: $time-color;
+            color: var(--duration-color);
             width: 40px;
             height: fit-content;
             font-size: 12px;
@@ -807,7 +835,7 @@
           }
 
           &:hover {
-            background-color: $light-accent;
+            background-color: var(--primary-hover-bg-color);
 
             .sender-message-time,
             .edit-delete-icon {
@@ -841,7 +869,7 @@
               border-radius: 3px;
               border: 1px solid rgb(60, 62, 66);
               padding: 1px 3px;
-              color: $monospace-color;
+              color: var(--color-yellow);
             }
             .superScript {
               vertical-align: super;
@@ -861,14 +889,13 @@
     }
 
     .message-sender {
-      color: $opposite-color-dull;
-      background: $light-accent;
-      border: 1px solid $message-sender-bg;
+      color: var(--text-primary);
+      background: var(--message-sender-editor-bg-color);
+      border: 1px solid var(--message-sender-editor-border-color);
       height: auto;
       position: absolute;
       width: 96%;
       bottom: 24px;
-
       border-radius: 10px;
 
       ::-webkit-scrollbar {
@@ -876,11 +903,11 @@
       }
 
       ::-webkit-scrollbar-thumb {
-        background-color: $message-sender-scrollbar;
+        background-color: var(--scrollbar-track-thumb-color);
         border-radius: 5px;
       }
       ::-webkit-scrollbar-track {
-        background-color: $light-accent;
+        background-color: var(--message-sender-editor-bg-color);
       }
 
       .message-sender-textarea {
@@ -891,7 +918,7 @@
           overflow: auto !important;
 
           .public-DraftEditorPlaceholder-root {
-            color: $message-sender-placeholder !important;
+            color: var(--message-sender-placeholder-color) !important;
           }
 
           .public-DraftStyleDefault-ul {
@@ -906,8 +933,8 @@
             margin: 0;
 
             .rdw-mention-link {
-              background-color: $mention-bg;
-              color: $mention-text-color;
+              background-color: var(--mention-content-bg-color);
+              color: var(--mention-content-color);
             }
 
             .rdw-suggestion-wrapper {
@@ -916,13 +943,13 @@
                 min-width: 400px;
                 // max-height: 270px;
                 // min-height: 700px;
-                background-color: $light-accent;
+                background-color: var(--message-sender-editor-toolbar-bg-color);
                 border: $mention-wrapper-border;
                 .rdw-suggestion-option {
                   border: none;
                   .with-border {
                     border-bottom: none;
-                    background-color: $light-accent;
+                    background-color: var(--message-sender-editor-toolbar-bg-color);
                   }
                 }
               }
@@ -931,7 +958,7 @@
         }
       }
       .message-sender-toolbar {
-        background-color: $light-accent;
+        background-color: var(--message-sender-editor-toolbar-bg-color);
         border: none;
         border-radius: 10px;
         padding: 5px 5px 5px 0px;
@@ -944,7 +971,7 @@
         }
 
         .message-sender-inline-wrapper {
-          border-right: 2px solid $sender-message-option-wrapper;
+          border-right: 2px solid var(--toolbar-icon-border-color);
 
           &.rdw-inline-wrapper,
           &.rdw-list-wrapper,
@@ -959,7 +986,7 @@
           .rdw-option-wrapper,
           &.rdw-editor-toolbar {
             border: none;
-            background: rgb(34, 37, 41);
+            background: var(--message-sender-editor-toolbar-bg-color);
             height: 26px;
             width: 26px;
             border-radius: 15%;
@@ -970,7 +997,7 @@
             padding: 0px 0px 0px 0px;
 
             &:hover {
-              background-color: $profile-bg;
+              background-color: var(--toolbar-icon-bg-hover-color);
             }
 
             // img {
@@ -994,7 +1021,7 @@
             border: none;
             margin: 0 3px;
             text-transform: capitalize;
-            background: $light-accent;
+            background: var(--light-accent);
           }
         }
       }
@@ -1007,32 +1034,38 @@
         align-items: flex-end;
         transition: all 0.1s ease-in-out;
 
+        button {
+          padding: 3px 8px;
+          font-size: 0.77rem;
+          text-transform: none;
+          text-rendering: optimizeLegibility;
+          color: var(--color-white);
+          font-weight: 500;
+        }
+
         .hide-format {
           border-radius: 3px;
           padding: 2px 3px;
 
           &:hover {
-            background-color: $profile-bg;
+            background-color: var(--toolbar-icon-bg-hover-color);
           }
         }
 
         .cancel-btn {
-          background-color: $base-color;
-          color: $message-sender-bg;
-          margin-right: 8px;
+          background-color: var(--base-color);
+          color: var(--message-cancel-btn-color);
+          border: 1px solid rgba(87, 89, 93, 1);
         }
         .send-message-icon {
           width: fit-content;
-          padding: 2px;
-          background-color: $light-accent;
+          background-color: var(--message-send-btn-bg-color);
           border-radius: 6px;
-          color: $message-sender-bg;
 
           button {
             display: flex;
             border: none;
-            background-color: $light-accent;
-            color: $message-sender-bg;
+            color: rgba(86, 88, 92, 1);
             position: relative;
 
             svg {
@@ -1044,16 +1077,14 @@
           }
 
           .save-btn {
-            cursor: not-allowed !important;
+            min-width: 50px;
           }
 
           &.send-message-icon-active {
-            background-color: $active-color;
-            color: $offline-selected;
+            background-color: var(--message-send-btn-active-bg-color);
 
             button {
-              background-color: $active-color;
-              color: $offline-selected;
+              color: var(--color-white);
               cursor: pointer;
 
               &:hover {
@@ -1069,12 +1100,12 @@
 
       &:hover {
         ::-webkit-scrollbar {
-          width: 1vh;
+          width: 6px;
         }
       }
 
       &.focus-message-sender {
-        border: 1px solid $message-sender-focus-border;
+        border: 1px solid var(--message-sender-editor-focus-border-color);
 
         .message-sender-inline-wrapper {
           &.icon,
@@ -1094,6 +1125,7 @@
 .profile-setup {
   min-width: 310px;
   border-left: $border;
+  color: var(--text-primary);
 
   .profile-header {
     height: 7vh;
@@ -1103,7 +1135,7 @@
       border-radius: 5px;
 
       &:hover {
-        background-color: $light-accent;
+        background-color: var(--primary-hover-bg-color);
       }
     }
   }
@@ -1127,51 +1159,45 @@
         bottom: 0;
         width: 100%;
         opacity: 0.9;
-        background-color: $base-color;
+        background-color: var(--text-secondary);
         padding: 7px;
         text-indent: 12px;
-        color: $profile-workspace-owner;
+        color: var(--color-white);
+        z-index: 1;
       }
     }
 
     .profile-edit {
       .edit {
-        color: $profile-edit;
+        color: var(--mention-content-color);
         &:hover {
           text-decoration: underline;
         }
       }
       .add-name {
-        color: $profile-edit;
+        color: var(--mention-content-color);
       }
     }
 
     .show-status {
       padding-bottom: 16px;
       .user-status {
-        height: 9px;
-        width: 9px;
-        border-radius: 50%;
-      }
-      .active {
-        background: $active-color;
-        border: $active-border;
-      }
-      .not-active {
-        background: $offline-color;
-        border: $active-border;
+        height: 10px;
+        width: 10px;
+        border-radius: 10px;
+        border: $status-border;
       }
 
       .user-offline-status {
         height: 5px;
         width: 5px;
-        border-radius: 50%;
-        background: $dark-accent;
+        border-radius: 5px;
+        background: var(--dark-accent);
       }
 
       .status-update-setting {
         padding: 6px 0;
-        border: 1.4px solid $profile-set-status;
+        border: 1.4px solid var(--primary-btn-border-color);
         border-radius: 4px;
         font-weight: 700;
         height: 22px;
@@ -1185,21 +1211,21 @@
           width: 32px;
         }
         &:hover {
-          background-color: $light-accent;
+          background-color: var(--primary-btn-hover-color);
         }
       }
     }
   }
   .contact-info {
     .edit {
-      color: $profile-edit !important;
+      color: var(--mention-content-color) !important;
       cursor: pointer;
       &:hover {
         text-decoration: underline;
       }
     }
     .active {
-      background-color: $base-color;
+      background-color: var(--base-color);
       border: none;
     }
   }
@@ -1220,31 +1246,35 @@
 }
 
 .user-status {
-  min-height: 7px;
-  min-width: 6px;
-  border-radius: 50%;
-  top: 13px;
-  left: 13px;
+  height: 8px;
+  width: 8px;
+  border-radius: 8px;
+  right: -4px;
+  bottom: -4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .active {
-  background: $active-color;
+  background: var(--color-active);
   border: $active-border;
 }
 .not-active {
-  background: $offline-color;
+  background: var(--color-inactive);
   border: $active-border;
 }
 
 .user-offline-status {
   height: 4px;
   width: 4px;
-  border-radius: 50%;
-  background: $dark-accent;
+  border-radius: 4px;
+  background: var(--dark-accent);
+  display: flex;
 }
 
 .sender-message-time {
   padding-bottom: 1.3px;
-  color: $time-color;
+  color: var(--duration-color);
 
   &:hover {
     text-decoration: underline;
@@ -1252,17 +1282,17 @@
 }
 
 .email-container {
-  color: $offline-color;
+  color: var(--color-inactive);
   .email-icon {
     border-radius: 6px;
     border: $border;
     width: 33px;
     height: 33px;
     margin-right: 10px;
-    background-color: $light-accent;
+    background-color: var(--avatar-bg-color);
   }
   .edit {
-    color: $profile-edit;
+    color: var(--mention-content-color);
     cursor: pointer;
     &:hover {
       text-decoration: underline;
@@ -1279,11 +1309,10 @@
     border: none;
 
     .workspace-info {
-      background: $base-color;
       border-radius: 12px;
       overflow: hidden;
       z-index: 1;
-      border: 1px solid $sender-message-header;
+      border: 1px solid var(--primary-border);
       cursor: auto;
       display: flex;
       transition-delay: 10s;
@@ -1291,19 +1320,20 @@
       .workspace-owner {
         width: auto;
         padding: 10px 16px;
-        background-color: $time-color;
-        color: $base-color;
+        background-color: var(--duration-color);
+        color: var(--base-color);
       }
 
       .owner-profile {
         .direct-message-profile {
           padding: 12px 8px 6px 16px;
-          border-bottom: 1px solid $sender-message-header;
+          background: var(--base-color) !important;
+          border-bottom: 1px solid var(--primary-border);
           cursor: auto;
           margin-bottom: 10px;
 
           .direct-message-profile-info {
-            color: $opposite-color;
+            color: var(--text-primary);
 
             .user-dp {
               height: 42px;
@@ -1311,7 +1341,6 @@
             }
             .userName {
               margin-left: 0.8rem;
-              color: $opposite-color;
               font-weight: $fw-bold;
               font-size: 17px !important;
               width: fit-content;
@@ -1320,7 +1349,6 @@
               text-overflow: ellipsis;
             }
             .user-postfix {
-              color: $opposite-color;
               font-size: 13px;
               padding-left: 5px;
             }
@@ -1328,6 +1356,7 @@
               margin-left: 3px;
               min-height: 8px;
               min-width: 8px;
+              border: $status-border !important;
             }
           }
         }
@@ -1337,10 +1366,10 @@
           width: 100%;
           display: flex;
           padding: 3px 0;
-          border: 1.4px solid $sender-message-header;
+          border: 1.4px solid var(--primary-border);
 
           &:hover {
-            background-color: $light-accent;
+            background-color: var(--light-accent);
           }
         }
       }
@@ -1350,15 +1379,15 @@
 
 // sign out button override css
 .css-3bmhjh-MuiPaper-root-MuiPopover-paper {
-  background: $light-accent !important;
-  color: $opposite-color;
+  background: var(--light-accent) !important;
+  color: var(--color-light-gray);
   left: 40px !important;
   width: 130px;
   text-align: center;
   top: 7vh !important;
 
   &:hover {
-    background-color: $profile-workspace-owner !important;
+    background-color: var(--color-white) !important;
   }
 }
 
@@ -1367,4 +1396,8 @@
   border-radius: 4px;
   padding: 1px;
   cursor: pointer;
+}
+
+.create-channel-box {
+  background-color: var(--light-accent) !important;
 }

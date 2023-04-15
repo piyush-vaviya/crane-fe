@@ -1,0 +1,1 @@
+export const authUserData = (state) => state.authUser

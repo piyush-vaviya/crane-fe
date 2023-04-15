@@ -31,7 +31,7 @@ export { channelActions, channelReducer }
 function* getChannels() {
   const res = yield call(ChannelAPI.getChannels)
 
-  if (res.error) {
+  if (res?.error) {
     yield put(
       channelActions.setChannels({
         channels: [],
