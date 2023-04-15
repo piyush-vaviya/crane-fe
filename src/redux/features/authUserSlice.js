@@ -1,4 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
 
 const initialState = {}
 
@@ -16,8 +18,13 @@ export const authUserSlice = createSlice({
     },
   },
 })
+const authUserActions = authUserSlice.actions
 
-export const { loginCrane, logOutToCrane } = authUserSlice.actions
+const persistConfig = {
+  key: 'crane-root-state',
+  storage,
+}
 
-export const authUserData = (state) => state.authUser
-export default authUserSlice.reducer
+const authUserReducer = persistReducer(persistConfig, authUserSlice.reducer)
+
+export { authUserActions, authUserReducer }

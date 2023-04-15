@@ -53,10 +53,10 @@ const MessageSenderEditor = ({
           CODE: {
             fontFamily: 'monospace',
             overflowWrap: 'break-word',
-            background: 'rgb(34, 37, 41)',
+            background: `var(--monospace-content-bg-color)`,
             borderRadius: '3px',
-            color: 'rgb(232, 145, 45)',
-            border: '1px solid rgb(60, 62, 66)',
+            color: 'var(--monospace-content-color)',
+            border: `1px solid var(--monospace-content-border-color)`,
             padding: '1px 3px',
           },
         }}
@@ -214,7 +214,7 @@ const MessageSenderEditor = ({
       />
 
       <div className="message-send-container d-flex align-items-center">
-        <div className=" flex-center mr-auto">
+        <div className=" flex-center mr-auto cursor-pointer">
           <CraneTooltip
             title={<span className="fs-7 fw-bold">Hide Formatting</span>}
             content={
@@ -228,7 +228,7 @@ const MessageSenderEditor = ({
           />
         </div>
 
-        <div className="d-flex">
+        <div className="d-flex gap-1">
           {editingMode ? (
             <Button
               onClick={() => {
@@ -256,12 +256,12 @@ const MessageSenderEditor = ({
               </Button>
             ) : (
               <Button
-                className={!messageLength ? 'save-btn' : ''}
+                className={`save-btn ${!messageLength ? 'cursor-not-allowed' : ''}`}
                 onClick={saveMessage}
                 onMouseDown={(e) => e.preventDefault()}
                 disabled={!messageLength ? true : false}
               >
-                save
+                Save
               </Button>
             )}
           </div>

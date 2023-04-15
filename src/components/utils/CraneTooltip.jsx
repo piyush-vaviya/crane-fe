@@ -3,7 +3,8 @@ import { Tooltip, Zoom } from '@mui/material'
 
 const CraneTooltip = ({ content, ...rest }) => {
   return (
-    <Tooltip TransitionComponent={Zoom} arrow {...rest}>
+    <Tooltip disablePortal={true} TransitionComponent={Zoom} arrow {...rest}>
+      {/* <Tooltip leaveDelay={22222222222222} disablePortal={true} TransitionComponent={Zoom} arrow {...rest}> */}
       {content}
     </Tooltip>
   )

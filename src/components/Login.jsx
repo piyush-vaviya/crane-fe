@@ -4,8 +4,8 @@ import { useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
 import { IconButton, InputAdornment, TextField, ToggleButton } from '@mui/material'
 import { MdVisibility, MdVisibilityOff } from 'react-icons/md'
+import { authUserActions } from '../redux/features/authUserSlice'
 // import { FcGoogle } from 'react-icons/fc'
-import { loginCrane } from '../features/user/authUserSlice'
 import axios from './api/message'
 
 const Login = () => {
@@ -45,7 +45,7 @@ const Login = () => {
 
       localStorage.setItem('loginDone', true)
       navigate('/home')
-      dispatch(loginCrane(loggedUser))
+      dispatch(authUserActions.loginCrane(loggedUser))
       toast.success('Welcome to Crane')
     } catch (error) {
       // console.log(error)

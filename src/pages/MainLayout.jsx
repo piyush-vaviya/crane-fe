@@ -8,7 +8,6 @@ import { BsTelephone } from 'react-icons/bs'
 import MessageSender from '../components/MessageSender'
 import ProfileSetup from '../components/ProfileSetup'
 import ContactItem from '../components/utils/ContactItem'
-import { authUserData } from '../features/user/authUserSlice'
 
 import DirectMessageProfile from '../components/utils/DirectMessageProfile'
 import HeaderProfile from '../components/HeaderProfile'
@@ -18,6 +17,8 @@ import { Link } from '@mui/material'
 import { io } from 'socket.io-client'
 import axios from '../components/api/message'
 import { selectChannelState } from '../redux/selectors/channelSelectors'
+import { authUserData } from '../redux/selectors/authUserSelectors'
+
 
 const socket = io('https://sparkling-crow-clothes.cyclic.app', { transports: ['websocket'], withCredentials: true })
 const MainLayout = ({ Component, ...rest }) => {

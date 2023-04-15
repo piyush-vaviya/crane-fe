@@ -1,14 +1,18 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import { HiChevronDown, HiPencilAlt } from 'react-icons/hi'
-import Channels from './Channels'
-import CraneTooltip from './utils/CraneTooltip'
-import DirectMessages from './DirectMessages'
 import { Button } from '@mui/material'
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import ThemeMoonIcon from '../icons/ThemeMoonIcon'
+import ThemeSunIcon from '../icons/ThemeSunIcon'
+import { ThemeTypes } from './utils/common/constants'
+import Channels from './Channels'
+import DirectMessages from './DirectMessages'
 import Popover from '@mui/material/Popover'
-import { logOutToCrane } from '../features/user/authUserSlice'
 import axios from './api/message'
+import { authUserActions } from '../redux/features/authUserSlice'
+import { themeStateSelector } from '../redux/selectors/themeSelectors'
+import { themeActions } from '../redux/features/themeSlice'
+
 
 const Sidebar = ({ friends, setDirectMessageUser, ownerOfApp, setOpenChannel }) => {
   const navigate = useNavigate()
@@ -17,6 +21,13 @@ const Sidebar = ({ friends, setDirectMessageUser, ownerOfApp, setOpenChannel }) 
   const id = open ? 'simple-popover' : undefined
 
   const dispatch = useDispatch()
+
+  const themeState = useSelector(themeStateSelector)
+
+  const handleChangeTheme = (theme) => {
+    dispatch(themeActions.setTheme({ theme }));
+  };
+
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
@@ -30,7 +41,7 @@ const Sidebar = ({ friends, setDirectMessageUser, ownerOfApp, setOpenChannel }) 
   const logoutFromCrane = async () => {
     await axios.patch(`/users/${ownerOfApp._id}`, { active: false })
     localStorage.removeItem('loginDone')
-    dispatch(logOutToCrane());
+    dispatch(authUserActions.logOutToCrane());
     navigate('/login')
   }
 
@@ -38,7 +49,7 @@ const Sidebar = ({ friends, setDirectMessageUser, ownerOfApp, setOpenChannel }) 
     <div className="sidebar noSelect position-relative">
       {/* Workspace Title */}
       <div className="workspace-title-container d-flex justify-content-between align-items-center px-3">
-        <div className="flex-center" aria-describedby={id} onClick={handleClick}>
+        <div className="d-flex sidebar-header justify-content-between" aria-describedby={id} >
           <img
             // src="https://theviraler.com/wp-content/uploads/2021/04/Mia-Malkova-big-boobs-pics.jpg"
             src="https://s1.lovefap.com/content/photos/0cd452e1d0efb17f29c61854898c6cf8.jpeg"
@@ -67,10 +78,27 @@ const Sidebar = ({ friends, setDirectMessageUser, ownerOfApp, setOpenChannel }) 
               bottom: '0',
             }}
           />
-          <span className="title ">Mass Developers</span>
-          <HiChevronDown size={20} />
+          <span className="title" onClick={handleClick}>Mass Developers</span>
+          <button className="theme-icon">
+            {themeState.theme === ThemeTypes.dark ? (
+              <div
+                className="moon icon"
+                onClick={() => handleChangeTheme(ThemeTypes.light)}
+              >
+                <ThemeMoonIcon />
+              </div>
+            ) : null}
+            {themeState.theme === ThemeTypes.light ? (
+              <div
+                className="sun icon"
+                onClick={() => handleChangeTheme(ThemeTypes.dark)}
+              >
+                <ThemeSunIcon />
+              </div>
+            ) : null}
+          </button>
         </div>
-        <CraneTooltip
+        {/* <CraneTooltip
           title={
             <div className="flex-center flex-column">
               <span className="fs-7 fw-bold">New message</span>
@@ -85,7 +113,7 @@ const Sidebar = ({ friends, setDirectMessageUser, ownerOfApp, setOpenChannel }) 
               <HiPencilAlt size={20} />
             </div>
           }
-        />
+        /> */}
       </div>
 
       <Popover
